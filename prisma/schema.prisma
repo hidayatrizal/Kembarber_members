@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Member {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String
+  phone     String   @unique
+  pinHash   String   @map("pin_hash")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  visits  Visit[]
+  rewards Reward[]
+
+  @@index([createdAt], map: "members_created_idx")
+  @@map("members")
+}
+
+model Visit {
+  id        String   @id @default(uuid()) @db.Uuid
+  memberId  String   @map("member_id") @db.Uuid
+  member    Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  isFree    Boolean  @default(false) @map("is_free")
+  rewardId  String?  @map("reward_id") @db.Uuid
+  note      String?
+  visitedAt DateTime @default(now()) @map("visited_at") @db.Timestamptz(6)
+
+  @@index([memberId, visitedAt], map: "visits_member_idx")
+  @@index([visitedAt], map: "visits_visited_idx")
+  @@map("visits")
+}
+
+model Reward {
+  id            String    @id @default(uuid()) @db.Uuid
+  memberId      String    @map("member_id") @db.Uuid
+  member        Member    @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  status        String    @default("available")
+  cycle         Int
+  earnedAt      DateTime  @default(now()) @map("earned_at") @db.Timestamptz(6)
+  redeemedAt    DateTime? @map("redeemed_at") @db.Timestamptz(6)
+  redeemedBy    String?   @map("redeemed_by")
+  rewardVisitId String?   @map("reward_visit_id") @db.Uuid
+
+  @@index([memberId, status], map: "rewards_member_idx")
+  @@map("rewards")
+}

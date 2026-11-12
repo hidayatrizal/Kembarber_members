@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kembabershop — Membership & Loyalty
 
-## Getting Started
+Aplikasi web membership dan loyalitas untuk barbershop. Pelanggan dapat
+mendaftar sendiri, mencatat kunjungan cukur lewat QR check-in, dan memantau
+progres hadiah. Owner mengelola member, kunjungan, dan reward lewat dashboard.
 
-First, run the development server:
+Dibangun dengan **Next.js 16 (App Router)**, **TypeScript**, **Tailwind CSS v4**,
+**Neon Postgres**, dan **Prisma ORM 7** (driver adapter `@prisma/adapter-pg`).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Fitur
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Registrasi member mandiri (nomor HP + PIN).
+- Kartu member digital dengan ID unik.
+- Check-in kunjungan cukur dengan scan QR lewat kamera (khusus jam operasional
+  + cooldown 3 hari).
+- Riwayat kunjungan dan progress loyalitas.
+- Reward otomatis: setiap 5 cukur berbayar = 1 cukur gratis (progress berlanjut).
+- Penukaran reward oleh owner (tidak bisa dipakai ganda).
+- Dashboard owner: statistik, database member, detail member, dan QR check-in.
+- UI Bahasa Indonesia, mobile-first, dapat dipasang sebagai PWA.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Menjalankan
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Salin environment:
 
-## Learn More
+   ```bash
+   cp .env.example .env.local
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. Isi `.env.local`:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   - `DATABASE_URL` — connection string Neon Postgres.
+   - `SESSION_SECRET` — string acak minimal 32 karakter.
+   - `OWNER_USERNAME` dan `OWNER_PASSWORD` — kredensial dashboard owner.
+   - `NEXT_PUBLIC_APP_URL` — URL publik aplikasi (untuk QR di produksi).
+   - `CHECKIN_QR_SECRET` — kunci token QR check-in. Ganti nilai ini lalu cetak
+     ulang QR jika kode QR bocor.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. Terapkan migrasi ke database Neon:
 
-## Deploy on Vercel
+   ```bash
+   npm run db:deploy
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   Saat mengubah `prisma/schema.prisma`, buat migrasi baru dengan
+   `npm run db:migrate`. Client Prisma di-generate otomatis lewat
+   `postinstall` atau `npm run db:generate`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4. Jalankan:
+
+   ```bash
+   npm run dev
+   ```
+
+5. Buka `http://localhost:3000`.
+
+## Struktur Utama
+
+- `src/app/(customer)` — halaman member: profil, check-in, riwayat.
+- `src/app/owner` — login owner dan dashboard manajemen.
+- `src/app/api/qr` — generator PNG QR check-in.
+- `prisma/schema.prisma` — skema Prisma (`Member`, `Visit`, `Reward`).
+- `prisma/migrations` — migrasi SQL database.
+- `src/generated/prisma` — Prisma Client hasil generate (tidak di-commit).
+- `src/lib/db.ts` — Prisma Client + driver adapter Neon.
+- `src/lib/loyalty.ts` — aturan loyalitas & penukaran reward.
+- `src/lib/auth.ts` — sesi JWT cookie, hashing PIN, guard role.
+
+## Aturan Loyalitas
+
+- Setiap kunjungan berbayar = 1 poin.
+- 5 poin = 1 reward cukur gratis.
+- Sisa poin carry-over ke siklus berikutnya (`total berbayar % 5`).
+- Reward hanya bisa ditandai terpakai oleh owner.
+- Cukur gratis tidak menambah poin.
+
+## Catatan Keamanan
+
+- PIN disimpan sebagai hash bcrypt.
+- Sesi memakai cookie `httpOnly` bertanda tangan JWT.
+- Kredensial owner berasal dari environment, bukan kode.
+- Set `SESSION_SECRET`, `CHECKIN_QR_SECRET`, dan `OWNER_PASSWORD` yang kuat di
+  produksi.
+- QR check-in bersifat statis dan bisa dicetak. Siapa pun yang memiliki foto QR
+  dapat melakukan check-in, jadi jangan bagikan foto QR di luar area toko.
