@@ -11,8 +11,8 @@ Dibangun dengan **Next.js 16 (App Router)**, **TypeScript**, **Tailwind CSS v4**
 
 - Registrasi member mandiri (nomor HP + PIN).
 - Kartu member digital dengan ID unik.
-- Check-in kunjungan cukur dengan scan QR lewat kamera (khusus jam operasional
-  + cooldown 3 hari).
+- Check-in kunjungan cukur dengan scan QR lewat kamera. Secara default scan
+  bisa dilakukan kapan saja tanpa jeda.
 - Riwayat kunjungan dan progress loyalitas.
 - Reward otomatis: setiap 5 cukur berbayar = 1 cukur gratis (progress berlanjut).
 - Penukaran reward oleh owner (tidak bisa dipakai ganda).
@@ -83,3 +83,5 @@ Dibangun dengan **Next.js 16 (App Router)**, **TypeScript**, **Tailwind CSS v4**
   produksi.
 - QR check-in bersifat statis dan bisa dicetak. Siapa pun yang memiliki foto QR
   dapat melakukan check-in, jadi jangan bagikan foto QR di luar area toko.
+- Secara default check-in tanpa jeda. Untuk mengaktifkan kembali pembatasan,
+  set `CHECKIN_COOLDOWN_HOURS=72` dan `CHECKIN_REQUIRE_SHOP_OPEN=true`.

@@ -79,7 +79,9 @@ export default async function AccountPage() {
               Jeda check-in
             </p>
             <p className="mt-1 text-[13px] font-semibold text-ink">
-              {CHECKIN_COOLDOWN_HOURS} jam
+              {CHECKIN_COOLDOWN_HOURS > 0
+                ? `${CHECKIN_COOLDOWN_HOURS} jam`
+                : "Tanpa jeda"}
             </p>
           </div>
           <div>

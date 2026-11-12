@@ -12,6 +12,7 @@ import { CheckinScanner } from "@/components/checkin-scanner";
 import { Badge, ProgressBar } from "@/components/ui";
 import {
   CHECKIN_COOLDOWN_HOURS,
+  CHECKIN_REQUIRE_SHOP_OPEN,
   SHOP_CLOSE_HOUR,
   SHOP_OPEN_HOUR,
 } from "@/lib/config";
@@ -42,10 +43,13 @@ export default async function CheckinPage({
   ]);
 
   const lastPaid = visits.find((visit) => !visit.isFree);
-  const { active: cooldownActive, nextAllowedAt: nextAllowed } =
-    getCooldownStatus(lastPaid?.visitedAt ?? null);
+  const cooldown = getCooldownStatus(lastPaid?.visitedAt ?? null);
+  const cooldownActive =
+    CHECKIN_COOLDOWN_HOURS > 0 && cooldown.active;
+  const nextAllowed = cooldown.nextAllowedAt;
   const open = isShopOpen();
-  const canCheckin = open && !cooldownActive;
+  const shopBlocked = CHECKIN_REQUIRE_SHOP_OPEN && !open;
+  const canCheckin = !shopBlocked && !cooldownActive;
 
   return (
     <div className="space-y-6">
@@ -146,13 +150,21 @@ export default async function CheckinPage({
         <RuleRow
           icon={<Clock className="size-4" />}
           title="Jam operasional"
-          description={`Check-in hanya bisa dilakukan pukul ${String(SHOP_OPEN_HOUR).padStart(2, "0")}.00–${String(SHOP_CLOSE_HOUR).padStart(2, "0")}.00 WIB.`}
+          description={`Toko buka pukul ${String(SHOP_OPEN_HOUR).padStart(2, "0")}.00–${String(SHOP_CLOSE_HOUR).padStart(2, "0")}.00 WIB. Scan QR tetap bisa dilakukan kapan saja.`}
         />
-        <RuleRow
-          icon={<CalendarCheck2 className="size-4" />}
-          title="Jeda kunjungan"
-          description={`Maksimal satu check-in per ${CHECKIN_COOLDOWN_HOURS / 24} hari untuk mencegah pencatatan ganda.`}
-        />
+        {CHECKIN_COOLDOWN_HOURS > 0 ? (
+          <RuleRow
+            icon={<CalendarCheck2 className="size-4" />}
+            title="Jeda kunjungan"
+            description={`Maksimal satu check-in per ${CHECKIN_COOLDOWN_HOURS / 24} hari untuk mencegah pencatatan ganda.`}
+          />
+        ) : (
+          <RuleRow
+            icon={<CalendarCheck2 className="size-4" />}
+            title="Tanpa jeda"
+            description="Setiap scan QR langsung mencatat satu kunjungan berbayar."
+          />
+        )}
         <RuleRow
           icon={<Scissors className="size-4" />}
           title="Hanya kunjungan berbayar"

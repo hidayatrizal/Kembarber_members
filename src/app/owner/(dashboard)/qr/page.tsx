@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { Info, QrCode, ScanLine, Smartphone } from "lucide-react";
 import { PrintButton } from "@/components/print-button";
 import { Card } from "@/components/ui";
+import { CHECKIN_COOLDOWN_HOURS } from "@/lib/config";
 
 export const metadata: Metadata = { title: "QR Check-in" };
 
@@ -85,8 +86,9 @@ export default async function QrPage() {
             <ul className="space-y-2.5 p-5 text-[11px] leading-relaxed text-muted">
               <li className="flex gap-2">
                 <Info className="mt-0.5 size-3.5 shrink-0 text-accent" />
-                Check-in dibatasi 1 kali per 3 hari untuk mencegah pencatatan
-                ganda.
+                {CHECKIN_COOLDOWN_HOURS > 0
+                  ? `Check-in dibatasi 1 kali per ${CHECKIN_COOLDOWN_HOURS / 24} hari untuk mencegah pencatatan ganda.`
+                  : "Setiap scan QR langsung mencatat 1 kunjungan. Pastikan hanya discan setelah cukur dan pembayaran diterima."}
               </li>
               <li className="flex gap-2">
                 <Info className="mt-0.5 size-3.5 shrink-0 text-accent" />

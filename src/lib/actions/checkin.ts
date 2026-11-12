@@ -4,7 +4,10 @@ import { revalidatePath } from "next/cache";
 import { requireMember } from "@/lib/auth";
 import { getMemberStats, recordPaidVisit } from "@/lib/loyalty";
 import { verifyCheckinToken } from "@/lib/checkin-token";
-import { CHECKIN_COOLDOWN_HOURS } from "@/lib/config";
+import {
+  CHECKIN_COOLDOWN_HOURS,
+  CHECKIN_REQUIRE_SHOP_OPEN,
+} from "@/lib/config";
 import { formatDateTime, isShopOpen } from "@/lib/utils";
 
 export type CheckinState = {
@@ -25,7 +28,7 @@ export async function checkinWithTokenAction(
     };
   }
 
-  if (!isShopOpen()) {
+  if (CHECKIN_REQUIRE_SHOP_OPEN && !isShopOpen()) {
     return {
       error:
         "Check-in hanya bisa dilakukan saat jam operasional (08.00-22.00 WIB).",
