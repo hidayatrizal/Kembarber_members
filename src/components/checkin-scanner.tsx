@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, startTransition } from "react";
+import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { Loader2, ScanLine, X } from "lucide-react";
 import { checkinWithTokenAction } from "@/lib/actions/checkin";
@@ -28,6 +29,7 @@ export function CheckinScanner({
       ? "QR tidak valid. Pastikan kamu scan QR resmi yang tertempel di barbershop."
       : null,
   );
+  const [cameraReady, setCameraReady] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const controlsRef = useRef<{ stop: () => void } | null>(null);
   const initialSubmitted = useRef(false);
@@ -90,6 +92,7 @@ export function CheckinScanner({
             stopCamera();
 
             if (!token) {
+              setCameraReady(false);
               setError(
                 "QR tidak dikenali. Pastikan kamu scan QR resmi Kembabershop.",
               );
@@ -106,8 +109,10 @@ export function CheckinScanner({
           return;
         }
         controlsRef.current = controls;
+        setCameraReady(true);
       } catch (err) {
         if (cancelled) return;
+        setCameraReady(false);
         setError(cameraErrorMessage(err));
         setPhase("error");
       }
@@ -118,6 +123,17 @@ export function CheckinScanner({
       stopCamera();
     };
   }, [phase, stopCamera, submitToken]);
+
+  useEffect(() => {
+    if (phase !== "scanning") return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [phase]);
 
   const disabledMessage = disabled
     ? (disabledReason ?? "Check-in belum tersedia saat ini.")
@@ -142,7 +158,14 @@ export function CheckinScanner({
         <button
           type="button"
           onClick={() => {
+            if (!navigator.mediaDevices?.getUserMedia) {
+              setError(
+                "Browser ini tidak mendukung kamera. Buka lewat Chrome/Safari dan pastikan halaman memakai HTTPS.",
+              );
+              return;
+            }
             setError(null);
+            setCameraReady(false);
             setPhase("scanning");
           }}
           disabled={disabled}
@@ -161,51 +184,93 @@ export function CheckinScanner({
         {disabledMessage}
       </p>
 
-      {phase === "scanning" ? (
-        <div className="fixed inset-0 z-50 flex flex-col bg-black/95 px-5 pb-8 pt-8 backdrop-blur-sm">
-          <div className="mx-auto flex w-full max-w-sm items-center justify-between">
-            <div>
-              <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-accent">
-                Scan QR
-              </p>
-              <p className="mt-1 text-[15px] font-bold text-white">
-                Arahkan ke QR barbershop
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={() => setPhase("idle")}
-              aria-label="Tutup kamera"
-              className="grid size-10 place-items-center rounded-full border border-white/10 bg-white/10 text-white"
-            >
-              <X className="size-5" />
-            </button>
-          </div>
+      {phase === "scanning" && typeof document !== "undefined"
+        ? createPortal(
+            <div className="fixed inset-0 z-[100] flex flex-col bg-black">
+              <video
+                ref={videoRef}
+                className="absolute inset-0 h-full w-full object-cover"
+                muted
+                playsInline
+                autoPlay
+                onPlaying={() => setCameraReady(true)}
+              />
 
-          <div className="relative mx-auto mt-8 w-full max-w-sm overflow-hidden rounded-[30px] border border-white/10 bg-black">
-            <video
-              ref={videoRef}
-              className="aspect-square w-full object-cover"
-              muted
-              playsInline
-              autoPlay
-            />
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-8 rounded-2xl border-2 border-accent/70"
-            />
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-x-8 top-1/2 h-0.5 bg-accent shadow-[0_0_18px_rgba(30,215,96,0.9)]"
-            />
-          </div>
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/80 via-black/10 to-black/85"
+              />
 
-          <p className="mx-auto mt-6 max-w-xs text-center text-[12px] leading-relaxed text-gray-300">
-            Kamera hanya dipakai untuk membaca QR. Setelah QR terbaca,
-            kunjungan langsung tercatat otomatis.
-          </p>
-        </div>
-      ) : null}
+              <div
+                className="relative z-10 flex items-center justify-between px-5"
+                style={{
+                  paddingTop: "calc(env(safe-area-inset-top, 0px) + 1rem)",
+                }}
+              >
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-accent">
+                    Scan QR
+                  </p>
+                  <p className="mt-1 text-[15px] font-bold text-white">
+                    Arahkan ke QR barbershop
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCameraReady(false);
+                    setPhase("idle");
+                  }}
+                  aria-label="Tutup kamera"
+                  className="grid size-10 place-items-center rounded-full border border-white/15 bg-white/10 text-white backdrop-blur"
+                >
+                  <X className="size-5" />
+                </button>
+              </div>
+
+              <div className="relative z-10 flex flex-1 items-center justify-center px-8">
+                <div className="relative aspect-square w-full max-w-[280px]">
+                  <span className="absolute left-0 top-0 size-9 rounded-tl-2xl border-l-2 border-t-2 border-accent" />
+                  <span className="absolute right-0 top-0 size-9 rounded-tr-2xl border-r-2 border-t-2 border-accent" />
+                  <span className="absolute bottom-0 left-0 size-9 rounded-bl-2xl border-b-2 border-l-2 border-accent" />
+                  <span className="absolute bottom-0 right-0 size-9 rounded-br-2xl border-b-2 border-r-2 border-accent" />
+                  <span
+                    aria-hidden
+                    className="absolute inset-x-3 top-1/2 h-0.5 -translate-y-1/2 bg-accent shadow-[0_0_18px_rgba(30,215,96,0.95)]"
+                  />
+
+                  {!cameraReady ? (
+                    <div className="absolute inset-0 grid place-items-center rounded-2xl bg-black/40">
+                      <div className="flex flex-col items-center gap-2 text-white">
+                        <Loader2 className="size-6 animate-spin text-accent" />
+                        <p className="text-[12px] font-semibold">
+                          Membuka kamera...
+                        </p>
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+
+              <div
+                className="relative z-10 px-6 text-center"
+                style={{
+                  paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 2rem)",
+                }}
+              >
+                <p className="mx-auto max-w-xs text-[12px] leading-relaxed text-gray-300">
+                  Posisikan QR di dalam kotak. Setelah QR terbaca, kunjungan
+                  langsung tercatat otomatis.
+                </p>
+                <p className="mx-auto mt-2 max-w-xs text-[10px] leading-relaxed text-gray-500">
+                  Jika kamera tidak muncul, izinkan akses kamera di browser lalu
+                  tekan scan ulang.
+                </p>
+              </div>
+            </div>,
+            document.body,
+          )
+        : null}
     </div>
   );
 }
@@ -231,6 +296,9 @@ function cameraErrorMessage(error: unknown) {
   }
   if (name === "NotReadableError") {
     return "Kamera sedang dipakai aplikasi lain. Tutup aplikasi tersebut lalu coba lagi.";
+  }
+  if (name === "SecurityError") {
+    return "Akses kamera diblokir. Buka halaman ini lewat Chrome/Safari dengan HTTPS.";
   }
 
   return "Kamera gagal dibuka. Coba lagi atau gunakan browser lain.";
