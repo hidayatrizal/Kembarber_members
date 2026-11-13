@@ -23,6 +23,8 @@ export function LoginForm({ next = "/profil" }: { next?: string }) {
           type="tel"
           inputMode="tel"
           autoComplete="tel"
+          autoCapitalize="none"
+          enterKeyHint="next"
           placeholder="081234567890"
           className={inputClass}
           required
@@ -37,6 +39,7 @@ export function LoginForm({ next = "/profil" }: { next?: string }) {
           inputMode="numeric"
           maxLength={6}
           autoComplete="current-password"
+          enterKeyHint="done"
           placeholder="••••"
           className={inputClass}
           required

@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ShieldCheck } from "lucide-react";
-import { Brand } from "@/components/brand";
+import { ArrowLeft, ShieldCheck } from "lucide-react";
 import { OwnerLoginForm } from "@/components/owner-login-form";
 import { getSession } from "@/lib/auth";
 
@@ -14,47 +13,51 @@ export default async function OwnerLoginPage() {
 
   return (
     <main
-      className="relative mx-auto flex min-h-dvh w-full max-w-md flex-col bg-paper px-5 pb-8 pt-3 shadow-[0_0_80px_rgba(0,0,0,0.9)] sm:border-x sm:border-line/80"
+      className="relative mx-auto flex min-h-dvh w-full max-w-md flex-col bg-paper px-5"
       style={{
+        paddingTop: "calc(env(safe-area-inset-top, 0px) + 0.75rem)",
+        paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 1.25rem)",
         backgroundImage:
           "radial-gradient(70% 45% at 50% -12%, rgba(30,215,96,0.12), transparent 65%)",
       }}
     >
-      <header className="safe-top flex items-center justify-between py-2">
-        <Brand href="/" />
+      <header className="flex items-center justify-between">
         <Link
           href="/"
-          className="text-[12px] font-semibold text-muted transition-colors hover:text-ink"
+          aria-label="Kembali"
+          className="grid size-11 place-items-center rounded-full text-ink-soft transition-colors active:bg-white/5"
         >
-          Kembali
+          <ArrowLeft className="size-5" strokeWidth={2.2} />
         </Link>
+        <p className="text-[15px] font-semibold text-ink">Owner</p>
+        <span aria-hidden className="size-11" />
       </header>
 
-      <div className="animate-rise mt-10">
-        <span className="grid size-11 place-items-center rounded-[14px] bg-accent text-black shadow-[0_0_20px_rgba(30,215,96,0.25)]">
-          <ShieldCheck className="size-5" />
+      <section className="animate-rise mt-8">
+        <span className="grid size-12 place-items-center rounded-[16px] bg-accent text-black shadow-[0_12px_30px_-14px_rgba(30,215,96,0.8)]">
+          <ShieldCheck className="size-6" />
         </span>
-        <p className="mt-5 text-[10px] font-bold uppercase tracking-[0.22em] text-muted">
+        <p className="mt-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
           Owner access
         </p>
-        <h1 className="mt-2 font-display text-[clamp(2.1rem,10vw,2.7rem)] leading-[0.96] tracking-[-0.02em] text-ink">
-          Dashboard owner.
+        <h1 className="mt-1 text-[26px] font-extrabold leading-tight tracking-[-0.02em] text-ink">
+          Dashboard owner
         </h1>
-        <p className="mt-3 text-[13px] leading-relaxed text-muted">
+        <p className="mt-2 text-[13px] leading-relaxed text-muted">
           Kelola member, pantau kunjungan, dan proses reward Kembabershop.
         </p>
-      </div>
+      </section>
 
-      <div className="animate-rise mt-7 rounded-[28px] border border-line bg-surface p-5 shadow-[var(--shadow-card)]">
+      <div className="animate-rise mt-6 rounded-[24px] border border-line bg-surface p-5">
         <OwnerLoginForm />
       </div>
 
-      <p className="mt-5 text-center text-[11px] leading-relaxed text-muted">
+      <p className="mt-4 text-center text-[11px] leading-relaxed text-muted">
         Halaman ini khusus pemilik barbershop. Kredensial diatur melalui
         environment aplikasi.
       </p>
 
-      <div className="mt-auto pt-10 text-center text-[9px] font-semibold uppercase tracking-[0.22em] text-muted/60">
+      <div className="mt-auto pt-8 text-center text-[9px] font-semibold uppercase tracking-[0.22em] text-muted/60">
         Kembabershop · Owner console
       </div>
     </main>

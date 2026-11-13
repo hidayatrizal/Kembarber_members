@@ -20,6 +20,8 @@ export function OwnerLoginForm() {
           id="username"
           name="username"
           autoComplete="username"
+          autoCapitalize="none"
+          enterKeyHint="next"
           placeholder="owner"
           className={inputClass}
           required
@@ -32,6 +34,7 @@ export function OwnerLoginForm() {
           name="password"
           type="password"
           autoComplete="current-password"
+          enterKeyHint="done"
           placeholder="••••••••"
           className={inputClass}
           required

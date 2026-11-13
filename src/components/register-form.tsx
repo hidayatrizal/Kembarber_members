@@ -20,6 +20,8 @@ export function RegisterForm() {
           id="name"
           name="name"
           autoComplete="name"
+          autoCapitalize="words"
+          enterKeyHint="next"
           placeholder="Contoh: Budi Santoso"
           className={inputClass}
           required
@@ -33,6 +35,8 @@ export function RegisterForm() {
           type="tel"
           inputMode="tel"
           autoComplete="tel"
+          autoCapitalize="none"
+          enterKeyHint="next"
           placeholder="081234567890"
           className={inputClass}
           required
@@ -49,6 +53,7 @@ export function RegisterForm() {
             maxLength={6}
             pattern="\d{4,6}"
             autoComplete="new-password"
+            enterKeyHint="next"
             placeholder="••••"
             className={inputClass}
             required
@@ -63,6 +68,7 @@ export function RegisterForm() {
             maxLength={6}
             pattern="\d{4,6}"
             autoComplete="new-password"
+            enterKeyHint="done"
             placeholder="••••"
             className={inputClass}
             required

@@ -62,6 +62,7 @@ export function CheckinScanner({
         } else if (result.rewardEarned) {
           params.set("reward", "earned");
         }
+        window.history.replaceState(null, "");
         router.push(`/profil?${params.toString()}`);
         router.refresh();
       });
@@ -97,6 +98,7 @@ export function CheckinScanner({
 
             const token = extractToken(result.getText());
             stopCamera();
+            navigator.vibrate?.(18);
 
             if (!token) {
               setCameraReady(false);
@@ -137,6 +139,23 @@ export function CheckinScanner({
 
     return () => {
       document.body.style.overflow = previousOverflow;
+    };
+  }, [phase]);
+
+  useEffect(() => {
+    if (phase !== "scanning") return;
+
+    if (!window.history.state?.qrScanner) {
+      window.history.pushState({ qrScanner: true }, "");
+    }
+    const onPopState = () => {
+      setCameraReady(false);
+      setPhase("idle");
+    };
+    window.addEventListener("popstate", onPopState);
+
+    return () => {
+      window.removeEventListener("popstate", onPopState);
     };
   }, [phase]);
 
@@ -217,12 +236,9 @@ export function CheckinScanner({
                 <p className="text-[15px] font-bold text-white">Scan QR</p>
                 <button
                   type="button"
-                  onClick={() => {
-                    setCameraReady(false);
-                    setPhase("idle");
-                  }}
+                  onClick={() => window.history.back()}
                   aria-label="Tutup kamera"
-                  className="grid size-10 place-items-center rounded-full border border-white/15 bg-white/10 text-white backdrop-blur"
+                  className="grid size-11 place-items-center rounded-full border border-white/15 bg-white/10 text-white active:bg-white/20"
                 >
                   <X className="size-5" />
                 </button>

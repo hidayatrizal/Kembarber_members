@@ -28,7 +28,7 @@ export function buttonClass(
   className?: string,
 ) {
   return cn(
-    "inline-flex items-center justify-center rounded-full font-semibold transition-all duration-150 disabled:pointer-events-none disabled:opacity-50",
+    "inline-flex select-none items-center justify-center rounded-full font-semibold transition-all duration-150 touch-manipulation disabled:pointer-events-none disabled:opacity-50",
     variants[variant],
     sizes[size],
     className,
@@ -89,7 +89,7 @@ export function Badge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.08em]",
+        "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.06em]",
         tones[tone],
         className,
       )}
@@ -187,7 +187,7 @@ export function Eyebrow({
   return (
     <p
       className={cn(
-        "text-[10px] font-bold uppercase tracking-[0.22em] text-muted",
+        "text-[11px] font-bold uppercase tracking-[0.18em] text-muted",
         className,
       )}
     >

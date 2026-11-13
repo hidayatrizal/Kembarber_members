@@ -3,10 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard, QrCode, Users } from "lucide-react";
+import { BottomNav } from "@/components/bottom-nav";
 import { cn } from "@/lib/utils";
 
 const items = [
-  { href: "/owner", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/owner", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { href: "/owner/member", label: "Member", icon: Users },
   { href: "/owner/qr", label: "QR Check-in", icon: QrCode },
 ];
@@ -16,45 +17,20 @@ export function OwnerNav({ variant = "side" }: { variant?: "side" | "bottom" }) 
 
   if (variant === "bottom") {
     return (
-      <nav className="fixed bottom-5 left-1/2 z-50 w-[calc(100%-2rem)] max-w-[400px] -translate-x-1/2 rounded-[2rem] bg-white p-2 shadow-[0_18px_50px_-12px_rgba(0,0,0,0.9)] lg:hidden">
-        <div className="flex items-center justify-between">
-          {items.map((item) => {
-            const active =
-              item.href === "/owner"
-                ? pathname === "/owner"
-                : pathname.startsWith(item.href);
-            const Icon = item.icon;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                aria-current={active ? "page" : undefined}
-                className={cn(
-                  "flex items-center justify-center transition-colors",
-                  active
-                    ? "gap-2 rounded-full bg-accent px-4 py-3 text-black"
-                    : "p-3 text-gray-400 hover:text-black",
-                )}
-              >
-                <Icon className="size-5" strokeWidth={active ? 2.4 : 2} />
-                {active ? (
-                  <span className="text-[12px] font-bold">{item.label}</span>
-                ) : null}
-              </Link>
-            );
-          })}
-        </div>
-      </nav>
+      <BottomNav
+        items={items}
+        ariaLabel="Navigasi owner"
+        className="max-w-lg lg:hidden"
+      />
     );
   }
 
   return (
     <nav className="flex flex-col gap-1">
       {items.map((item) => {
-        const active =
-          item.href === "/owner"
-            ? pathname === "/owner"
-            : pathname.startsWith(item.href);
+        const active = item.exact
+          ? pathname === item.href
+          : pathname.startsWith(item.href);
         const Icon = item.icon;
         return (
           <Link
@@ -62,10 +38,10 @@ export function OwnerNav({ variant = "side" }: { variant?: "side" | "bottom" }) 
             href={item.href}
             aria-current={active ? "page" : undefined}
             className={cn(
-              "flex items-center gap-3 rounded-full px-4 py-2.5 text-[13px] font-semibold transition-colors",
+              "flex min-h-11 items-center gap-3 rounded-full px-4 py-2.5 text-[13px] font-semibold transition-colors",
               active
                 ? "bg-accent text-black"
-                : "text-muted hover:bg-surface-2 hover:text-ink",
+                : "text-muted hover:bg-surface-2 hover:text-ink active:bg-surface-2",
             )}
           >
             <Icon className="size-[18px]" strokeWidth={active ? 2.3 : 2} />

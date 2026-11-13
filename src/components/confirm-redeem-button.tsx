@@ -1,24 +1,17 @@
-"use client";
-
 import { Ticket } from "lucide-react";
-import { buttonClass } from "@/components/ui";
+import { ConfirmSubmitButton } from "@/components/confirm-submit-button";
 
 export function ConfirmRedeemButton() {
   return (
-    <button
-      type="submit"
-      onClick={(event) => {
-        if (
-          !window.confirm(
-            "Tandai reward ini sudah dipakai secara manual? Gunakan hanya jika member lupa scan QR. Tindakan ini tidak bisa dibatalkan.",
-          )
-        ) {
-          event.preventDefault();
-        }
-      }}
-      className={buttonClass("primary", "sm")}
+    <ConfirmSubmitButton
+      title="Tandai reward terpakai?"
+      description="Gunakan hanya jika member lupa scan QR. Reward yang sudah ditandai tidak bisa dikembalikan."
+      confirmLabel="Tandai"
+      variant="primary"
+      size="sm"
+      icon={<Ticket className="size-3.5" />}
     >
-      <Ticket className="size-3.5" /> Tandai manual
-    </button>
+      Tandai manual
+    </ConfirmSubmitButton>
   );
 }

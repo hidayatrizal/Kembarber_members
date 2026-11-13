@@ -2,14 +2,26 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ArrowRight, Gift, QrCode, Sparkles } from "lucide-react";
 import { Brand } from "@/components/brand";
-import { buttonClass, ProgressBar } from "@/components/ui";
+import { buttonClass } from "@/components/ui";
 import { getSession } from "@/lib/auth";
 import { LOYALTY_TARGET } from "@/lib/config";
 
-const features = [
-  { title: "Daftar", icon: Sparkles },
-  { title: "Scan", icon: QrCode },
-  { title: "Gratis", icon: Gift },
+const benefits = [
+  {
+    title: "Kartu member digital",
+    description: "Identitas member tersimpan langsung di HP.",
+    icon: Sparkles,
+  },
+  {
+    title: "Check-in pakai QR",
+    description: "Scan QR di barbershop, kunjungan tercatat otomatis.",
+    icon: QrCode,
+  },
+  {
+    title: `Setiap ${LOYALTY_TARGET} cukur`,
+    description: "Dapat 1 cukur gratis tanpa perlu kartu fisik.",
+    icon: Gift,
+  },
 ];
 
 export default async function HomePage() {
@@ -19,91 +31,79 @@ export default async function HomePage() {
 
   return (
     <main
-      className="relative mx-auto flex min-h-dvh w-full max-w-md flex-col overflow-hidden bg-paper px-5 pb-8 pt-3 shadow-[0_0_80px_rgba(0,0,0,0.9)] sm:my-6 sm:min-h-[calc(100dvh-3rem)] sm:rounded-[2.75rem] sm:border sm:border-white/10"
+      className="relative mx-auto flex min-h-dvh w-full max-w-md flex-col overflow-hidden bg-paper px-5"
       style={{
+        paddingTop: "calc(env(safe-area-inset-top, 0px) + 1.25rem)",
+        paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 1.25rem)",
         backgroundImage:
           "radial-gradient(70% 45% at 50% -12%, rgba(30,215,96,0.14), transparent 65%)",
       }}
     >
-      <header className="safe-top flex items-center justify-between py-2">
+      <header className="flex items-center justify-between">
         <Brand />
         <Link
-          href="/masuk"
-          className="rounded-full border border-white/10 bg-surface px-3.5 py-1.5 text-[11px] font-semibold text-ink-soft transition-colors hover:text-ink"
+          href="/owner/masuk"
+          className="rounded-full px-3 py-2 text-[11px] font-semibold text-muted transition-colors active:bg-white/5"
         >
-          Masuk
+          Owner
         </Link>
       </header>
 
-      <section className="animate-rise mt-10">
-        <h1 className="text-balance font-display text-[clamp(2.4rem,11vw,3.2rem)] leading-[0.92] tracking-[-0.03em] text-ink">
+      <section className="animate-rise flex-1 pt-8">
+        <div className="grid size-16 place-items-center rounded-[20px] bg-accent text-[28px] font-extrabold leading-none text-black shadow-[0_16px_40px_-16px_rgba(30,215,96,0.8)]">
+          K
+        </div>
+
+        <p className="mt-6 text-[11px] font-semibold uppercase tracking-[0.18em] text-accent">
+          Kembabershop member
+        </p>
+        <h1 className="mt-2 text-balance text-[32px] font-extrabold leading-[1.02] tracking-[-0.03em] text-ink">
           Cukur rapi.
           <br />
-          <span className="block text-accent">Pulang berhadiah.</span>
+          <span className="text-accent">Pulang berhadiah.</span>
         </h1>
+        <p className="mt-3 text-[13px] leading-relaxed text-muted">
+          Kartu member digital, riwayat cukur, dan reward gratis dalam satu
+          aplikasi.
+        </p>
+
+        <ul className="mt-8 space-y-3">
+          {benefits.map((benefit) => {
+            const Icon = benefit.icon;
+            return (
+              <li
+                key={benefit.title}
+                className="flex items-center gap-3 rounded-[20px] border border-line bg-surface p-3.5"
+              >
+                <span className="grid size-11 shrink-0 place-items-center rounded-full bg-accent-soft text-accent">
+                  <Icon className="size-5" strokeWidth={1.9} />
+                </span>
+                <div className="min-w-0">
+                  <p className="text-[13px] font-semibold text-ink">
+                    {benefit.title}
+                  </p>
+                  <p className="mt-0.5 text-[11px] leading-relaxed text-muted">
+                    {benefit.description}
+                  </p>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
       </section>
 
-      <section className="animate-rise relative mt-8 overflow-hidden rounded-[30px] border border-white/10 bg-gradient-to-br from-surface-3 via-surface to-paper-deep p-5 shadow-[var(--shadow-lift)]">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -right-8 -top-8 size-32 rounded-full bg-accent/20 blur-3xl"
-        />
-
-        <div className="relative flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Brand showText={false} />
-            <p className="text-[11px] font-bold text-ink">Kembabershop</p>
-          </div>
-          <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[8px] font-bold uppercase tracking-[0.18em] text-muted">
-            Preview
-          </span>
-        </div>
-
-        <div className="relative mt-7">
-          <p className="font-display text-[1.55rem] leading-none text-ink">
-            Nama kamu
-          </p>
-          <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.16em] text-accent">
-            KB-••••••
-          </p>
-        </div>
-
-        <div className="relative mt-7 flex items-end justify-between gap-3">
-          <p className="text-[13px] font-bold text-ink">
-            4/{LOYALTY_TARGET} cukur
-          </p>
-          <span className="inline-flex items-center gap-1 rounded-full bg-gold-soft px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.1em] text-gold">
-            <Gift className="size-3" /> 1 gratis
-          </span>
-        </div>
-
-        <ProgressBar
-          value={4}
-          max={LOYALTY_TARGET}
-          className="relative mt-2"
-        />
-      </section>
-
-      <section className="animate-rise mt-4 grid grid-cols-3 gap-2.5">
-        {features.map((feature) => {
-          const Icon = feature.icon;
-          return (
-            <div
-              key={feature.title}
-              className="flex flex-col items-center gap-2 rounded-2xl border border-white/5 bg-surface py-3.5"
-            >
-              <span className="grid size-8 place-items-center rounded-full bg-accent-soft text-accent">
-                <Icon className="size-4" />
-              </span>
-              <p className="text-[10px] font-bold text-ink">{feature.title}</p>
-            </div>
-          );
-        })}
-      </section>
-
-      <div className="mt-auto pt-8">
-        <Link href="/daftar" className={buttonClass("primary", "lg", "w-full")}>
-          Buat kartu <ArrowRight className="size-4" />
+      <div className="animate-rise mt-8 space-y-2">
+        <Link
+          href="/daftar"
+          className={buttonClass("primary", "lg", "h-14 w-full text-[15px]")}
+        >
+          Buat kartu member <ArrowRight className="size-4" />
+        </Link>
+        <Link
+          href="/masuk"
+          className="flex h-12 w-full items-center justify-center gap-1 rounded-full text-[13px] font-semibold text-ink-soft transition-colors active:bg-white/5"
+        >
+          Sudah punya akun? <span className="text-accent">Masuk</span>
         </Link>
       </div>
     </main>

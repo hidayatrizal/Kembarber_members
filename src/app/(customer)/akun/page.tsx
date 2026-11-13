@@ -7,6 +7,7 @@ import {
   History,
   WalletCards,
 } from "lucide-react";
+import { InstallAppCard } from "@/components/install-app-card";
 import { LogoutButton } from "@/components/logout-button";
 import { Avatar, Badge } from "@/components/ui";
 import { requireMember } from "@/lib/auth";
@@ -99,6 +100,8 @@ export default async function AccountPage() {
           title="Check-in"
         />
       </section>
+
+      <InstallAppCard />
 
       <div className="animate-rise">
         <LogoutButton />

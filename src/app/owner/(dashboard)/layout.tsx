@@ -42,12 +42,12 @@ export default async function OwnerDashboardLayout({
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="safe-top sticky top-0 z-30 flex items-center justify-between border-b border-line bg-paper/90 px-4 py-3 backdrop-blur-xl lg:hidden">
+        <header className="safe-top sticky top-0 z-30 flex items-center justify-between border-b border-line bg-paper px-4 py-3 lg:hidden">
           <Brand href="/owner" />
           <OwnerLogoutButton className="w-auto" />
         </header>
 
-        <main className="mx-auto w-full max-w-6xl flex-1 px-4 pb-28 pt-5 lg:px-10 lg:pb-12 lg:pt-8">
+        <main className="mx-auto w-full max-w-6xl flex-1 px-4 pb-[calc(env(safe-area-inset-bottom,0px)+6rem)] pt-5 lg:px-10 lg:pb-12 lg:pt-8">
           {children}
         </main>
       </div>
