@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 export const inputClass =
-  "h-12 w-full rounded-[14px] border border-white/10 bg-surface px-4 text-[15px] text-ink caret-accent placeholder:text-muted/50 outline-none transition-colors focus:border-accent/70 focus:ring-4 focus:ring-accent/10 disabled:opacity-50";
+  "h-12 w-full rounded-[14px] border border-line bg-surface px-4 text-[15px] text-ink caret-accent placeholder:text-muted/50 outline-none transition-colors focus:border-accent/70 focus:ring-4 focus:ring-accent/10 disabled:opacity-50";
 
 export function Field({
   label,

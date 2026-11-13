@@ -6,12 +6,12 @@ type Size = "sm" | "md" | "lg";
 
 const variants: Record<Variant, string> = {
   primary:
-    "bg-accent text-black hover:bg-accent-strong active:scale-[0.985] shadow-[0_10px_24px_-14px_rgba(30,215,96,0.55)]",
+    "bg-accent text-on-accent hover:bg-accent-strong active:scale-[0.985] shadow-[0_10px_24px_-14px_rgba(30,215,96,0.55)]",
   secondary:
-    "border border-white/10 bg-surface text-ink hover:bg-surface-2 active:scale-[0.985]",
+    "border border-line bg-surface text-ink hover:bg-surface-2 active:scale-[0.985]",
   ghost: "text-ink-soft hover:bg-surface-2 active:scale-[0.985]",
   accent:
-    "bg-accent text-black hover:bg-accent-strong active:scale-[0.985] shadow-[0_10px_24px_-14px_rgba(30,215,96,0.55)]",
+    "bg-accent text-on-accent hover:bg-accent-strong active:scale-[0.985] shadow-[0_10px_24px_-14px_rgba(30,215,96,0.55)]",
   danger:
     "border border-bad/20 bg-bad-soft text-bad hover:bg-bad/10 active:scale-[0.985]",
 };
@@ -59,7 +59,7 @@ export function Card({
   return (
     <div
       className={cn(
-        "rounded-[1.75rem] border border-white/5 bg-surface shadow-[var(--shadow-card)]",
+        "rounded-[1.75rem] border border-line bg-surface shadow-[var(--shadow-card)]",
         className,
       )}
     >
@@ -139,7 +139,7 @@ export function Avatar({
   return (
     <div
       className={cn(
-        "grid size-11 shrink-0 place-items-center rounded-full bg-surface-3 text-[13px] font-bold text-ink ring-1 ring-white/10",
+        "grid size-11 shrink-0 place-items-center rounded-full bg-surface-3 text-[13px] font-bold text-ink ring-1 ring-line",
         className,
       )}
     >

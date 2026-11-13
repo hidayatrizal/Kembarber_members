@@ -25,7 +25,7 @@ export default async function OwnerLoginPage() {
         <Link
           href="/"
           aria-label="Kembali"
-          className="grid size-11 place-items-center rounded-full text-ink-soft transition-colors active:bg-white/5"
+          className="grid size-11 place-items-center rounded-full text-ink-soft transition-colors active:bg-overlay"
         >
           <ArrowLeft className="size-5" strokeWidth={2.2} />
         </Link>
@@ -34,7 +34,7 @@ export default async function OwnerLoginPage() {
       </header>
 
       <section className="animate-rise mt-8">
-        <span className="grid size-12 place-items-center rounded-[16px] bg-accent text-black shadow-[0_12px_30px_-14px_rgba(30,215,96,0.8)]">
+        <span className="grid size-12 place-items-center rounded-[16px] bg-accent text-on-accent shadow-[0_12px_30px_-14px_rgba(30,215,96,0.8)]">
           <ShieldCheck className="size-6" />
         </span>
         <p className="mt-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">

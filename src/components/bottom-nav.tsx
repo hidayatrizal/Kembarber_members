@@ -27,7 +27,7 @@ export function BottomNav({
     <nav
       aria-label={ariaLabel}
       className={cn(
-        "fixed bottom-0 left-1/2 z-50 w-full max-w-md -translate-x-1/2 border-t border-white/[0.06] bg-surface",
+        "fixed bottom-0 left-1/2 z-50 w-full max-w-md -translate-x-1/2 border-t border-line bg-surface",
         className,
       )}
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
@@ -48,7 +48,7 @@ export function BottomNav({
               key={item.href}
               href={item.href}
               aria-current={active ? "page" : undefined}
-              className="group flex min-h-[56px] select-none flex-col items-center justify-center gap-1 rounded-2xl px-1 touch-manipulation active:bg-white/[0.04]"
+              className="group flex min-h-[56px] select-none flex-col items-center justify-center gap-1 rounded-2xl px-1 touch-manipulation active:bg-overlay"
             >
               <span
                 className={cn(

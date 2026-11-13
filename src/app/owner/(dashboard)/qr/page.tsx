@@ -54,7 +54,7 @@ export default async function QrPage() {
 
         <div className="space-y-4">
           <Card className="animate-rise overflow-hidden">
-            <div className="flex items-center gap-2 border-b border-white/5 px-5 py-4">
+            <div className="flex items-center gap-2 border-b border-line px-5 py-4">
               <ScanLine className="size-4 text-accent" />
               <h2 className="text-[13px] font-bold text-ink">Cara pakai</h2>
             </div>
@@ -79,7 +79,7 @@ export default async function QrPage() {
           </Card>
 
           <Card className="animate-rise overflow-hidden">
-            <div className="flex items-center gap-2 border-b border-white/5 px-5 py-4">
+            <div className="flex items-center gap-2 border-b border-line px-5 py-4">
               <Smartphone className="size-4 text-accent" />
               <h2 className="text-[13px] font-bold text-ink">Tips</h2>
             </div>

@@ -5,10 +5,12 @@ import {
   ChevronRight,
   Gift,
   History,
+  Palette,
   WalletCards,
 } from "lucide-react";
 import { InstallAppCard } from "@/components/install-app-card";
 import { LogoutButton } from "@/components/logout-button";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Avatar, Badge } from "@/components/ui";
 import { requireMember } from "@/lib/auth";
 import {
@@ -60,7 +62,7 @@ export default async function AccountPage() {
           <br />
           <span className="text-accent">1 gratis.</span>
         </p>
-        <div className="mt-5 grid grid-cols-2 gap-4 border-t border-white/5 pt-4">
+        <div className="mt-5 grid grid-cols-2 gap-4 border-t border-line pt-4">
           <div>
             <p className="text-[9px] uppercase tracking-[0.16em] text-muted">
               Jeda check-in
@@ -81,6 +83,21 @@ export default async function AccountPage() {
             </p>
           </div>
         </div>
+      </section>
+
+      <section className="animate-rise rounded-[26px] border border-line bg-surface p-4 shadow-[var(--shadow-card)]">
+        <div className="flex items-center gap-3">
+          <span className="grid size-9 shrink-0 place-items-center rounded-full bg-paper-deep text-ink-soft">
+            <Palette className="size-4" />
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="text-[12px] font-semibold text-ink">Tampilan</p>
+            <p className="mt-0.5 text-[11px] leading-relaxed text-muted">
+              Pilih terang, gelap, atau ikuti sistem.
+            </p>
+          </div>
+        </div>
+        <ThemeToggle className="mt-3" />
       </section>
 
       <section className="animate-rise divide-y divide-line overflow-hidden rounded-[26px] border border-line bg-surface shadow-[var(--shadow-card)]">

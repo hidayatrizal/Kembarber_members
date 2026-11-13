@@ -228,14 +228,14 @@ function Segment({
       aria-current={active ? "page" : undefined}
       className={cn(
         "flex h-9 items-center justify-center gap-1.5 rounded-full text-[12px] font-semibold transition-colors",
-        active ? "bg-accent text-black" : "text-muted hover:text-ink",
+        active ? "bg-accent text-on-accent" : "text-muted hover:text-ink",
       )}
     >
       {label}
       <span
         className={cn(
           "rounded-full px-1.5 py-0.5 text-[9px] font-bold tabular-nums",
-          active ? "bg-black/15 text-black" : "bg-surface-2 text-muted",
+          active ? "bg-black/15 text-on-accent" : "bg-surface-2 text-muted",
         )}
       >
         {count}

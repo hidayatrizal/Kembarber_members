@@ -15,7 +15,7 @@ export function Brand({
       href={href}
       className={cn("inline-flex items-center gap-2.5", className)}
     >
-      <span className="grid size-9 place-items-center rounded-[12px] bg-accent text-[17px] font-extrabold leading-none text-black shadow-[0_0_18px_rgba(30,215,96,0.28)]">
+      <span className="grid size-9 place-items-center rounded-[12px] bg-accent text-[17px] font-extrabold leading-none text-on-accent shadow-[0_0_18px_rgba(30,215,96,0.28)]">
         K
       </span>
       {showText ? (

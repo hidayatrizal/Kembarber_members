@@ -59,7 +59,7 @@ export default async function MemberDetailPage({
         </div>
       ) : null}
 
-      <section className="animate-rise rounded-[1.75rem] border border-white/5 bg-surface p-5 shadow-[var(--shadow-card)]">
+      <section className="animate-rise rounded-[1.75rem] border border-line bg-surface p-5 shadow-[var(--shadow-card)]">
         <div className="flex items-center gap-4">
           <Avatar
             initials={initials(member.name)}
@@ -88,7 +88,7 @@ export default async function MemberDetailPage({
             </p>
           </div>
         </div>
-        <div className="mt-4 flex items-center justify-between border-t border-white/5 pt-3">
+        <div className="mt-4 flex items-center justify-between border-t border-line pt-3">
           <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-muted">
             Member sejak
           </p>
@@ -143,8 +143,8 @@ export default async function MemberDetailPage({
       </Card>
 
       <div className="grid gap-4 lg:grid-cols-3">
-        <section className="animate-rise overflow-hidden rounded-[1.75rem] border border-white/5 bg-surface shadow-[var(--shadow-card)] lg:col-span-2">
-          <div className="flex items-center gap-2 border-b border-white/5 px-5 py-4">
+        <section className="animate-rise overflow-hidden rounded-[1.75rem] border border-line bg-surface shadow-[var(--shadow-card)] lg:col-span-2">
+          <div className="flex items-center gap-2 border-b border-line px-5 py-4">
             <CalendarDays className="size-4 text-accent" />
             <h2 className="text-[13px] font-bold text-ink">
               Riwayat kunjungan
@@ -158,7 +158,7 @@ export default async function MemberDetailPage({
               />
             </div>
           ) : (
-            <div className="divide-y divide-white/5">
+            <div className="divide-y divide-line">
               {visits.map((visit) => (
                 <div
                   key={visit.id}
@@ -195,8 +195,8 @@ export default async function MemberDetailPage({
         </section>
 
         <div className="space-y-4">
-          <section className="animate-rise overflow-hidden rounded-[1.75rem] border border-white/5 bg-surface shadow-[var(--shadow-card)]">
-            <div className="flex items-center gap-2 border-b border-white/5 px-5 py-4">
+          <section className="animate-rise overflow-hidden rounded-[1.75rem] border border-line bg-surface shadow-[var(--shadow-card)]">
+            <div className="flex items-center gap-2 border-b border-line px-5 py-4">
               <Ticket className="size-4 text-accent" />
               <h2 className="text-[13px] font-bold text-ink">
                 Reward tersedia
@@ -239,13 +239,13 @@ export default async function MemberDetailPage({
             </div>
           </section>
 
-          <section className="animate-rise overflow-hidden rounded-[1.75rem] border border-white/5 bg-surface shadow-[var(--shadow-card)]">
-            <div className="border-b border-white/5 px-5 py-4">
+          <section className="animate-rise overflow-hidden rounded-[1.75rem] border border-line bg-surface shadow-[var(--shadow-card)]">
+            <div className="border-b border-line px-5 py-4">
               <h2 className="text-[13px] font-bold text-ink">
                 Reward terpakai
               </h2>
             </div>
-            <div className="divide-y divide-white/5">
+            <div className="divide-y divide-line">
               {redeemed.length === 0 ? (
                 <p className="px-4 py-6 text-center text-[11px] text-muted">
                   Belum ada reward terpakai.
@@ -313,7 +313,7 @@ function StatCard({
       className={
         accent
           ? "rounded-2xl border border-accent/20 bg-accent-soft p-4"
-          : "rounded-2xl border border-white/5 bg-surface p-4"
+          : "rounded-2xl border border-line bg-surface p-4"
       }
     >
       <span

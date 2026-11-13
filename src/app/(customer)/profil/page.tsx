@@ -57,7 +57,7 @@ export default async function ProfilePage({
         <div className="flex min-w-0 items-center gap-3">
           <Avatar
             initials={initials(member.name)}
-            className="size-11 border border-white/10 bg-surface-3"
+            className="size-11 border border-line bg-surface-3"
           />
           <div className="min-w-0">
             <p className="text-[11px] font-medium text-muted">
@@ -71,7 +71,7 @@ export default async function ProfilePage({
         <Link
           href="/riwayat?tab=reward"
           aria-label="Lihat reward"
-          className="relative grid size-11 shrink-0 place-items-center rounded-full bg-surface text-ink-soft ring-1 ring-white/5 transition-colors active:bg-surface-2"
+          className="relative grid size-11 shrink-0 place-items-center rounded-full bg-surface text-ink-soft ring-1 ring-line transition-colors active:bg-surface-2"
         >
           <Bell className="size-5" strokeWidth={1.9} />
           {stats.hasRewardReady ? (
@@ -95,7 +95,7 @@ export default async function ProfilePage({
         </div>
       ) : null}
 
-      <section className="animate-rise relative overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-surface-3 via-surface-2 to-surface p-5 shadow-[var(--shadow-lift)]">
+      <section className="animate-rise relative overflow-hidden rounded-[28px] border border-line bg-gradient-to-br from-surface-3 via-surface-2 to-surface p-5 shadow-[var(--shadow-lift)]">
         <div
           aria-hidden
           className="pointer-events-none absolute -right-10 -top-10 size-40 rounded-full bg-accent/20 blur-3xl"
@@ -253,8 +253,8 @@ function Shortcut({
         className={cn(
           "grid size-14 place-items-center rounded-full transition-colors",
           primary
-            ? "bg-accent text-black shadow-[0_8px_20px_-10px_rgba(30,215,96,0.7)]"
-            : "bg-surface-2 text-ink-soft ring-1 ring-white/5 group-active:bg-surface-3",
+            ? "bg-accent text-on-accent shadow-[0_8px_20px_-10px_rgba(30,215,96,0.7)]"
+            : "bg-surface-2 text-ink-soft ring-1 ring-line group-active:bg-surface-3",
         )}
       >
         {icon}
@@ -286,7 +286,7 @@ function Stamp({
         active && reward
           ? "border-amber-500 bg-gradient-to-br from-yellow-400 to-amber-600 text-black"
           : active
-            ? "border-accent bg-accent text-black shadow-[0_6px_18px_-8px_rgba(30,215,96,0.7)]"
+            ? "border-accent bg-accent text-on-accent shadow-[0_6px_18px_-8px_rgba(30,215,96,0.7)]"
             : done
               ? "border-accent/20 bg-accent-soft text-accent"
               : "border-line bg-surface text-muted",
@@ -306,7 +306,7 @@ function Stamp({
       <span
         className={cn(
           "mt-1 text-[10px] font-semibold",
-          active ? "text-black/80" : done ? "text-accent" : "text-muted",
+          active ? "text-on-accent/80" : done ? "text-accent" : "text-muted",
         )}
       >
         {label}

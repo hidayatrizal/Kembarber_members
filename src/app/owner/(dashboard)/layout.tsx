@@ -1,6 +1,7 @@
 import { Brand } from "@/components/brand";
 import { OwnerLogoutButton } from "@/components/owner-logout-button";
 import { OwnerNav } from "@/components/owner-nav";
+import { ThemeQuickToggle, ThemeToggle } from "@/components/theme-toggle";
 import { Badge } from "@/components/ui";
 import { requireOwner } from "@/lib/auth";
 
@@ -23,9 +24,12 @@ export default async function OwnerDashboardLayout({
             <OwnerNav />
           </div>
         </div>
+        <div className="mb-3">
+          <ThemeToggle />
+        </div>
         <div className="rounded-[22px] border border-line bg-surface p-3.5 shadow-[var(--shadow-card)]">
           <div className="mb-2.5 flex items-center gap-2.5">
-            <span className="grid size-9 place-items-center rounded-full bg-accent text-[10px] font-bold text-black">
+            <span className="grid size-9 place-items-center rounded-full bg-accent text-[10px] font-bold text-on-accent">
               OW
             </span>
             <div className="min-w-0">
@@ -44,7 +48,10 @@ export default async function OwnerDashboardLayout({
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="safe-top sticky top-0 z-30 flex items-center justify-between border-b border-line bg-paper px-4 py-3 lg:hidden">
           <Brand href="/owner" />
-          <OwnerLogoutButton className="w-auto" />
+          <div className="flex items-center gap-1">
+            <ThemeQuickToggle />
+            <OwnerLogoutButton className="w-auto" />
+          </div>
         </header>
 
         <main className="mx-auto w-full max-w-6xl flex-1 px-4 pb-[calc(env(safe-area-inset-bottom,0px)+6rem)] pt-5 lg:px-10 lg:pb-12 lg:pt-8">

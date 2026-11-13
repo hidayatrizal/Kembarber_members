@@ -83,11 +83,11 @@ export function ConfirmSubmitButton({
                 aria-labelledby={titleId}
                 aria-describedby={descriptionId}
                 onClick={(event) => event.stopPropagation()}
-                className="animate-sheet w-full max-w-md rounded-t-[28px] border-t border-white/10 bg-surface px-5 pb-[calc(env(safe-area-inset-bottom,0px)+1.25rem)] pt-3"
+                className="animate-sheet w-full max-w-md rounded-t-[28px] border-t border-line bg-surface px-5 pb-[calc(env(safe-area-inset-bottom,0px)+1.25rem)] pt-3"
               >
                 <div
                   aria-hidden
-                  className="mx-auto mb-4 h-1 w-10 rounded-full bg-white/15"
+                  className="mx-auto mb-4 h-1 w-10 rounded-full bg-line-strong"
                 />
                 <h2 id={titleId} className="text-[17px] font-bold text-ink">
                   {title}

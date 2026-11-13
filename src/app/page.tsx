@@ -43,14 +43,14 @@ export default async function HomePage() {
         <Brand />
         <Link
           href="/owner/masuk"
-          className="rounded-full px-3 py-2 text-[11px] font-semibold text-muted transition-colors active:bg-white/5"
+          className="rounded-full px-3 py-2 text-[11px] font-semibold text-muted transition-colors active:bg-overlay"
         >
           Owner
         </Link>
       </header>
 
       <section className="animate-rise flex-1 pt-8">
-        <div className="grid size-16 place-items-center rounded-[20px] bg-accent text-[28px] font-extrabold leading-none text-black shadow-[0_16px_40px_-16px_rgba(30,215,96,0.8)]">
+        <div className="grid size-16 place-items-center rounded-[20px] bg-accent text-[28px] font-extrabold leading-none text-on-accent shadow-[0_16px_40px_-16px_rgba(30,215,96,0.8)]">
           K
         </div>
 
@@ -101,7 +101,7 @@ export default async function HomePage() {
         </Link>
         <Link
           href="/masuk"
-          className="flex h-12 w-full items-center justify-center gap-1 rounded-full text-[13px] font-semibold text-ink-soft transition-colors active:bg-white/5"
+          className="flex h-12 w-full items-center justify-center gap-1 rounded-full text-[13px] font-semibold text-ink-soft transition-colors active:bg-overlay"
         >
           Sudah punya akun? <span className="text-accent">Masuk</span>
         </Link>

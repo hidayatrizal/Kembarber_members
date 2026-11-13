@@ -1,33 +1,95 @@
 @import "tailwindcss";
 
 @theme {
-  --color-paper: #070b09;
-  --color-paper-deep: #0b100e;
-  --color-surface: #101614;
-  --color-surface-2: #161f1b;
-  --color-surface-3: #1c2722;
-  --color-ink: #f5f7f5;
-  --color-ink-soft: #c9d1cc;
-  --color-muted: #8b9690;
-  --color-line: #202a25;
-  --color-line-strong: #2d3a33;
-  --color-accent: #1ed760;
-  --color-accent-strong: #17b94f;
-  --color-accent-soft: #123022;
-  --color-accent-ink: #8ff0b2;
-  --color-gold: #f5c84b;
-  --color-gold-soft: #2a2312;
-  --color-good: #1ed760;
-  --color-good-soft: #123022;
-  --color-bad: #fca5a5;
-  --color-bad-soft: #2a1515;
+  --color-paper: var(--paper);
+  --color-paper-deep: var(--paper-deep);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-ink: var(--accent-ink);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-good: var(--good);
+  --color-good-soft: var(--good-soft);
+  --color-bad: var(--bad);
+  --color-bad-soft: var(--bad-soft);
+  --color-on-accent: var(--on-accent);
+  --color-overlay: var(--overlay);
+  --color-backdrop: var(--backdrop);
 
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+:root {
+  --backdrop: #e8eee8;
+  --paper: #f3f6f3;
+  --paper-deep: #e7eee7;
+  --surface: #ffffff;
+  --surface-2: #eef3ee;
+  --surface-3: #e2eae3;
+  --ink: #0b1510;
+  --ink-soft: #2a392f;
+  --muted: #5e6f65;
+  --line: #dbe4dc;
+  --line-strong: #c3d0c6;
+  --accent: #087f37;
+  --accent-strong: #066a2d;
+  --accent-soft: #d9f5e3;
+  --accent-ink: #075f2c;
+  --gold: #a16207;
+  --gold-soft: #fdf0cf;
+  --good: #087f37;
+  --good-soft: #d9f5e3;
+  --bad: #b91c1c;
+  --bad-soft: #fde7e7;
+  --on-accent: #ffffff;
+  --overlay: rgba(11, 21, 16, 0.05);
+
+  --shadow-card: 0 24px 48px -32px rgba(15, 40, 25, 0.16);
+  --shadow-lift: 0 20px 44px -24px rgba(15, 40, 25, 0.2);
+
+  color-scheme: light;
+}
+
+.dark {
+  --backdrop: #000000;
+  --paper: #070b09;
+  --paper-deep: #0b100e;
+  --surface: #101614;
+  --surface-2: #161f1b;
+  --surface-3: #1c2722;
+  --ink: #f5f7f5;
+  --ink-soft: #c9d1cc;
+  --muted: #8b9690;
+  --line: #202a25;
+  --line-strong: #2d3a33;
+  --accent: #1ed760;
+  --accent-strong: #17b94f;
+  --accent-soft: #123022;
+  --accent-ink: #8ff0b2;
+  --gold: #f5c84b;
+  --gold-soft: #2a2312;
+  --good: #1ed760;
+  --good-soft: #123022;
+  --bad: #fca5a5;
+  --bad-soft: #2a1515;
+  --on-accent: #06120a;
+  --overlay: rgba(255, 255, 255, 0.05);
 
   --shadow-card: 0 24px 48px -32px rgba(0, 0, 0, 0.9);
   --shadow-lift: 0 24px 48px -20px rgba(0, 0, 0, 0.85);
+
+  color-scheme: dark;
 }
 
 @layer base {
@@ -37,12 +99,11 @@
 
   html {
     -webkit-tap-highlight-color: transparent;
-    color-scheme: dark;
     text-size-adjust: 100%;
   }
 
   body {
-    background-color: #000000;
+    background-color: var(--color-backdrop);
     color: var(--color-ink);
     font-family: var(--font-sans);
     min-height: 100dvh;
@@ -63,7 +124,7 @@
 
   ::selection {
     background: var(--color-accent);
-    color: #000000;
+    color: var(--color-on-accent);
   }
 
   :focus-visible {
