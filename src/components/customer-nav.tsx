@@ -1,3 +1,5 @@
+"use client";
+
 import { History, Home, ScanLine, UserRound } from "lucide-react";
 import { BottomNav } from "@/components/bottom-nav";
 
