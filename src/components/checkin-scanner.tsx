@@ -27,9 +27,7 @@ export function CheckinScanner({
     initialToken ? "recording" : "idle",
   );
   const [error, setError] = useState<string | null>(
-    invalidToken
-      ? "QR tidak valid. Pastikan kamu scan QR resmi yang tertempel di barbershop."
-      : null,
+    invalidToken ? "QR tidak valid." : null,
   );
   const [cameraReady, setCameraReady] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -102,9 +100,7 @@ export function CheckinScanner({
 
             if (!token) {
               setCameraReady(false);
-              setError(
-                "QR tidak dikenali. Pastikan kamu scan QR resmi Kembabershop.",
-              );
+              setError("QR tidak dikenali.");
               setPhase("error");
               return;
             }
@@ -145,12 +141,12 @@ export function CheckinScanner({
   }, [phase]);
 
   const disabledMessage = disabled
-    ? (disabledReason ?? "Check-in belum tersedia saat ini.")
+    ? (disabledReason ?? "Belum tersedia.")
     : phase === "recording"
-      ? "Memverifikasi QR dan mencatat kunjungan..."
+      ? "Mencatat..."
       : rewardReady
-        ? "Reward cukur gratis siap dipakai. Scan QR untuk mencatat cukur gratis."
-        : "Kamera akan terbuka. Arahkan ke QR resmi yang tertempel di barbershop.";
+        ? "Reward siap."
+        : "Arahkan ke QR di barbershop.";
 
   return (
     <div className="space-y-3">
@@ -163,16 +159,14 @@ export function CheckinScanner({
       {phase === "recording" ? (
         <div className="flex items-center justify-center gap-2 rounded-full bg-accent-soft px-5 py-4 text-[13px] font-bold text-accent">
           <Loader2 className="size-4 animate-spin" />
-          Mencatat kunjungan...
+          Mencatat...
         </div>
       ) : (
         <button
           type="button"
           onClick={() => {
             if (!navigator.mediaDevices?.getUserMedia) {
-              setError(
-                "Browser ini tidak mendukung kamera. Buka lewat Chrome/Safari dan pastikan halaman memakai HTTPS.",
-              );
+              setError("Kamera tidak didukung browser ini.");
               return;
             }
             setError(null);
@@ -184,12 +178,12 @@ export function CheckinScanner({
         >
           <ScanLine className="size-4" />
           {disabled
-            ? "Check-in belum tersedia"
+            ? "Belum tersedia"
             : error
-              ? "Scan ulang QR"
+              ? "Scan ulang"
               : rewardReady
-                ? "Scan QR & pakai reward"
-                : "Scan QR & catat kunjungan"}
+                ? "Scan reward"
+                : "Scan QR"}
         </button>
       )}
 
@@ -220,14 +214,7 @@ export function CheckinScanner({
                   paddingTop: "calc(env(safe-area-inset-top, 0px) + 1rem)",
                 }}
               >
-                <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-accent">
-                    Scan QR
-                  </p>
-                  <p className="mt-1 text-[15px] font-bold text-white">
-                    Arahkan ke QR barbershop
-                  </p>
-                </div>
+                <p className="text-[15px] font-bold text-white">Scan QR</p>
                 <button
                   type="button"
                   onClick={() => {
@@ -272,14 +259,7 @@ export function CheckinScanner({
                 }}
               >
                 <p className="mx-auto max-w-xs text-[12px] leading-relaxed text-gray-300">
-                  Posisikan QR di dalam kotak. Setelah QR terbaca,{" "}
-                  {rewardReady
-                    ? "reward cukur gratis akan ditandai terpakai."
-                    : "kunjungan langsung tercatat otomatis."}
-                </p>
-                <p className="mx-auto mt-2 max-w-xs text-[10px] leading-relaxed text-gray-500">
-                  Jika kamera tidak muncul, izinkan akses kamera di browser lalu
-                  tekan scan ulang.
+                  Posisikan QR di dalam kotak.
                 </p>
               </div>
             </div>,
@@ -304,17 +284,17 @@ function cameraErrorMessage(error: unknown) {
   const name = (error as { name?: string } | null)?.name;
 
   if (name === "NotAllowedError") {
-    return "Izin kamera ditolak. Aktifkan izin kamera di browser, lalu coba lagi.";
+    return "Izin kamera ditolak.";
   }
   if (name === "NotFoundError" || name === "OverconstrainedError") {
-    return "Kamera tidak ditemukan. Pastikan perangkat memiliki kamera.";
+    return "Kamera tidak ditemukan.";
   }
   if (name === "NotReadableError") {
-    return "Kamera sedang dipakai aplikasi lain. Tutup aplikasi tersebut lalu coba lagi.";
+    return "Kamera sedang dipakai.";
   }
   if (name === "SecurityError") {
-    return "Akses kamera diblokir. Buka halaman ini lewat Chrome/Safari dengan HTTPS.";
+    return "Akses kamera diblokir.";
   }
 
-  return "Kamera gagal dibuka. Coba lagi atau gunakan browser lain.";
+  return "Kamera gagal dibuka.";
 }

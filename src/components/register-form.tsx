@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useActionState } from "react";
 import { Field, FormError, inputClass } from "@/components/field";
 import { buttonClass } from "@/components/ui";
@@ -16,7 +15,7 @@ export function RegisterForm() {
     <form action={action} className="space-y-4">
       <FormError message={state.error} />
 
-      <Field label="Nama Lengkap" htmlFor="name">
+      <Field label="Nama" htmlFor="name">
         <input
           id="name"
           name="name"
@@ -27,11 +26,7 @@ export function RegisterForm() {
         />
       </Field>
 
-      <Field
-        label="Nomor HP"
-        htmlFor="phone"
-        hint="Gunakan nomor yang aktif. Nomor ini menjadi identitas member."
-      >
+      <Field label="Nomor HP" htmlFor="phone">
         <input
           id="phone"
           name="phone"
@@ -80,15 +75,8 @@ export function RegisterForm() {
         disabled={pending}
         className={buttonClass("primary", "lg", "w-full")}
       >
-        {pending ? "Mendaftarkan..." : "Buat Kartu Member"}
+        {pending ? "Mendaftarkan..." : "Daftar"}
       </button>
-
-      <p className="text-center text-sm text-muted">
-        Sudah punya member?{" "}
-        <Link href="/masuk" className="font-semibold text-accent hover:underline">
-          Masuk di sini
-        </Link>
-      </p>
     </form>
   );
 }

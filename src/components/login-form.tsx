@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useActionState } from "react";
 import { Field, FormError, inputClass } from "@/components/field";
 import { buttonClass } from "@/components/ui";
@@ -51,13 +50,6 @@ export function LoginForm({ next = "/profil" }: { next?: string }) {
       >
         {pending ? "Memeriksa..." : "Masuk"}
       </button>
-
-      <p className="text-center text-sm text-muted">
-        Belum punya member?{" "}
-        <Link href="/daftar" className="font-semibold text-accent hover:underline">
-          Daftar sekarang
-        </Link>
-      </p>
     </form>
   );
 }

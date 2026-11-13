@@ -1,14 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import {
-  CalendarCheck2,
-  Clock,
-  Gift,
-  QrCode,
-  ScanLine,
-  Scissors,
-  Ticket,
-} from "lucide-react";
+import { ScanLine, Ticket } from "lucide-react";
 import { CheckinScanner } from "@/components/checkin-scanner";
 import { Badge, ProgressBar } from "@/components/ui";
 import {
@@ -27,7 +18,7 @@ import {
 import { formatDateTime, isShopOpen } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 
-export const metadata: Metadata = { title: "Check-in Cukur" };
+export const metadata: Metadata = { title: "Check-in" };
 
 export default async function CheckinPage({
   searchParams,
@@ -45,73 +36,58 @@ export default async function CheckinPage({
 
   const lastPaid = visits.find((visit) => !visit.isFree);
   const cooldown = getCooldownStatus(lastPaid?.visitedAt ?? null);
-  const cooldownActive =
-    CHECKIN_COOLDOWN_HOURS > 0 && cooldown.active;
+  const cooldownActive = CHECKIN_COOLDOWN_HOURS > 0 && cooldown.active;
   const nextAllowed = cooldown.nextAllowedAt;
   const open = isShopOpen();
   const shopBlocked = CHECKIN_REQUIRE_SHOP_OPEN && !open;
   const canCheckin = !shopBlocked && !cooldownActive;
+  const hours = `${String(SHOP_OPEN_HOUR).padStart(2, "0")}.00–${String(SHOP_CLOSE_HOUR).padStart(2, "0")}.00`;
+  const disabledReason =
+    cooldownActive && nextAllowed
+      ? `Coba lagi ${formatDateTime(nextAllowed)}.`
+      : `Buka ${hours}.`;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <header className="animate-rise">
-        <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted">
+        <h1 className="font-display text-[clamp(2rem,9vw,2.6rem)] leading-[0.98] tracking-[-0.02em] text-ink">
           Check-in
-        </p>
-        <h1 className="mt-1 text-balance font-display text-[clamp(2rem,9vw,2.6rem)] leading-[0.98] tracking-[-0.02em] text-ink">
-          Catat kunjungan cukur.
         </h1>
-        <p className="mt-2.5 text-[13px] leading-relaxed text-muted">
-          Setelah cukur selesai dan sudah dibayar, scan QR di barbershop untuk
-          mencatat kunjungan. Setiap kunjungan berbayar menambah satu poin.
-        </p>
       </header>
 
-      <section className="animate-rise overflow-hidden rounded-[28px] border border-line bg-surface shadow-[var(--shadow-card)]">
-        <div className="p-5">
-          <div className="flex items-center justify-between">
-            <Badge tone={open ? "good" : "bad"}>
-              {open ? "Toko buka" : "Toko tutup"}
-            </Badge>
-            <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-muted">
-              {String(SHOP_OPEN_HOUR).padStart(2, "0")}.00–
-              {String(SHOP_CLOSE_HOUR).padStart(2, "0")}.00 WIB
-            </span>
-          </div>
-
-          <div className="mt-6 flex items-center gap-4">
-            <span
-              className={cn(
-                "grid size-16 shrink-0 place-items-center rounded-[22px] transition-colors",
-                canCheckin
-                  ? "bg-accent text-black shadow-[0_0_24px_rgba(30,215,96,0.25)]"
-                  : "bg-paper-deep text-muted",
-              )}
-            >
-              <ScanLine className="size-7" strokeWidth={1.8} />
-            </span>
-            <div className="min-w-0">
-              <p className="font-display text-[1.9rem] leading-none tracking-[-0.01em] text-ink">
-                {canCheckin
-                  ? "Siap check-in"
-                  : cooldownActive
-                    ? "Masih jeda"
-                    : "Di luar jam"}
-              </p>
-              <p className="mt-2 text-[12px] leading-relaxed text-muted">
-                {canCheckin
-                  ? "Tekan tombol scan dan arahkan kamera ke QR di barbershop."
-                  : cooldownActive && nextAllowed
-                    ? `Kunjungan berikutnya bisa dicatat mulai ${formatDateTime(nextAllowed)}.`
-                    : `Check-in tersedia pukul ${String(SHOP_OPEN_HOUR).padStart(2, "0")}.00–${String(SHOP_CLOSE_HOUR).padStart(2, "0")}.00 WIB.`}
-              </p>
-            </div>
-          </div>
+      <section className="animate-rise rounded-[28px] border border-line bg-surface p-5 shadow-[var(--shadow-card)]">
+        <div className="flex items-center justify-between">
+          <Badge tone={open ? "good" : "bad"}>
+            {open ? "Buka" : "Tutup"}
+          </Badge>
+          <span className="text-[10px] font-semibold tracking-[0.12em] text-muted">
+            {hours}
+          </span>
         </div>
 
-        <div className="flex items-center gap-2 border-t border-line bg-paper/60 px-5 py-3 text-[10px] font-medium text-muted">
-          <QrCode className="size-3.5 text-accent" />
-          Tombol scan akan membuka kamera untuk membaca QR di barbershop.
+        <div className="mt-5 flex items-center gap-4">
+          <span
+            className={cn(
+              "grid size-14 shrink-0 place-items-center rounded-[20px]",
+              canCheckin
+                ? "bg-accent text-black shadow-[0_0_24px_rgba(30,215,96,0.25)]"
+                : "bg-paper-deep text-muted",
+            )}
+          >
+            <ScanLine className="size-6" strokeWidth={1.8} />
+          </span>
+          <div className="min-w-0">
+            <p className="font-display text-[1.55rem] leading-none text-ink">
+              {canCheckin
+                ? "Siap scan"
+                : cooldownActive
+                  ? "Masih jeda"
+                  : "Tutup"}
+            </p>
+            <p className="mt-1.5 text-[12px] text-muted">
+              {canCheckin ? "Scan QR di barbershop." : disabledReason}
+            </p>
+          </div>
         </div>
       </section>
 
@@ -119,30 +95,24 @@ export default async function CheckinPage({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Ticket className="size-4 text-accent" />
-            <p className="text-[13px] font-bold text-ink">Progress kamu</p>
+            <p className="text-[13px] font-bold text-ink">Progress</p>
           </div>
           <span className="text-[13px] font-bold tabular-nums text-accent">
             {stats.progress}
             <span className="text-muted">/{stats.target}</span>
           </span>
         </div>
-        <ProgressBar value={stats.progress} max={stats.target} className="mt-3.5" />
-        <p className="mt-3 text-[12px] leading-relaxed text-muted">
+        <ProgressBar
+          value={stats.progress}
+          max={stats.target}
+          className="mt-3.5"
+        />
+        <p className="mt-3 text-[12px] text-muted">
           {stats.hasRewardReady
-            ? "Reward cukur gratis siap dipakai. Scan QR saat cukur gratis; reward akan ditandai terpakai dan progress dimulai lagi dari awal."
-            : `Sisa ${stats.remaining} cukur berbayar menuju cukur gratis berikutnya.`}
+            ? `${stats.rewardsAvailable} reward siap.`
+            : `${stats.remaining} cukur lagi.`}
         </p>
       </section>
-
-      {stats.hasRewardReady ? (
-        <div className="animate-rise flex items-start gap-2.5 rounded-2xl border border-gold/20 bg-gold-soft px-4 py-3.5 text-[12px] font-medium leading-relaxed text-gold">
-          <Gift className="mt-0.5 size-4 shrink-0" />
-          <p>
-            Kamu punya {stats.rewardsAvailable} reward cukur gratis. Tetap scan
-            QR saat cukur gratis untuk memakainya dan memulai siklus baru.
-          </p>
-        </div>
-      ) : null}
 
       <div className="animate-rise">
         <CheckinScanner
@@ -150,77 +120,8 @@ export default async function CheckinPage({
           invalidToken={invalidToken}
           disabled={!canCheckin}
           rewardReady={stats.hasRewardReady}
-          disabledReason={
-            cooldownActive && nextAllowed
-              ? `Kunjungan berikutnya bisa dicatat mulai ${formatDateTime(nextAllowed)}.`
-              : `Check-in tersedia pukul ${String(SHOP_OPEN_HOUR).padStart(2, "0")}.00–${String(SHOP_CLOSE_HOUR).padStart(2, "0")}.00 WIB.`
-          }
+          disabledReason={disabledReason}
         />
-      </div>
-
-      <section className="animate-rise divide-y divide-line overflow-hidden rounded-[26px] border border-line bg-surface">
-        <RuleRow
-          icon={<Clock className="size-4" />}
-          title="Jam operasional"
-          description={`Toko buka pukul ${String(SHOP_OPEN_HOUR).padStart(2, "0")}.00–${String(SHOP_CLOSE_HOUR).padStart(2, "0")}.00 WIB. Scan QR tetap bisa dilakukan kapan saja.`}
-        />
-        {CHECKIN_COOLDOWN_HOURS > 0 ? (
-          <RuleRow
-            icon={<CalendarCheck2 className="size-4" />}
-            title="Jeda kunjungan"
-            description={`Maksimal satu check-in per ${CHECKIN_COOLDOWN_HOURS / 24} hari untuk mencegah pencatatan ganda.`}
-          />
-        ) : (
-          <RuleRow
-            icon={<CalendarCheck2 className="size-4" />}
-            title="Tanpa jeda"
-            description="Setiap scan QR mencatat satu kunjungan. Jika reward gratis tersedia, reward otomatis dipakai."
-          />
-        )}
-        <RuleRow
-          icon={<Scissors className="size-4" />}
-          title="Cukur gratis tetap scan"
-          description="Cukur gratis dari reward tidak menambah poin baru, tetapi tetap wajib scan QR agar reward tercatat terpakai."
-        />
-      </section>
-
-      <Link
-        href="/profil"
-        className="flex items-center justify-between rounded-[26px] border border-line bg-surface px-5 py-4 shadow-[var(--shadow-card)] transition-transform active:scale-[0.99]"
-      >
-        <div>
-          <p className="text-[12px] font-semibold text-ink">
-            Total {stats.totalVisits} kunjungan tercatat
-          </p>
-          <p className="mt-0.5 text-[11px] text-muted">
-            Lihat kartu dan riwayat lengkapmu.
-          </p>
-        </div>
-        <span className="text-[11px] font-bold text-accent">Buka kartu</span>
-      </Link>
-    </div>
-  );
-}
-
-function RuleRow({
-  icon,
-  title,
-  description,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-}) {
-  return (
-    <div className="flex items-start gap-3 px-4 py-3.5">
-      <span className="mt-0.5 grid size-8 shrink-0 place-items-center rounded-full bg-paper-deep text-ink-soft">
-        {icon}
-      </span>
-      <div>
-        <p className="text-[12px] font-semibold text-ink">{title}</p>
-        <p className="mt-0.5 text-[11px] leading-relaxed text-muted">
-          {description}
-        </p>
       </div>
     </div>
   );

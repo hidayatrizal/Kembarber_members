@@ -54,15 +54,9 @@ export default async function HistoryPage({
   return (
     <div className="space-y-6">
       <header className="animate-rise">
-        <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted">
-          Aktivitas
-        </p>
-        <h1 className="mt-1 text-balance font-display text-[clamp(2rem,9vw,2.6rem)] leading-[0.98] tracking-[-0.02em] text-ink">
-          Riwayat & reward.
+        <h1 className="font-display text-[clamp(2rem,9vw,2.6rem)] leading-[0.98] tracking-[-0.02em] text-ink">
+          Riwayat
         </h1>
-        <p className="mt-2.5 text-[13px] leading-relaxed text-muted">
-          Semua kunjungan dan hadiah loyalitasmu tersimpan di sini.
-        </p>
       </header>
 
       <div className="animate-rise grid grid-cols-2 gap-1 rounded-full border border-line bg-paper-deep/60 p-1">
@@ -85,7 +79,7 @@ export default async function HistoryPage({
           <EmptyState
             icon={<Scissors className="size-6" />}
             title="Belum ada kunjungan"
-            description="Scan QR di barbershop setelah cukur untuk mencatat kunjungan pertamamu."
+            description="Scan QR setelah cukur."
           />
         ) : (
           <div className="space-y-5">
@@ -124,7 +118,7 @@ export default async function HistoryPage({
                         </p>
                       </div>
                       <Badge tone={visit.isFree ? "accent" : "good"}>
-                        {visit.isFree ? "Reward" : "+1 poin"}
+                        {visit.isFree ? "Reward" : "+1"}
                       </Badge>
                     </div>
                   ))}
@@ -137,7 +131,7 @@ export default async function HistoryPage({
         <EmptyState
           icon={<Gift className="size-6" />}
           title="Belum ada reward"
-          description={`Kumpulkan ${stats.target} cukur berbayar untuk mendapatkan satu cukur gratis.`}
+          description={`Kumpulkan ${stats.target} cukur.`}
         />
       ) : (
         <div className="space-y-4">
@@ -151,30 +145,18 @@ export default async function HistoryPage({
                   key={reward.id}
                   className="animate-rise relative overflow-hidden rounded-[26px] border border-accent/25 bg-surface shadow-[var(--shadow-card)]"
                 >
-                  <div className="flex items-start justify-between gap-3 p-5 pb-4">
+                  <div className="flex items-center justify-between gap-3 p-5">
                     <div>
-                      <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-accent">
-                        Reward siap dipakai
-                      </p>
-                      <p className="mt-1 font-display text-[1.8rem] leading-none text-ink">
+                      <p className="font-display text-[1.55rem] leading-none text-ink">
                         Cukur gratis
                       </p>
                       <p className="mt-1.5 text-[11px] text-muted">
-                        Siklus {reward.cycle} · didapat{" "}
-                        {formatDate(reward.earnedAt)}
+                        Siklus {reward.cycle} · {formatDate(reward.earnedAt)}
                       </p>
                     </div>
                     <span className="grid size-11 shrink-0 place-items-center rounded-full bg-accent-soft text-accent">
                       <Ticket className="size-5" />
                     </span>
-                  </div>
-                  <div className="relative border-t border-dashed border-line-strong px-5 py-3">
-                    <span className="absolute -left-2.5 -top-2.5 size-5 rounded-full bg-paper" />
-                    <span className="absolute -right-2.5 -top-2.5 size-5 rounded-full bg-paper" />
-                    <p className="text-[11px] leading-relaxed text-muted">
-                      Scan QR di barbershop saat cukur gratis. Reward otomatis
-                      ditandai terpakai dan progress kembali ke 0/5.
-                    </p>
                   </div>
                 </div>
               ))}
@@ -194,7 +176,7 @@ export default async function HistoryPage({
                     </span>
                     <div className="min-w-0 flex-1">
                       <p className="text-[12px] font-semibold text-ink">
-                        Cukur gratis · Siklus {reward.cycle}
+                        Cukur gratis
                       </p>
                       <p className="mt-0.5 text-[11px] text-muted">
                         {reward.redeemedAt
@@ -219,11 +201,11 @@ export default async function HistoryPage({
       )}
 
       <Link href="/checkin" className={buttonClass("primary", "lg", "w-full")}>
-        <Scissors className="size-4" /> Check-in kunjungan baru
+        <Scissors className="size-4" /> Scan QR
       </Link>
 
       <div className="flex items-center justify-center gap-1.5 pb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted/70">
-        <History className="size-3.5" /> {stats.totalVisits} kunjungan tercatat
+        <History className="size-3.5" /> {stats.totalVisits} kunjungan
       </div>
     </div>
   );

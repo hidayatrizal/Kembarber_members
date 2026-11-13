@@ -3,7 +3,6 @@ import Link from "next/link";
 import {
   BadgeCheck,
   ChevronRight,
-  Clock,
   Gift,
   History,
   WalletCards,
@@ -28,15 +27,9 @@ export default async function AccountPage() {
   return (
     <div className="space-y-6">
       <header className="animate-rise">
-        <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted">
+        <h1 className="font-display text-[clamp(2rem,9vw,2.6rem)] leading-[0.98] tracking-[-0.02em] text-ink">
           Akun
-        </p>
-        <h1 className="mt-1 font-display text-[clamp(2rem,9vw,2.6rem)] leading-[0.98] tracking-[-0.02em] text-ink">
-          Pengaturan member.
         </h1>
-        <p className="mt-2.5 text-[13px] leading-relaxed text-muted">
-          Informasi kartu, aturan loyalitas, dan akses akun kamu.
-        </p>
       </header>
 
       <section className="animate-rise flex items-center gap-4 rounded-[28px] border border-line bg-surface p-5 shadow-[var(--shadow-card)]">
@@ -61,18 +54,10 @@ export default async function AccountPage() {
       </section>
 
       <section className="animate-rise overflow-hidden rounded-[1.75rem] border border-accent/20 bg-surface p-5 shadow-[var(--shadow-card)]">
-        <p className="text-[9px] font-bold uppercase tracking-[0.22em] text-accent">
-          Aturan loyalitas
-        </p>
-        <p className="mt-2 text-[1.9rem] font-bold leading-[1.05] tracking-[-0.02em] text-ink">
-          {LOYALTY_TARGET} cukur berbayar,
+        <p className="text-[1.9rem] font-bold leading-[1.05] tracking-[-0.02em] text-ink">
+          {LOYALTY_TARGET} cukur.
           <br />
-          <span className="text-accent">1 cukur gratis.</span>
-        </p>
-        <p className="mt-2.5 text-[11px] leading-relaxed text-muted">
-          Reward dibuat otomatis setelah mencapai target. Saat cukur gratis,
-          tetap scan QR agar reward ditandai terpakai dan siklus baru dimulai.
-          Kunjungan gratis tidak menambah poin baru.
+          <span className="text-accent">1 gratis.</span>
         </p>
         <div className="mt-5 grid grid-cols-2 gap-4 border-t border-white/5 pt-4">
           <div>
@@ -102,28 +87,21 @@ export default async function AccountPage() {
           href="/profil"
           icon={<WalletCards className="size-4" />}
           title="Kartu member"
-          description="Lihat kartu digital dan progress"
         />
         <MenuRow
           href="/riwayat"
           icon={<History className="size-4" />}
-          title="Riwayat & reward"
-          description="Semua kunjungan dan hadiah"
+          title="Riwayat"
         />
         <MenuRow
           href="/checkin"
           icon={<Gift className="size-4" />}
-          title="Check-in cukur"
-          description="Catat kunjungan setelah pembayaran"
+          title="Check-in"
         />
       </section>
 
       <div className="animate-rise">
         <LogoutButton />
-      </div>
-
-      <div className="flex items-center justify-center gap-1.5 pb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted/70">
-        <Clock className="size-3.5" /> Kembabershop member club
       </div>
     </div>
   );
@@ -158,12 +136,10 @@ function MenuRow({
   href,
   icon,
   title,
-  description,
 }: {
   href: string;
   icon: React.ReactNode;
   title: string;
-  description: string;
 }) {
   return (
     <Link
@@ -173,10 +149,9 @@ function MenuRow({
       <span className="grid size-9 shrink-0 place-items-center rounded-full bg-paper-deep text-ink-soft">
         {icon}
       </span>
-      <div className="min-w-0 flex-1">
-        <p className="text-[12px] font-semibold text-ink">{title}</p>
-        <p className="mt-0.5 text-[11px] text-muted">{description}</p>
-      </div>
+      <p className="min-w-0 flex-1 text-[12px] font-semibold text-ink">
+        {title}
+      </p>
       <ChevronRight className="size-4 text-muted/60" />
     </Link>
   );
