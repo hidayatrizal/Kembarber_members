@@ -11,7 +11,7 @@ export const metadata: Metadata = { title: "Database Member" };
 export default async function MemberListPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string }>;
+  searchParams: Promise<{ q?: string; hapus?: string }>;
 }) {
   const params = await searchParams;
   const query = (params.q ?? "").trim();
@@ -31,6 +31,18 @@ export default async function MemberListPage({
           {query ? ` cocok dengan “${query}”` : " terdaftar"}.
         </p>
       </header>
+
+      {params.hapus === "sukses" ? (
+        <div className="animate-rise rounded-2xl border border-accent/15 bg-accent-soft px-4 py-3 text-[12px] font-medium text-accent">
+          Akun member dan seluruh riwayat kunjungan serta reward berhasil
+          dihapus.
+        </div>
+      ) : null}
+      {params.hapus === "gagal" ? (
+        <div className="animate-rise rounded-2xl border border-bad/20 bg-bad-soft px-4 py-3 text-[12px] font-medium text-bad">
+          Member tidak ditemukan atau sudah dihapus sebelumnya.
+        </div>
+      ) : null}
 
       <form action="/owner/member" className="animate-rise relative">
         <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted" />

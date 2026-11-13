@@ -10,7 +10,7 @@ export function ConfirmRedeemButton() {
       onClick={(event) => {
         if (
           !window.confirm(
-            "Tandai reward cukur gratis ini sudah dipakai? Tindakan ini tidak bisa dibatalkan.",
+            "Tandai reward ini sudah dipakai secara manual? Gunakan hanya jika member lupa scan QR. Tindakan ini tidak bisa dibatalkan.",
           )
         ) {
           event.preventDefault();
@@ -18,7 +18,7 @@ export function ConfirmRedeemButton() {
       }}
       className={buttonClass("primary", "sm")}
     >
-      <Ticket className="size-3.5" /> Tandai dipakai
+      <Ticket className="size-3.5" /> Tandai manual
     </button>
   );
 }

@@ -59,7 +59,7 @@ export default async function OwnerDashboardPage() {
         <Metric
           label="Reward tersedia"
           value={overview.availableRewards}
-          hint="Siap ditukar member"
+          hint="Siap dipakai member"
           icon={<Ticket className="size-4" />}
           accent
         />
@@ -91,8 +91,8 @@ export default async function OwnerDashboardPage() {
 
       <div className="grid gap-4 lg:grid-cols-2">
         <Panel
-          title="Reward menunggu diambil"
-          subtitle="Member yang bisa cukur gratis"
+          title="Reward siap dipakai"
+          subtitle="Member dengan cukur gratis"
           icon={<Gift className="size-4" />}
           href="/owner/member"
         >

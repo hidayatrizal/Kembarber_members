@@ -14,9 +14,12 @@ Dibangun dengan **Next.js 16 (App Router)**, **TypeScript**, **Tailwind CSS v4**
 - Check-in kunjungan cukur dengan scan QR lewat kamera. Secara default scan
   bisa dilakukan kapan saja tanpa jeda.
 - Riwayat kunjungan dan progress loyalitas.
-- Reward otomatis: setiap 5 cukur berbayar = 1 cukur gratis (progress berlanjut).
-- Penukaran reward oleh owner (tidak bisa dipakai ganda).
-- Dashboard owner: statistik, database member, detail member, dan QR check-in.
+- Reward otomatis: setiap 5 cukur berbayar = 1 cukur gratis.
+- Cukur gratis tetap wajib scan QR. Reward otomatis ditandai terpakai dan
+  progress kembali ke 0/5 untuk siklus berikutnya.
+- Owner dapat menandai reward terpakai secara manual jika QR gagal.
+- Dashboard owner: statistik, database member, detail member, QR check-in, dan
+  hapus akun member beserta seluruh riwayatnya.
 - UI Bahasa Indonesia, mobile-first, dapat dipasang sebagai PWA.
 
 ## Menjalankan
@@ -70,9 +73,11 @@ Dibangun dengan **Next.js 16 (App Router)**, **TypeScript**, **Tailwind CSS v4**
 
 - Setiap kunjungan berbayar = 1 poin.
 - 5 poin = 1 reward cukur gratis.
-- Sisa poin carry-over ke siklus berikutnya (`total berbayar % 5`).
-- Reward hanya bisa ditandai terpakai oleh owner.
+- Saat member scan QR dan reward tersedia, kunjungan dicatat sebagai cukur
+  gratis, reward ditandai terpakai, dan progress kembali ke 0/5.
 - Cukur gratis tidak menambah poin.
+- Reward dapat ditandai manual oleh owner sebagai fallback jika member lupa
+  scan QR.
 
 ## Catatan Keamanan
 

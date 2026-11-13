@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireMember } from "@/lib/auth";
-import { getMemberStats, recordPaidVisit } from "@/lib/loyalty";
+import { recordCheckin } from "@/lib/loyalty";
 import { verifyCheckinToken } from "@/lib/checkin-token";
 import {
   CHECKIN_COOLDOWN_HOURS,
@@ -13,7 +13,9 @@ import { formatDateTime, isShopOpen } from "@/lib/utils";
 export type CheckinState = {
   ok?: boolean;
   error?: string;
-  rewardReady?: boolean;
+  freeVisit?: boolean;
+  rewardEarned?: boolean;
+  rewardCycle?: number;
 };
 
 export async function checkinWithTokenAction(
@@ -35,7 +37,7 @@ export async function checkinWithTokenAction(
     };
   }
 
-  const result = await recordPaidVisit(member.id);
+  const result = await recordCheckin(member.id);
 
   if (!result.ok) {
     if (result.code === "cooldown") {
@@ -48,11 +50,23 @@ export async function checkinWithTokenAction(
     return { error: "Check-in gagal. Coba lagi." };
   }
 
-  const stats = await getMemberStats(member.id);
-
   revalidatePath("/profil");
   revalidatePath("/riwayat");
   revalidatePath("/checkin");
+  revalidatePath("/owner");
+  revalidatePath("/owner/member");
 
-  return { ok: true, rewardReady: stats.hasRewardReady };
+  if (result.free) {
+    return {
+      ok: true,
+      freeVisit: true,
+      rewardCycle: result.rewardCycle,
+    };
+  }
+
+  return {
+    ok: true,
+    freeVisit: false,
+    rewardEarned: result.rewardEarned,
+  };
 }

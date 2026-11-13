@@ -11,8 +11,12 @@ import {
   Ticket,
 } from "lucide-react";
 import { ConfirmRedeemButton } from "@/components/confirm-redeem-button";
+import { DeleteMemberButton } from "@/components/delete-member-button";
 import { Avatar, Badge, Card, EmptyState, ProgressBar } from "@/components/ui";
-import { redeemRewardAction } from "@/lib/actions/owner";
+import {
+  deleteMemberAction,
+  redeemRewardAction,
+} from "@/lib/actions/owner";
 import { getMemberDetail } from "@/lib/owner-queries";
 import { formatDate, formatDateTime, formatPhone, initials } from "@/lib/utils";
 
@@ -133,7 +137,7 @@ export default async function MemberDetailPage({
         />
         <p className="mt-3 text-[11px] leading-relaxed text-muted">
           {stats.hasRewardReady
-            ? "Member memiliki reward cukur gratis yang siap ditukar."
+            ? "Member memiliki reward cukur gratis. Reward otomatis terpakai saat member scan QR untuk cukur gratis."
             : `Sisa ${stats.remaining} cukur berbayar menuju reward berikutnya.`}
         </p>
       </Card>
@@ -220,6 +224,10 @@ export default async function MemberDetailPage({
                       </div>
                       <Gift className="size-4 shrink-0 text-accent" />
                     </div>
+                    <p className="mt-2 text-[9px] leading-relaxed text-accent/70">
+                      Normalnya member scan QR sendiri. Gunakan tombol manual
+                      hanya jika QR gagal.
+                    </p>
                     <form action={redeemRewardAction} className="mt-3">
                       <input type="hidden" name="rewardId" value={reward.id} />
                       <input type="hidden" name="memberId" value={member.id} />
@@ -255,9 +263,16 @@ export default async function MemberDetailPage({
                       </p>
                       <p className="text-[10px] text-muted">
                         {reward.redeemedAt
-                          ? formatDate(reward.redeemedAt)
+                          ? `Dipakai ${formatDateTime(reward.redeemedAt)}`
                           : "Sudah dipakai"}
                       </p>
+                      {reward.redeemedBy ? (
+                        <p className="mt-0.5 text-[9px] text-muted/80">
+                          {reward.redeemedBy === "Scan QR member"
+                            ? "Via scan QR"
+                            : `Oleh ${reward.redeemedBy}`}
+                        </p>
+                      ) : null}
                     </div>
                   </div>
                 ))
@@ -266,6 +281,18 @@ export default async function MemberDetailPage({
           </section>
         </div>
       </div>
+
+      <section className="animate-rise rounded-[1.75rem] border border-bad/20 bg-bad-soft/40 p-5">
+        <p className="text-[13px] font-bold text-bad">Zona berbahaya</p>
+        <p className="mt-1 text-[11px] leading-relaxed text-muted">
+          Menghapus akun ini juga menghapus permanen seluruh riwayat kunjungan
+          dan reward member. Tindakan ini tidak bisa dibatalkan.
+        </p>
+        <form action={deleteMemberAction} className="mt-4">
+          <input type="hidden" name="memberId" value={member.id} />
+          <DeleteMemberButton memberName={member.name} />
+        </form>
+      </section>
     </div>
   );
 }

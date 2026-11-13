@@ -144,7 +144,7 @@ export default async function HistoryPage({
           {available.length > 0 ? (
             <section className="space-y-3">
               <h2 className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted">
-                Siap ditukar
+                Siap dipakai
               </h2>
               {available.map((reward) => (
                 <div
@@ -154,7 +154,7 @@ export default async function HistoryPage({
                   <div className="flex items-start justify-between gap-3 p-5 pb-4">
                     <div>
                       <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-accent">
-                        Reward aktif
+                        Reward siap dipakai
                       </p>
                       <p className="mt-1 font-display text-[1.8rem] leading-none text-ink">
                         Cukur gratis
@@ -172,8 +172,8 @@ export default async function HistoryPage({
                     <span className="absolute -left-2.5 -top-2.5 size-5 rounded-full bg-paper" />
                     <span className="absolute -right-2.5 -top-2.5 size-5 rounded-full bg-paper" />
                     <p className="text-[11px] leading-relaxed text-muted">
-                      Tunjukkan halaman ini ke kasir. Reward akan ditandai
-                      terpakai setelah cukur gratis digunakan.
+                      Scan QR di barbershop saat cukur gratis. Reward otomatis
+                      ditandai terpakai dan progress kembali ke 0/5.
                     </p>
                   </div>
                 </div>
@@ -198,9 +198,16 @@ export default async function HistoryPage({
                       </p>
                       <p className="mt-0.5 text-[11px] text-muted">
                         {reward.redeemedAt
-                          ? `Dipakai ${formatDate(reward.redeemedAt)}`
+                          ? `Dipakai ${formatDateTime(reward.redeemedAt)}`
                           : "Sudah dipakai"}
                       </p>
+                      {reward.redeemedBy ? (
+                        <p className="mt-0.5 text-[10px] text-muted/80">
+                          {reward.redeemedBy === "Scan QR member"
+                            ? "Via scan QR"
+                            : `Oleh ${reward.redeemedBy}`}
+                        </p>
+                      ) : null}
                     </div>
                     <Badge tone="muted">Terpakai</Badge>
                   </div>

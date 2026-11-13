@@ -70,7 +70,8 @@ export default async function AccountPage() {
           <span className="text-accent">1 cukur gratis.</span>
         </p>
         <p className="mt-2.5 text-[11px] leading-relaxed text-muted">
-          Reward dibuat otomatis setelah mencapai target dan ditukar di kasir.
+          Reward dibuat otomatis setelah mencapai target. Saat cukur gratis,
+          tetap scan QR agar reward ditandai terpakai dan siklus baru dimulai.
           Kunjungan gratis tidak menambah poin baru.
         </p>
         <div className="mt-5 grid grid-cols-2 gap-4 border-t border-white/5 pt-4">

@@ -5,6 +5,7 @@ import {
   ArrowUpRight,
   Bell,
   Check,
+  CheckCircle2,
   ChevronRight,
   Clock,
   Gift,
@@ -26,6 +27,7 @@ type SearchParams = {
   selamat?: string;
   checkin?: string;
   reward?: string;
+  cycle?: string;
 };
 
 export default async function ProfilePage({
@@ -93,9 +95,11 @@ export default async function ProfilePage({
           <p>
             {params.selamat
               ? `Kartu member berhasil dibuat. Selamat datang, ${firstName}!`
-              : params.reward
-                ? "Kunjungan berhasil dicatat. Kamu mendapat 1 cukur gratis."
-                : `Kunjungan berhasil dicatat. Sisa ${stats.remaining} cukur menuju hadiah berikutnya.`}
+              : params.reward === "used"
+                ? `Cukur gratis berhasil dicatat. Reward${params.cycle ? ` siklus ${params.cycle}` : ""} sudah terpakai.${stats.hasRewardReady ? ` Kamu masih punya ${stats.rewardsAvailable} reward siap dipakai.` : ` Progress dimulai lagi dari 0/${target}.`}`
+                : params.reward === "earned"
+                  ? "Kunjungan berhasil dicatat. Kamu mendapat 1 cukur gratis."
+                  : `Kunjungan berhasil dicatat. Sisa ${stats.remaining} cukur menuju hadiah berikutnya.`}
           </p>
         </div>
       ) : null}
@@ -156,10 +160,25 @@ export default async function ProfilePage({
           <div className="flex items-center gap-2.5">
             <Gift className="size-4 shrink-0 text-gold" />
             <p className="text-[12px] font-semibold text-gold">
-              {stats.rewardsAvailable} cukur gratis siap ditukar
+              {stats.rewardsAvailable} cukur gratis siap dipakai saat scan
             </p>
           </div>
           <ChevronRight className="size-4 text-gold/70" />
+        </Link>
+      ) : null}
+
+      {stats.rewardsRedeemed > 0 ? (
+        <Link
+          href="/riwayat?tab=reward"
+          className="animate-rise flex items-center justify-between gap-3 rounded-2xl border border-white/5 bg-surface px-4 py-3.5 transition-transform active:scale-[0.99]"
+        >
+          <div className="flex items-center gap-2.5">
+            <CheckCircle2 className="size-4 shrink-0 text-muted" />
+            <p className="text-[12px] font-semibold text-ink">
+              {stats.rewardsRedeemed} reward sudah terpakai
+            </p>
+          </div>
+          <ChevronRight className="size-4 text-muted/70" />
         </Link>
       ) : null}
 

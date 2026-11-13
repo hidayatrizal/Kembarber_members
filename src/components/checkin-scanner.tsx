@@ -14,11 +14,13 @@ export function CheckinScanner({
   invalidToken,
   disabled,
   disabledReason,
+  rewardReady,
 }: {
   initialToken?: string;
   invalidToken?: boolean;
   disabled?: boolean;
   disabledReason?: string;
+  rewardReady?: boolean;
 }) {
   const router = useRouter();
   const [phase, setPhase] = useState<Phase>(
@@ -54,7 +56,14 @@ export function CheckinScanner({
         }
 
         const params = new URLSearchParams({ checkin: "sukses" });
-        if (result.rewardReady) params.set("reward", "1");
+        if (result.freeVisit) {
+          params.set("reward", "used");
+          if (result.rewardCycle) {
+            params.set("cycle", String(result.rewardCycle));
+          }
+        } else if (result.rewardEarned) {
+          params.set("reward", "earned");
+        }
         router.push(`/profil?${params.toString()}`);
         router.refresh();
       });
@@ -139,7 +148,9 @@ export function CheckinScanner({
     ? (disabledReason ?? "Check-in belum tersedia saat ini.")
     : phase === "recording"
       ? "Memverifikasi QR dan mencatat kunjungan..."
-      : "Kamera akan terbuka. Arahkan ke QR resmi yang tertempel di barbershop.";
+      : rewardReady
+        ? "Reward cukur gratis siap dipakai. Scan QR untuk mencatat cukur gratis."
+        : "Kamera akan terbuka. Arahkan ke QR resmi yang tertempel di barbershop.";
 
   return (
     <div className="space-y-3">
@@ -176,7 +187,9 @@ export function CheckinScanner({
             ? "Check-in belum tersedia"
             : error
               ? "Scan ulang QR"
-              : "Scan QR & catat kunjungan"}
+              : rewardReady
+                ? "Scan QR & pakai reward"
+                : "Scan QR & catat kunjungan"}
         </button>
       )}
 
@@ -259,8 +272,10 @@ export function CheckinScanner({
                 }}
               >
                 <p className="mx-auto max-w-xs text-[12px] leading-relaxed text-gray-300">
-                  Posisikan QR di dalam kotak. Setelah QR terbaca, kunjungan
-                  langsung tercatat otomatis.
+                  Posisikan QR di dalam kotak. Setelah QR terbaca,{" "}
+                  {rewardReady
+                    ? "reward cukur gratis akan ditandai terpakai."
+                    : "kunjungan langsung tercatat otomatis."}
                 </p>
                 <p className="mx-auto mt-2 max-w-xs text-[10px] leading-relaxed text-gray-500">
                   Jika kamera tidak muncul, izinkan akses kamera di browser lalu

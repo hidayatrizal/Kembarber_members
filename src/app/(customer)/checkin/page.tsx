@@ -3,6 +3,7 @@ import Link from "next/link";
 import {
   CalendarCheck2,
   Clock,
+  Gift,
   QrCode,
   ScanLine,
   Scissors,
@@ -128,16 +129,27 @@ export default async function CheckinPage({
         <ProgressBar value={stats.progress} max={stats.target} className="mt-3.5" />
         <p className="mt-3 text-[12px] leading-relaxed text-muted">
           {stats.hasRewardReady
-            ? "Kamu punya reward cukur gratis. Tukarkan ke kasir sebelum check-in berikutnya."
+            ? "Reward cukur gratis siap dipakai. Scan QR saat cukur gratis; reward akan ditandai terpakai dan progress dimulai lagi dari awal."
             : `Sisa ${stats.remaining} cukur berbayar menuju cukur gratis berikutnya.`}
         </p>
       </section>
+
+      {stats.hasRewardReady ? (
+        <div className="animate-rise flex items-start gap-2.5 rounded-2xl border border-gold/20 bg-gold-soft px-4 py-3.5 text-[12px] font-medium leading-relaxed text-gold">
+          <Gift className="mt-0.5 size-4 shrink-0" />
+          <p>
+            Kamu punya {stats.rewardsAvailable} reward cukur gratis. Tetap scan
+            QR saat cukur gratis untuk memakainya dan memulai siklus baru.
+          </p>
+        </div>
+      ) : null}
 
       <div className="animate-rise">
         <CheckinScanner
           initialToken={initialToken}
           invalidToken={invalidToken}
           disabled={!canCheckin}
+          rewardReady={stats.hasRewardReady}
           disabledReason={
             cooldownActive && nextAllowed
               ? `Kunjungan berikutnya bisa dicatat mulai ${formatDateTime(nextAllowed)}.`
@@ -162,13 +174,13 @@ export default async function CheckinPage({
           <RuleRow
             icon={<CalendarCheck2 className="size-4" />}
             title="Tanpa jeda"
-            description="Setiap scan QR langsung mencatat satu kunjungan berbayar."
+            description="Setiap scan QR mencatat satu kunjungan. Jika reward gratis tersedia, reward otomatis dipakai."
           />
         )}
         <RuleRow
           icon={<Scissors className="size-4" />}
-          title="Hanya kunjungan berbayar"
-          description="Cukur gratis dari reward tidak menambah poin loyalitas baru."
+          title="Cukur gratis tetap scan"
+          description="Cukur gratis dari reward tidak menambah poin baru, tetapi tetap wajib scan QR agar reward tercatat terpakai."
         />
       </section>
 

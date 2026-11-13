@@ -27,7 +27,10 @@ export async function getMemberStats(memberId: string): Promise<MemberStats> {
       db.reward.count({ where: { memberId, status: "redeemed" } }),
     ]);
 
-  const progress = paidVisits % LOYALTY_TARGET;
+  const hasRewardReady = rewardsAvailable > 0;
+  const progress = hasRewardReady
+    ? LOYALTY_TARGET
+    : paidVisits % LOYALTY_TARGET;
 
   return {
     paidVisits,
@@ -39,31 +42,8 @@ export async function getMemberStats(memberId: string): Promise<MemberStats> {
     progress,
     remaining: LOYALTY_TARGET - progress,
     target: LOYALTY_TARGET,
-    hasRewardReady: rewardsAvailable > 0,
+    hasRewardReady,
   };
-}
-
-/**
- * Materializes reward rows whenever a member accumulates enough paid visits.
- * Rewards are earned per LOYALTY_TARGET paid visits, and leftover progress
- * carries over into the next cycle.
- */
-export async function syncRewards(memberId: string) {
-  const db = getDb();
-
-  const paidVisits = await db.visit.count({
-    where: { memberId, isFree: false },
-  });
-  const earned = Math.floor(paidVisits / LOYALTY_TARGET);
-  const existing = await db.reward.count({ where: { memberId } });
-
-  if (earned > existing) {
-    const rows: { memberId: string; status: string; cycle: number }[] = [];
-    for (let i = existing; i < earned; i += 1) {
-      rows.push({ memberId, status: "available", cycle: i + 1 });
-    }
-    await db.reward.createMany({ data: rows });
-  }
 }
 
 export function getCooldownStatus(lastPaidAt: Date | string | null) {
@@ -80,36 +60,103 @@ export function getCooldownStatus(lastPaidAt: Date | string | null) {
 }
 
 export type CheckinOutcome =
-  | { ok: true }
-  | { ok: false; code: "cooldown"; nextAllowedAt: Date }
-  | { ok: false; code: "unavailable" };
+  | { ok: true; free: false; rewardEarned: boolean }
+  | { ok: true; free: true; rewardCycle: number }
+  | { ok: false; code: "cooldown"; nextAllowedAt: Date };
 
-export async function recordPaidVisit(
+/**
+ * Records one check-in via the shop QR.
+ *
+ * If the member has an available reward, the visit is recorded as the free
+ * reward visit, the reward is marked redeemed, and the progress cycle resets.
+ * Otherwise the visit is paid and a new reward is created when the target is
+ * reached.
+ */
+export async function recordCheckin(
   memberId: string,
 ): Promise<CheckinOutcome> {
   const db = getDb();
 
-  const last = await db.visit.findFirst({
-    where: { memberId, isFree: false },
-    orderBy: { visitedAt: "desc" },
-    select: { visitedAt: true },
-  });
+  if (CHECKIN_COOLDOWN_HOURS > 0) {
+    const last = await db.visit.findFirst({
+      where: { memberId, isFree: false },
+      orderBy: { visitedAt: "desc" },
+      select: { visitedAt: true },
+    });
 
-  if (last) {
-    const lastAt = new Date(last.visitedAt).getTime();
-    const nextAllowed = lastAt + CHECKIN_COOLDOWN_HOURS * 60 * 60 * 1000;
-    if (Date.now() < nextAllowed) {
-      return {
-        ok: false,
-        code: "cooldown",
-        nextAllowedAt: new Date(nextAllowed),
-      };
+    if (last) {
+      const lastAt = new Date(last.visitedAt).getTime();
+      const nextAllowed = lastAt + CHECKIN_COOLDOWN_HOURS * 60 * 60 * 1000;
+      if (Date.now() < nextAllowed) {
+        return {
+          ok: false,
+          code: "cooldown",
+          nextAllowedAt: new Date(nextAllowed),
+        };
+      }
     }
   }
 
-  await db.visit.create({ data: { memberId, isFree: false } });
-  await syncRewards(memberId);
-  return { ok: true };
+  return db.$transaction(async (tx) => {
+    const reward = await tx.reward.findFirst({
+      where: { memberId, status: "available" },
+      orderBy: [{ cycle: "asc" }, { earnedAt: "asc" }],
+      select: { id: true, cycle: true },
+    });
+
+    if (reward) {
+      const claimed = await tx.reward.updateMany({
+        where: { id: reward.id, memberId, status: "available" },
+        data: {
+          status: "redeemed",
+          redeemedAt: new Date(),
+          redeemedBy: "Scan QR member",
+        },
+      });
+
+      if (claimed.count === 0) {
+        throw new Error("Reward sudah dipakai.");
+      }
+
+      const visit = await tx.visit.create({
+        data: {
+          memberId,
+          isFree: true,
+          rewardId: reward.id,
+          note: "Cukur gratis (reward)",
+        },
+      });
+
+      await tx.reward.update({
+        where: { id: reward.id },
+        data: { rewardVisitId: visit.id },
+      });
+
+      return { ok: true as const, free: true as const, rewardCycle: reward.cycle };
+    }
+
+    await tx.visit.create({ data: { memberId, isFree: false } });
+
+    const paidVisits = await tx.visit.count({
+      where: { memberId, isFree: false },
+    });
+    const earned = Math.floor(paidVisits / LOYALTY_TARGET);
+    const existing = await tx.reward.count({ where: { memberId } });
+
+    if (earned > existing) {
+      const rows: { memberId: string; status: string; cycle: number }[] = [];
+      for (let i = existing; i < earned; i += 1) {
+        rows.push({ memberId, status: "available", cycle: i + 1 });
+      }
+      await tx.reward.createMany({ data: rows });
+    }
+
+    return {
+      ok: true as const,
+      free: false as const,
+      rewardEarned: earned > existing,
+    };
+  });
 }
 
 export async function getMemberVisits(memberId: string, limit = 100) {
@@ -215,7 +262,10 @@ export async function listMembers(search?: string): Promise<MemberSummary[]> {
     const rewardsRedeemed = row.rewards.filter(
       (reward) => reward.status === "redeemed",
     ).length;
-    const progress = paidVisits % LOYALTY_TARGET;
+    const hasRewardReady = rewardsAvailable > 0;
+    const progress = hasRewardReady
+      ? LOYALTY_TARGET
+      : paidVisits % LOYALTY_TARGET;
     const lastVisitAt = row.visits.reduce<Date | null>(
       (latest, visit) =>
         !latest || visit.visitedAt > latest ? visit.visitedAt : latest,
@@ -232,7 +282,7 @@ export async function listMembers(search?: string): Promise<MemberSummary[]> {
       progress,
       remaining: LOYALTY_TARGET - progress,
       target: LOYALTY_TARGET,
-      hasRewardReady: rewardsAvailable > 0,
+      hasRewardReady,
     };
 
     return {
