@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import { type Member } from "../generated/prisma/client";
 import { getDb } from "./db";
 
-const COOKIE_NAME = "kb_session";
+export const SESSION_COOKIE = "kb_session";
 const SESSION_MAX_AGE = 60 * 60 * 24 * 30;
 
 export type SessionRole = "member" | "owner";
@@ -50,7 +50,7 @@ export async function createSession(payload: SessionPayload) {
     .sign(secretKey());
 
   const store = await cookies();
-  store.set(COOKIE_NAME, token, {
+  store.set(SESSION_COOKIE, token, {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
@@ -61,12 +61,12 @@ export async function createSession(payload: SessionPayload) {
 
 export async function clearSession() {
   const store = await cookies();
-  store.delete(COOKIE_NAME);
+  store.delete(SESSION_COOKIE);
 }
 
 export async function getSession(): Promise<SessionPayload | null> {
   const store = await cookies();
-  const token = store.get(COOKIE_NAME)?.value;
+  const token = store.get(SESSION_COOKIE)?.value;
   if (!token) return null;
 
   try {
@@ -91,6 +91,18 @@ export async function getCurrentMember(): Promise<Member | null> {
   return getDb().member.findUnique({ where: { id: session.sub } });
 }
 
+export async function requireGuest() {
+  const session = await getSession();
+  if (!session) return;
+
+  if (session.role === "owner") redirect("/owner");
+
+  const member = await getCurrentMember();
+  if (member) redirect("/profil");
+
+  // A signed JWT whose member row no longer exists is treated as signed out.
+}
+
 export async function requireMember(next = "/profil"): Promise<Member> {
   const session = await getSession();
   if (!session || session.role !== "member") {
@@ -98,7 +110,7 @@ export async function requireMember(next = "/profil"): Promise<Member> {
   }
   const member = await getCurrentMember();
   if (!member) {
-    redirect("/masuk");
+    redirect("/api/auth/reset");
   }
   return member;
 }

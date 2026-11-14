@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { ArrowLeft, ShieldCheck } from "lucide-react";
 import { LoginForm } from "@/components/login-form";
-import { getSession } from "@/lib/auth";
+import { requireGuest } from "@/lib/auth";
 
 export const metadata: Metadata = { title: "Masuk Member" };
 
@@ -16,14 +15,13 @@ function safeNext(value: string | string[] | undefined) {
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ next?: string | string[] }>;
+  searchParams: Promise<{ next?: string | string[]; expired?: string | string[] }>;
 }) {
-  const session = await getSession();
-  if (session?.role === "member") redirect("/profil");
-  if (session?.role === "owner") redirect("/owner");
+  await requireGuest();
 
   const params = await searchParams;
   const next = safeNext(params.next);
+  const expired = (Array.isArray(params.expired) ? params.expired[0] : params.expired) === "1";
 
   return (
     <main
@@ -58,6 +56,12 @@ export default async function LoginPage({
           Gunakan nomor HP dan PIN yang kamu daftarkan.
         </p>
       </section>
+
+      {expired ? (
+        <p className="animate-rise mt-5 rounded-[16px] border border-line bg-surface-2 px-4 py-3 text-[12px] leading-relaxed text-ink-soft">
+          Sesi kamu sudah tidak berlaku. Silakan masuk lagi.
+        </p>
+      ) : null}
 
       <div className="animate-rise mt-6 rounded-[24px] border border-line bg-surface p-5">
         <LoginForm next={next} />

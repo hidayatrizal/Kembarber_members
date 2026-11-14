@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { ArrowLeft, Sparkles } from "lucide-react";
 import { RegisterForm } from "@/components/register-form";
-import { getSession } from "@/lib/auth";
+import { requireGuest } from "@/lib/auth";
 
 export const metadata: Metadata = { title: "Daftar Member" };
 
 export default async function RegisterPage() {
-  const session = await getSession();
-  if (session?.role === "member") redirect("/profil");
-  if (session?.role === "owner") redirect("/owner");
+  await requireGuest();
 
   return (
     <main

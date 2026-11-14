@@ -1,11 +1,10 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { ArrowRight, Gift, QrCode, WalletCards } from "lucide-react";
 import { Brand } from "@/components/brand";
 import { MemberCardPreview } from "@/components/member-card-preview";
 import { OwnerEntry } from "@/components/owner-entry";
 import { buttonClass } from "@/components/ui";
-import { getSession } from "@/lib/auth";
+import { requireGuest } from "@/lib/auth";
 import { LOYALTY_TARGET } from "@/lib/config";
 
 const benefits = [
@@ -27,9 +26,7 @@ const benefits = [
 ];
 
 export default async function HomePage() {
-  const session = await getSession();
-  if (session?.role === "member") redirect("/profil");
-  if (session?.role === "owner") redirect("/owner");
+  await requireGuest();
 
   return (
     <main className="welcome-glow relative mx-auto flex h-dvh w-full max-w-md flex-col overflow-hidden bg-paper md:max-w-5xl md:border-x md:border-line">
