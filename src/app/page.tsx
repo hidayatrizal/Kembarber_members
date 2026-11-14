@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { ArrowRight, Gift, QrCode, WalletCards } from "lucide-react";
-import { Brand } from "@/components/brand";
 import { MemberCardPreview } from "@/components/member-card-preview";
 import { OwnerEntry } from "@/components/owner-entry";
 import { buttonClass } from "@/components/ui";
@@ -10,17 +9,17 @@ import { LOYALTY_TARGET } from "@/lib/config";
 const benefits = [
   {
     title: "Kartu member digital",
-    description: "Identitas member tersimpan langsung di HP.",
+    description: "Identitas member di HP.",
     icon: WalletCards,
   },
   {
     title: "Check-in pakai QR",
-    description: "Scan QR, kunjungan tercatat otomatis.",
+    description: "Scan QR, kunjungan tercatat.",
     icon: QrCode,
   },
   {
     title: `Setiap ${LOYALTY_TARGET} cukur`,
-    description: "Dapat 1 cukur gratis tanpa perlu kartu fisik.",
+    description: "Gratis 1 cukur tanpa kartu fisik.",
     icon: Gift,
   },
 ];
@@ -30,19 +29,18 @@ export default async function HomePage() {
 
   return (
     <main className="welcome-glow relative mx-auto flex h-dvh w-full max-w-md flex-col overflow-hidden bg-paper md:max-w-5xl md:border-x md:border-line">
-      <header className="safe-top flex min-h-16 shrink-0 items-center justify-between gap-3 px-4 pb-2 md:min-h-20 md:px-10">
-        <Brand />
+      <header className="safe-top flex min-h-12 shrink-0 items-center justify-end px-2 md:min-h-16 md:px-8">
         <OwnerEntry />
       </header>
 
-      <div className="no-scrollbar min-h-0 flex-1 overflow-y-auto md:flex">
-        <div className="flex flex-col md:my-auto md:grid md:w-full md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] md:items-center md:gap-12 md:px-10">
-          <section className="animate-rise px-4 pt-2 md:px-0 md:py-10">
-            <MemberCardPreview className="mx-auto w-full max-w-[420px]" />
+      <div className="welcome-viewport no-scrollbar flex min-h-0 flex-1 flex-col md:flex-row">
+        <div className="my-auto flex flex-col md:grid md:w-full md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] md:items-center md:gap-12 md:px-10">
+          <section className="animate-rise px-4 pt-1 md:px-0 md:py-8">
+            <MemberCardPreview className="mx-auto w-full max-w-[400px]" />
           </section>
 
           <section
-            className="animate-rise flex flex-col px-4 pb-6 pt-5 md:px-0 md:py-10"
+            className="animate-rise flex flex-col px-4 pb-3 pt-3 md:px-0 md:py-8"
             style={{ animationDelay: "60ms" }}
           >
             <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-accent-ink">
@@ -54,19 +52,18 @@ export default async function HomePage() {
               <span className="text-accent">Pulang berhadiah.</span>
             </h1>
             <p className="mt-2 max-w-[36ch] text-[14px] leading-relaxed text-muted">
-              Kartu member digital, riwayat cukur, dan reward gratis dalam satu
-              aplikasi.
+              Kartu member, riwayat, dan reward gratis di satu aplikasi.
             </p>
 
-            <ul className="mt-5 divide-y divide-line overflow-hidden rounded-[24px] border border-line bg-surface">
+            <ul className="mt-4 divide-y divide-line overflow-hidden rounded-[24px] border border-line bg-surface">
               {benefits.map((benefit) => {
                 const Icon = benefit.icon;
                 return (
                   <li
                     key={benefit.title}
-                    className="flex min-h-16 items-center gap-3 px-4 py-3"
+                    className="flex min-h-[52px] items-center gap-3 px-4 py-2"
                   >
-                    <span className="grid size-10 shrink-0 place-items-center rounded-full bg-accent-soft text-accent-ink">
+                    <span className="grid size-9 shrink-0 place-items-center rounded-full bg-accent-soft text-accent-ink md:size-10">
                       <Icon
                         className="size-5"
                         strokeWidth={1.9}
@@ -86,7 +83,7 @@ export default async function HomePage() {
               })}
             </ul>
 
-            <div className="mt-7 hidden md:block">
+            <div className="mt-6 hidden md:block">
               <WelcomeActions />
             </div>
           </section>
@@ -94,7 +91,7 @@ export default async function HomePage() {
       </div>
 
       <div
-        className="animate-rise shrink-0 border-t border-line bg-surface px-4 pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)] pt-3 md:hidden"
+        className="animate-rise shrink-0 border-t border-line bg-surface px-4 pb-[calc(env(safe-area-inset-bottom,0px)+0.75rem)] pt-3 md:hidden"
         style={{ animationDelay: "120ms" }}
       >
         <WelcomeActions />

@@ -14,11 +14,13 @@ export function MemberCardPreview({ className }: { className?: string }) {
 
         <div className="relative flex items-start justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            <span className="grid size-10 place-items-center rounded-[14px] bg-accent text-[18px] font-extrabold leading-none text-on-accent shadow-[0_0_18px_rgba(30,215,96,0.28)]">
+            <span className="grid size-9 place-items-center rounded-[12px] bg-accent text-[16px] font-extrabold leading-none text-on-accent shadow-[0_0_18px_rgba(30,215,96,0.28)] md:size-10 md:rounded-[14px] md:text-[18px]">
               K
             </span>
             <div className="leading-none">
-              <p className="text-[13px] font-bold text-ink">Kembabershop</p>
+              <p className="text-[12px] font-bold text-ink md:text-[13px]">
+                Kembabershop
+              </p>
               <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
                 Member card
               </p>
@@ -29,8 +31,8 @@ export function MemberCardPreview({ className }: { className?: string }) {
           </span>
         </div>
 
-        <div className="relative mt-5">
-          <p className="text-[20px] font-bold leading-none tracking-[-0.01em] text-ink">
+        <div className="relative mt-3 md:mt-5">
+          <p className="text-[18px] font-bold leading-none tracking-[-0.01em] text-ink md:text-[20px]">
             Nama kamu
           </p>
           <p className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-accent-ink">
@@ -38,26 +40,26 @@ export function MemberCardPreview({ className }: { className?: string }) {
           </p>
         </div>
 
-        <div className="relative mt-5 flex items-end justify-between gap-3">
+        <div className="relative mt-3 flex items-end justify-between gap-3 md:mt-5">
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
               Kunjungan
             </p>
-            <div className="mt-2 flex items-center gap-1.5">
+            <div className="mt-1.5 flex items-center gap-1.5">
               {Array.from({ length: TOTAL }, (_, index) => {
                 const filled = index < FILLED;
                 return (
                   <span
                     key={index}
                     className={cn(
-                      "grid size-7 place-items-center rounded-full",
+                      "grid size-6 place-items-center rounded-full md:size-7",
                       filled
                         ? "bg-accent text-on-accent"
                         : "bg-surface ring-1 ring-line-strong",
                     )}
                   >
                     {filled ? (
-                      <Check className="size-3.5" strokeWidth={2.6} />
+                      <Check className="size-3 md:size-3.5" strokeWidth={2.6} />
                     ) : (
                       <span className="size-1.5 rounded-full bg-muted/50" />
                     )}

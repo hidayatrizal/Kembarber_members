@@ -110,6 +110,7 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     overscroll-behavior-x: none;
+    overscroll-behavior-y: none;
   }
 
   a,
@@ -147,6 +148,23 @@
     color-mix(in srgb, var(--color-accent) 16%, transparent),
     transparent 65%
   );
+}
+
+.welcome-viewport {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+@media (min-width: 768px) {
+  .welcome-viewport {
+    overflow-y: auto;
+  }
+}
+
+@media (max-height: 755px) {
+  .welcome-viewport {
+    overflow-y: auto;
+  }
 }
 
 .no-scrollbar::-webkit-scrollbar {
