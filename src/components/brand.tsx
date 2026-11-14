@@ -23,7 +23,7 @@ export function Brand({
           <span className="text-[15px] font-extrabold tracking-[-0.03em] text-ink">
             kembabershop
           </span>
-          <span className="mt-1 text-[9px] font-bold uppercase tracking-[0.24em] text-muted">
+          <span className="mt-1 text-[10px] font-bold uppercase leading-none tracking-[0.18em] text-muted">
             Member club
           </span>
         </span>
