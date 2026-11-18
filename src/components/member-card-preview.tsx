@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Check, ChevronRight, QrCode } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -10,9 +11,13 @@ export function MemberCardPreview({ className }: { className?: string }) {
       <div className="relative overflow-hidden rounded-[24px] border border-line/70 bg-surface p-4 shadow-[0_1px_3px_rgba(15,40,25,0.08),0_10px_28px_-22px_rgba(15,40,25,0.3)] md:p-5">
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            <span className="grid size-9 place-items-center rounded-[10px] bg-accent text-[16px] font-semibold leading-none text-on-accent md:size-10">
-              K
-            </span>
+            <Image
+              src="/logoapl.png"
+              alt=""
+              width={467}
+              height={400}
+              className="size-9 rounded-[10px] object-contain dark:invert md:size-10"
+            />
             <div className="leading-none">
               <p className="text-[13px] font-semibold text-ink">
                 Kembabershop

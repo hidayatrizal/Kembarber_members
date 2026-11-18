@@ -1,17 +1,32 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Gift, QrCode, WalletCards } from "lucide-react";
+import {
+  ArrowRight,
+  Clock,
+  Gift,
+  History,
+  MapPin,
+  QrCode,
+  UserRound,
+  WalletCards,
+} from "lucide-react";
 import { MemberCardPreview } from "@/components/member-card-preview";
 import { OwnerEntry } from "@/components/owner-entry";
 import { buttonClass } from "@/components/ui";
 import { requireGuest } from "@/lib/auth";
-import { LOYALTY_TARGET } from "@/lib/config";
+import {
+  SHOP_ADDRESS,
+  SHOP_CLOSE_HOUR,
+  SHOP_OPEN_HOUR,
+} from "@/lib/config";
 
 const benefits = [
   { label: "Kartu digital", icon: WalletCards },
   { label: "Check-in QR", icon: QrCode },
   { label: "Reward gratis", icon: Gift },
 ];
+
+const CAPSTER_COUNT = 2;
 
 export default async function HomePage() {
   await requireGuest();
@@ -40,18 +55,14 @@ export default async function HomePage() {
       <div className="welcome-viewport no-scrollbar flex min-h-0 flex-1 flex-col md:flex-row">
         <div className="flex flex-col md:grid md:w-full md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] md:items-center md:gap-12 md:px-6">
           <section className="animate-rise px-4 pt-5 md:px-0 md:py-8">
-            <MemberCardPreview className="mx-auto w-full max-w-[400px]" />
+            <MemberCardPreview className="w-full md:mx-auto md:max-w-[400px]" />
           </section>
 
           <section
-            className="animate-rise flex flex-col px-4 pb-4 pt-5 md:px-0 md:py-8"
+            className="animate-rise flex flex-col px-4 pb-6 pt-5 md:px-0 md:py-8"
             style={{ animationDelay: "60ms" }}
           >
-            <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-accent-soft px-3 py-1 text-[11px] font-medium tracking-[0.02em] text-accent-ink">
-              Member club
-            </span>
-
-            <p className="mt-3 max-w-[34ch] text-[14px] leading-5 text-muted">
+            <p className="max-w-[34ch] text-[14px] leading-5 text-muted">
               Kartu member, riwayat, dan reward gratis di satu aplikasi.
             </p>
 
@@ -74,10 +85,82 @@ export default async function HomePage() {
               })}
             </div>
 
-            <p className="mt-3 flex items-center gap-1.5 text-[12px] leading-4 text-muted">
-              <Gift className="size-3.5 shrink-0 text-accent-ink" aria-hidden />
-              Gratis tiap {LOYALTY_TARGET} kunjungan.
-            </p>
+            <div className="mt-4 space-y-2.5">
+              <div className="overflow-hidden rounded-[22px] border border-line/60 bg-surface">
+                <div className="relative aspect-[16/9] w-full">
+                  <Image
+                    src="/barbershop.jpg"
+                    alt="Suasana Kembabershop"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 460px"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="p-4">
+                  <div className="flex items-center gap-2">
+                    <History
+                      className="size-4 shrink-0 text-accent-ink"
+                      strokeWidth={1.9}
+                      aria-hidden
+                    />
+                    <p className="text-[10px] font-medium uppercase tracking-[0.14em] text-muted">
+                      Sejarah
+                    </p>
+                    <span className="ml-auto rounded-full bg-surface-2 px-2 py-0.5 text-[10px] font-medium text-muted">
+                      Sejak 2019
+                    </span>
+                  </div>
+                  <p className="mt-2 text-[13px] leading-5 text-ink-soft">
+                    Berawal dari satu kursi, Kembabershop tumbuh jadi tempat
+                    cukur langganan warga.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2.5">
+                <div className="rounded-[22px] border border-line/60 bg-surface p-4">
+                  <span className="grid size-10 place-items-center rounded-full bg-accent-soft text-accent-ink">
+                    <MapPin className="size-5" strokeWidth={1.9} aria-hidden />
+                  </span>
+                  <p className="mt-3 text-[10px] font-medium uppercase tracking-[0.14em] text-muted">
+                    Lokasi
+                  </p>
+                  <p className="mt-1 text-[13px] font-semibold leading-4 text-ink">
+                    {SHOP_ADDRESS}
+                  </p>
+                  <p className="mt-2 flex items-center gap-1 text-[11px] text-muted">
+                    <Clock className="size-3 shrink-0" aria-hidden />
+                    {SHOP_OPEN_HOUR}.00–{SHOP_CLOSE_HOUR}.00
+                  </p>
+                </div>
+
+                <div className="rounded-[22px] border border-line/60 bg-surface p-4">
+                  <div className="flex -space-x-2.5">
+                    {Array.from({ length: CAPSTER_COUNT }, (_, index) => (
+                      <span
+                        key={index}
+                        className="grid size-10 place-items-center rounded-full border-2 border-surface bg-accent-soft text-accent-ink"
+                      >
+                        <UserRound
+                          className="size-4"
+                          strokeWidth={1.9}
+                          aria-hidden
+                        />
+                      </span>
+                    ))}
+                  </div>
+                  <p className="mt-3 text-[10px] font-medium uppercase tracking-[0.14em] text-muted">
+                    Capster
+                  </p>
+                  <p className="mt-1 text-[13px] font-semibold text-ink">
+                    {CAPSTER_COUNT} orang
+                  </p>
+                  <p className="mt-2 flex items-center gap-1 text-[11px] text-muted">
+                    Siap melayani
+                  </p>
+                </div>
+              </div>
+            </div>
 
             <div className="mt-6 hidden md:block">
               <WelcomeActions />

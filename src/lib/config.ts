@@ -1,5 +1,6 @@
 export const SHOP_NAME = "Kembabershop";
 export const SHOP_TAGLINE = "Gaya rapi, loyalitas berhadiah.";
+export const SHOP_ADDRESS = "Jl. Kembar Raya No. 12";
 
 export const LOYALTY_TARGET = 5;
 
