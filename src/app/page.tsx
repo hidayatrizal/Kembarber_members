@@ -62,11 +62,7 @@ export default async function HomePage() {
             className="animate-rise flex flex-col px-4 pb-6 pt-5 md:px-0 md:py-8"
             style={{ animationDelay: "60ms" }}
           >
-            <p className="max-w-[34ch] text-[14px] leading-5 text-muted">
-              Kartu member, riwayat, dan reward gratis di satu aplikasi.
-            </p>
-
-            <div className="mt-4 grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-2">
               {benefits.map((benefit) => {
                 const Icon = benefit.icon;
                 return (
