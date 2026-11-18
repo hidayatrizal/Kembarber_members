@@ -19,6 +19,7 @@ import {
   SHOP_CLOSE_HOUR,
   SHOP_OPEN_HOUR,
 } from "@/lib/config";
+import { getShopHistorySettings } from "@/lib/shop";
 
 const benefits = [
   { label: "Kartu digital", icon: WalletCards },
@@ -30,6 +31,8 @@ const CAPSTER_COUNT = 2;
 
 export default async function HomePage() {
   await requireGuest();
+  const { historyImageUrl, hasCustomHistoryImage } =
+    await getShopHistorySettings();
 
   return (
     <main className="welcome-glow relative mx-auto flex h-dvh w-full flex-col overflow-hidden bg-paper md:max-w-5xl md:border-x md:border-line">
@@ -85,9 +88,10 @@ export default async function HomePage() {
               <div className="overflow-hidden rounded-[22px] border border-line/60 bg-surface">
                 <div className="relative aspect-[16/9] w-full">
                   <Image
-                    src="/barbershop.jpg"
+                    src={historyImageUrl}
                     alt="Suasana Kembabershop"
                     fill
+                    unoptimized={hasCustomHistoryImage}
                     sizes="(max-width: 768px) 100vw, 460px"
                     className="object-cover"
                   />

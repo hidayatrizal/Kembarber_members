@@ -49,3 +49,12 @@ model Reward {
   @@index([memberId, status], map: "rewards_member_idx")
   @@map("rewards")
 }
+
+model ShopSettings {
+  id               String   @id @default("main")
+  historyImage     Bytes?   @map("history_image")
+  historyImageMime String?  @map("history_image_mime")
+  updatedAt        DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("shop_settings")
+}

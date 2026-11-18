@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, QrCode, Users } from "lucide-react";
+import { LayoutDashboard, QrCode, Settings, Users } from "lucide-react";
 import { BottomNav } from "@/components/bottom-nav";
 import { cn } from "@/lib/utils";
 
@@ -10,6 +10,7 @@ const items = [
   { href: "/owner", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { href: "/owner/member", label: "Member", icon: Users },
   { href: "/owner/qr", label: "QR Check-in", icon: QrCode },
+  { href: "/owner/pengaturan", label: "Pengaturan", icon: Settings },
 ];
 
 export function OwnerNav({ variant = "side" }: { variant?: "side" | "bottom" }) {
