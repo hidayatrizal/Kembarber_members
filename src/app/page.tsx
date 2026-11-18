@@ -17,9 +17,9 @@ export default async function HomePage() {
   await requireGuest();
 
   return (
-    <main className="welcome-glow relative mx-auto flex h-dvh w-full max-w-md flex-col overflow-hidden bg-paper md:max-w-5xl md:border-x md:border-line">
+    <main className="welcome-glow relative mx-auto flex h-dvh w-full flex-col overflow-hidden bg-paper md:max-w-5xl md:border-x md:border-line">
       <header className="safe-top shrink-0 border-b border-line/70">
-        <div className="flex h-14 items-center justify-between pl-4 pr-1.5 md:h-16 md:pl-6 md:pr-3">
+        <div className="flex h-14 items-center justify-between px-4 md:h-16 md:px-6">
           <div className="flex items-center gap-2">
             <Image
               src="/logoapl.png"
@@ -38,7 +38,7 @@ export default async function HomePage() {
       </header>
 
       <div className="welcome-viewport no-scrollbar flex min-h-0 flex-1 flex-col md:flex-row">
-        <div className="flex flex-col md:grid md:w-full md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] md:items-center md:gap-12 md:px-8">
+        <div className="flex flex-col md:grid md:w-full md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] md:items-center md:gap-12 md:px-6">
           <section className="animate-rise px-4 pt-5 md:px-0 md:py-8">
             <MemberCardPreview className="mx-auto w-full max-w-[400px]" />
           </section>
