@@ -6,23 +6,86 @@ import { ImagePlus, Trash2 } from "lucide-react";
 import { ConfirmSubmitButton } from "@/components/confirm-submit-button";
 import { buttonClass } from "@/components/ui";
 import {
-  initialShopSettingsState,
   removeHistoryImageAction,
   updateHistoryImageAction,
-  type ShopSettingsState,
 } from "@/lib/actions/shop";
+import {
+  initialShopSettingsState,
+  type ShopSettingsState,
+} from "@/lib/shop-settings-state";
+
+const MAX_UPLOAD_BYTES = 4 * 1024 * 1024;
+const MAX_DIMENSION = 1600;
+const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
+
+async function prepareImage(file: File): Promise<File> {
+  if (file.size <= 1_200_000) return file;
+
+  try {
+    const bitmap = await createImageBitmap(file);
+    const scale = Math.min(
+      1,
+      MAX_DIMENSION / Math.max(bitmap.width, bitmap.height),
+    );
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.max(1, Math.round(bitmap.width * scale));
+    canvas.height = Math.max(1, Math.round(bitmap.height * scale));
+
+    const context = canvas.getContext("2d");
+    if (!context) {
+      bitmap.close();
+      return file;
+    }
+
+    context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+    bitmap.close();
+
+    const blob = await new Promise<Blob | null>((resolve) =>
+      canvas.toBlob(resolve, "image/jpeg", 0.85),
+    );
+    if (!blob) return file;
+
+    const name = file.name.replace(/\.[^.]+$/, "") || "foto";
+    return new File([blob], `${name}.jpg`, { type: "image/jpeg" });
+  } catch {
+    return file;
+  }
+}
+
+function formatSize(bytes: number) {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
 
 export function ShopHistoryForm({ imageUrl }: { imageUrl: string }) {
+  const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [preparing, setPreparing] = useState(false);
+  const [pickError, setPickError] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<ShopSettingsState | null>(null);
-  const formRef = useRef<HTMLFormElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const [, updateAction, updating] = useActionState(
-    async (prev: ShopSettingsState, formData: FormData) => {
+    async (prev: ShopSettingsState, _formData: FormData) => {
+      if (!file) {
+        const next: ShopSettingsState = {
+          status: "error",
+          message: "Pilih foto terlebih dahulu.",
+        };
+        setFeedback(next);
+        return next;
+      }
+
+      const formData = new FormData();
+      formData.append("historyImage", file);
+
       const next = await updateHistoryImageAction(prev, formData);
       if (next.status === "success") {
-        formRef.current?.reset();
+        setFile(null);
         setPreview(null);
+        setPickError(null);
+        if (inputRef.current) inputRef.current.value = "";
       }
       setFeedback(next);
       return next;
@@ -34,8 +97,10 @@ export function ShopHistoryForm({ imageUrl }: { imageUrl: string }) {
     async (prev: ShopSettingsState, formData: FormData) => {
       const next = await removeHistoryImageAction(prev, formData);
       if (next.status === "success") {
-        formRef.current?.reset();
+        setFile(null);
         setPreview(null);
+        setPickError(null);
+        if (inputRef.current) inputRef.current.value = "";
       }
       setFeedback(next);
       return next;
@@ -49,14 +114,44 @@ export function ShopHistoryForm({ imageUrl }: { imageUrl: string }) {
     };
   }, [preview]);
 
-  const busy = updating || removing;
+  const busy = updating || removing || preparing;
 
-  const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    setPreview((current) => {
-      if (current) URL.revokeObjectURL(current);
-      return file ? URL.createObjectURL(file) : null;
-    });
+  const onFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const input = event.currentTarget;
+    const picked = input.files?.[0];
+    if (!picked) return;
+
+    setPickError(null);
+
+    if (!ALLOWED_TYPES.includes(picked.type)) {
+      setPickError("Gunakan foto JPG, PNG, atau WebP.");
+      input.value = "";
+      return;
+    }
+
+    setPreparing(true);
+    try {
+      const prepared = await prepareImage(picked);
+
+      if (prepared.size > MAX_UPLOAD_BYTES) {
+        setPickError("Ukuran foto masih di atas 4 MB. Pilih foto lain.");
+        setFile(null);
+        setPreview((current) => {
+          if (current) URL.revokeObjectURL(current);
+          return null;
+        });
+        input.value = "";
+        return;
+      }
+
+      setFile(prepared);
+      setPreview((current) => {
+        if (current) URL.revokeObjectURL(current);
+        return URL.createObjectURL(prepared);
+      });
+    } finally {
+      setPreparing(false);
+    }
   };
 
   return (
@@ -72,26 +167,34 @@ export function ShopHistoryForm({ imageUrl }: { imageUrl: string }) {
         />
       </div>
 
-      <form ref={formRef} action={updateAction} className="space-y-2.5">
+      <form action={updateAction} className="space-y-2.5">
         <input
+          ref={inputRef}
           id="historyImage"
-          name="historyImage"
           type="file"
-          accept="image/jpeg,image/png,image/webp"
+          accept={ALLOWED_TYPES.join(",")}
           onChange={onFileChange}
           className="sr-only"
         />
         <label
           htmlFor="historyImage"
-          className={buttonClass("secondary", "lg", "w-full cursor-pointer")}
+          className={buttonClass(
+            "secondary",
+            "lg",
+            `w-full cursor-pointer${busy ? " pointer-events-none opacity-60" : ""}`,
+          )}
         >
           <ImagePlus className="size-4" aria-hidden />
-          {preview ? "Ganti pilihan foto" : "Pilih foto"}
+          {preparing
+            ? "Menyiapkan foto..."
+            : file
+              ? "Ganti pilihan foto"
+              : "Pilih foto"}
         </label>
 
         <button
           type="submit"
-          disabled={!preview || busy}
+          disabled={!file || busy}
           className={buttonClass("primary", "lg", "w-full")}
         >
           {updating ? "Menyimpan..." : "Simpan foto"}
@@ -112,6 +215,12 @@ export function ShopHistoryForm({ imageUrl }: { imageUrl: string }) {
         </ConfirmSubmitButton>
       </form>
 
+      {pickError ? (
+        <p role="alert" className="text-[12px] font-medium text-bad">
+          {pickError}
+        </p>
+      ) : null}
+
       {feedback?.message ? (
         <p
           role={feedback.status === "error" ? "alert" : "status"}
@@ -126,7 +235,9 @@ export function ShopHistoryForm({ imageUrl }: { imageUrl: string }) {
       ) : null}
 
       <p className="text-[11px] leading-relaxed text-muted">
-        JPG, PNG, atau WebP. Maksimal 4 MB.
+        {file
+          ? `Siap diunggah · ${formatSize(file.size)}`
+          : "JPG, PNG, atau WebP. Maksimal 4 MB."}
       </p>
     </div>
   );
