@@ -5,21 +5,18 @@ type Variant = "primary" | "secondary" | "ghost" | "accent" | "danger";
 type Size = "sm" | "md" | "lg";
 
 const variants: Record<Variant, string> = {
-  primary:
-    "bg-accent text-on-accent hover:bg-accent-strong active:scale-[0.985] shadow-[0_10px_24px_-14px_rgba(30,215,96,0.55)]",
+  primary: "bg-accent text-on-accent hover:bg-accent-strong",
   secondary:
-    "border border-line bg-surface text-ink hover:bg-surface-2 active:scale-[0.985]",
-  ghost: "text-ink-soft hover:bg-surface-2 active:scale-[0.985]",
-  accent:
-    "bg-accent text-on-accent hover:bg-accent-strong active:scale-[0.985] shadow-[0_10px_24px_-14px_rgba(30,215,96,0.55)]",
-  danger:
-    "border border-bad/20 bg-bad-soft text-bad hover:bg-bad/10 active:scale-[0.985]",
+    "border border-line-strong bg-transparent text-accent-ink hover:bg-accent-soft/40",
+  ghost: "text-accent-ink hover:bg-accent-soft/40",
+  accent: "bg-accent text-on-accent hover:bg-accent-strong",
+  danger: "border border-bad/30 bg-transparent text-bad hover:bg-bad-soft/60",
 };
 
 const sizes: Record<Size, string> = {
-  sm: "h-9 gap-1.5 px-3.5 text-[12px]",
-  md: "h-11 gap-2 px-4 text-[13px]",
-  lg: "h-12 gap-2 px-5 text-[14px]",
+  sm: "h-9 gap-1.5 px-4 text-[12px]",
+  md: "h-10 gap-2 px-6 text-[14px]",
+  lg: "h-12 gap-2 px-6 text-[14px]",
 };
 
 export function buttonClass(
@@ -28,7 +25,7 @@ export function buttonClass(
   className?: string,
 ) {
   return cn(
-    "inline-flex select-none items-center justify-center rounded-full font-semibold transition-all duration-150 touch-manipulation disabled:pointer-events-none disabled:opacity-50",
+    "md-state inline-flex select-none items-center justify-center rounded-full font-medium tracking-[0.01em] transition-colors duration-150 touch-manipulation disabled:pointer-events-none disabled:opacity-40",
     variants[variant],
     sizes[size],
     className,

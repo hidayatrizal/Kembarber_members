@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { Agentation } from "agentation";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
@@ -66,6 +67,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-dvh font-sans">
         <ThemeProvider>{children}</ThemeProvider>
+        {process.env.NODE_ENV === "development" && <Agentation />}
       </body>
     </html>
   );

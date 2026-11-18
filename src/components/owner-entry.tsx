@@ -65,7 +65,7 @@ export function OwnerEntry() {
         aria-label="Menu lainnya"
         aria-haspopup="dialog"
         aria-expanded={open}
-        className="grid size-12 shrink-0 place-items-center rounded-full text-ink-soft transition-colors touch-manipulation hover:bg-surface-2 active:bg-overlay"
+        className="md-state grid size-12 shrink-0 place-items-center rounded-full text-ink-soft transition-colors touch-manipulation"
       >
         <MoreVertical className="size-5" strokeWidth={2} />
       </button>
@@ -106,7 +106,7 @@ export function OwnerEntry() {
                     type="button"
                     onClick={() => setOpen(false)}
                     aria-label="Tutup menu"
-                    className="grid size-12 shrink-0 place-items-center rounded-full text-muted transition-colors touch-manipulation active:bg-overlay"
+                    className="md-state grid size-12 shrink-0 place-items-center rounded-full text-muted transition-colors touch-manipulation"
                   >
                     <X className="size-4" strokeWidth={2} />
                   </button>
@@ -116,7 +116,7 @@ export function OwnerEntry() {
                   ref={linkRef}
                   href="/owner/masuk"
                   onClick={() => setOpen(false)}
-                  className="mt-4 flex min-h-[68px] items-center gap-3 rounded-[18px] border border-line bg-paper-deep px-4 py-3 transition-colors touch-manipulation active:bg-surface-2"
+                  className="md-state mt-4 flex min-h-[68px] items-center gap-3 rounded-[18px] bg-surface-2 px-4 py-3 transition-colors touch-manipulation"
                 >
                   <span className="grid size-10 shrink-0 place-items-center rounded-full bg-accent-soft text-accent-ink">
                     <Store className="size-5" strokeWidth={1.9} />
@@ -135,7 +135,7 @@ export function OwnerEntry() {
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
-                  className="mt-3 h-12 w-full rounded-full text-[13px] font-semibold text-ink-soft transition-colors touch-manipulation active:bg-overlay"
+                  className="md-state mt-3 h-12 w-full rounded-full text-[13px] font-medium text-accent-ink transition-colors touch-manipulation"
                 >
                   Tutup
                 </button>

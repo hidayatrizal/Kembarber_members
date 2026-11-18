@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-paper: var(--paper);
   --color-paper-deep: var(--paper-deep);
@@ -144,10 +146,36 @@
 
 .welcome-glow {
   background-image: radial-gradient(
-    70% 45% at 50% -12%,
-    color-mix(in srgb, var(--color-accent) 16%, transparent),
-    transparent 65%
+    85% 38% at 50% -8%,
+    color-mix(in srgb, var(--color-accent) 9%, transparent),
+    transparent 72%
   );
+}
+
+.md-state {
+  position: relative;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.md-state::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: currentColor;
+  opacity: 0;
+  transition: opacity 120ms cubic-bezier(0.2, 0, 0, 1);
+  pointer-events: none;
+}
+
+.md-state:active::after {
+  opacity: 0.12;
+}
+
+@media (hover: hover) {
+  .md-state:hover::after {
+    opacity: 0.08;
+  }
 }
 
 .welcome-viewport {
