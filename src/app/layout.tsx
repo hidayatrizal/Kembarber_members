@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { Agentation } from "agentation";
+import { AppSplash } from "@/components/app-splash";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
@@ -52,7 +53,7 @@ export const viewport: Viewport = {
   interactiveWidget: "resizes-content",
 };
 
-const themeInitScript = `(function(){try{var s=null;try{s=window.localStorage.getItem("kb-theme")}catch(e){}var d=s==="dark"||(s!=="light"&&window.matchMedia("(prefers-color-scheme: dark)").matches);var h=document.documentElement;h.classList.toggle("dark",d);h.classList.toggle("light",!d);h.style.colorScheme=d?"dark":"light";h.dataset.theme=d?"dark":"light";var setMeta=function(){var m=document.querySelector('meta[name="theme-color"]');if(m){m.setAttribute("content",d?"#071320":"#0b2038")}};setMeta();window.addEventListener("DOMContentLoaded",setMeta)}catch(e){}})();`;
+const themeInitScript = `(function(){try{var s=null;try{s=window.localStorage.getItem("kb-theme")}catch(e){}var d=s==="dark"||(s!=="light"&&window.matchMedia("(prefers-color-scheme: dark)").matches);var h=document.documentElement;h.classList.toggle("dark",d);h.classList.toggle("light",!d);h.style.colorScheme=d?"dark":"light";h.dataset.theme=d?"dark":"light";try{var sa=window.navigator.standalone===true;if(!sa){sa=["standalone","minimal-ui","fullscreen"].some(function(m){return window.matchMedia("(display-mode: "+m+")").matches})}if(sa){h.dataset.standalone="true"}}catch(e){}var setMeta=function(){var m=document.querySelector('meta[name="theme-color"]');if(m){m.setAttribute("content",d?"#071320":"#0b2038")}};setMeta();window.addEventListener("DOMContentLoaded",setMeta)}catch(e){}})();`;
 
 export default function RootLayout({
   children,
@@ -69,6 +70,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body className="min-h-dvh font-sans">
+        <AppSplash />
         <ThemeProvider>{children}</ThemeProvider>
         {process.env.NODE_ENV === "development" && <Agentation />}
       </body>

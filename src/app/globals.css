@@ -223,6 +223,24 @@
   );
 }
 
+.app-splash {
+  display: none;
+}
+
+html[data-standalone="true"] .app-splash {
+  display: flex;
+}
+
+@keyframes splash-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.app-splash-ring {
+  animation: splash-spin 1.1s linear infinite;
+}
+
 .md-state {
   position: relative;
   overflow: hidden;
@@ -339,5 +357,9 @@
   .animate-fade,
   .stagger > * {
     animation: none !important;
+  }
+
+  .app-splash-ring {
+    animation: none;
   }
 }
