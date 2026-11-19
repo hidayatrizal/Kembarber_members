@@ -1,6 +1,13 @@
 {
   "version": 2,
   "skills": {
+    "material": {
+      "source": "bergside/awesome-design-skills",
+      "commit": "f631a09b4fcc0166f2e2c1a8c81906ef680c57e8",
+      "sourceType": "github",
+      "skillPath": "skills/material/SKILL.md",
+      "computedHash": "19012a328791b573c61280b7ab5900c5309376d20b96c134adb58a7b4466bcf5"
+    },
     "mobile-android-design": {
       "source": "wshobson/agents",
       "sourceType": "github",

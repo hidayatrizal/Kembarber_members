@@ -73,7 +73,7 @@ export function OwnerEntry() {
       {open && typeof document !== "undefined"
         ? createPortal(
             <div
-              className="animate-fade fixed inset-0 z-[120] flex items-end justify-center bg-black/60"
+              className="animate-fade fixed inset-0 z-[120] flex items-end justify-center bg-black/40"
               onClick={() => setOpen(false)}
             >
               <div
@@ -83,7 +83,7 @@ export function OwnerEntry() {
                 aria-labelledby={titleId}
                 aria-describedby={descriptionId}
                 onClick={(event) => event.stopPropagation()}
-                className="animate-sheet w-full max-w-md rounded-t-[28px] border-t border-line bg-surface px-5 pb-[calc(env(safe-area-inset-bottom,0px)+1.25rem)] pt-3 md:mb-8 md:rounded-[28px] md:border"
+                className="animate-sheet w-full max-w-md rounded-t-[28px] bg-surface px-5 pb-[calc(env(safe-area-inset-bottom,0px)+1.25rem)] pt-3 shadow-[0_-8px_30px_rgba(0,0,0,0.18)] md:mb-8 md:rounded-[28px]"
               >
                 <div
                   aria-hidden
@@ -92,7 +92,10 @@ export function OwnerEntry() {
 
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h2 id={titleId} className="text-[17px] font-bold text-ink">
+                    <h2
+                      id={titleId}
+                      className="text-[18px] font-medium leading-6 text-ink"
+                    >
                       Menu
                     </h2>
                     <p
@@ -122,7 +125,7 @@ export function OwnerEntry() {
                     <Store className="size-5" strokeWidth={1.9} />
                   </span>
                   <span className="min-w-0 flex-1">
-                    <span className="block text-[14px] font-semibold text-ink">
+                    <span className="block text-[14px] font-medium text-ink">
                       Masuk sebagai owner
                     </span>
                     <span className="mt-0.5 block text-[12px] leading-relaxed text-muted">

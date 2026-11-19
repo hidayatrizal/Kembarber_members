@@ -35,17 +35,41 @@ export async function getShopHistorySettings(): Promise<ShopHistorySettings> {
   }
 }
 
-export async function getShopHistoryImage() {
+type CachedHistoryImage = {
+  version: number;
+  data: Uint8Array<ArrayBuffer>;
+  mime: string;
+};
+
+let historyImageCache: CachedHistoryImage | null = null;
+
+export async function getShopHistoryImage(version?: number) {
   if (!hasDatabase()) return null;
+
+  if (
+    historyImageCache &&
+    (version === undefined || historyImageCache.version === version)
+  ) {
+    return historyImageCache;
+  }
 
   const row = await getDb().shopSettings.findUnique({
     where: { id: SETTINGS_ID },
-    select: { historyImage: true, historyImageMime: true },
+    select: { historyImage: true, historyImageMime: true, updatedAt: true },
   });
 
-  if (!row?.historyImage || !row.historyImageMime) return null;
+  if (!row?.historyImage || !row.historyImageMime) {
+    historyImageCache = null;
+    return null;
+  }
 
-  return { data: row.historyImage, mime: row.historyImageMime };
+  historyImageCache = {
+    version: row.updatedAt.getTime(),
+    data: new Uint8Array(row.historyImage),
+    mime: row.historyImageMime,
+  };
+
+  return historyImageCache;
 }
 
 export async function saveShopHistoryImage(
@@ -57,6 +81,7 @@ export async function saveShopHistoryImage(
     create: { id: SETTINGS_ID, historyImage: data, historyImageMime: mime },
     update: { historyImage: data, historyImageMime: mime },
   });
+  historyImageCache = null;
 }
 
 export async function clearShopHistoryImage() {
@@ -64,4 +89,5 @@ export async function clearShopHistoryImage() {
     where: { id: SETTINGS_ID },
     data: { historyImage: null, historyImageMime: null },
   });
+  historyImageCache = null;
 }

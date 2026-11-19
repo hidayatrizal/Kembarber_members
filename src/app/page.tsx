@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Roboto } from "next/font/google";
 import {
   ArrowRight,
   Clock,
@@ -21,6 +22,13 @@ import {
 } from "@/lib/config";
 import { getShopHistorySettings } from "@/lib/shop";
 
+const roboto = Roboto({
+  variable: "--font-roboto",
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  display: "swap",
+});
+
 const benefits = [
   { label: "Kartu digital", icon: WalletCards },
   { label: "Check-in QR", icon: QrCode },
@@ -35,48 +43,47 @@ export default async function HomePage() {
     await getShopHistorySettings();
 
   return (
-    <main className="welcome-glow relative mx-auto flex h-dvh w-full flex-col overflow-hidden bg-paper md:max-w-5xl md:border-x md:border-line">
-      <header className="safe-top shrink-0 border-b border-line/70">
-        <div className="flex h-14 items-center justify-between px-4 md:h-16 md:px-6">
-          <div className="flex items-center gap-2">
-            <Image
-              src="/logoapl.png"
-              alt="Logo Kembabershop"
-              width={467}
-              height={400}
-              priority
-              className="size-9 rounded-[10px] object-contain dark:invert"
-            />
-            <span className="text-[15px] font-semibold tracking-[-0.01em] text-ink">
-              Kembabershop
-            </span>
+    <main
+      className={`${roboto.variable} font-android relative mx-auto flex h-dvh w-full flex-col overflow-hidden bg-paper md:max-w-5xl md:border-x md:border-line`}
+    >
+      <header className="safe-top shrink-0 bg-surface">
+        <div className="flex h-16 items-center gap-2.5 pl-4 pr-2 md:px-6">
+          <Image
+            src="/logoapl.png"
+            alt="Logo Kembabershop"
+            width={467}
+            height={400}
+            priority
+            className="size-8 rounded-[10px] object-contain dark:invert"
+          />
+          <span className="text-[20px] font-medium leading-6 text-ink">
+            Kembabershop
+          </span>
+          <div className="ml-auto">
+            <OwnerEntry />
           </div>
-          <OwnerEntry />
         </div>
       </header>
 
       <div className="welcome-viewport no-scrollbar flex min-h-0 flex-1 flex-col md:flex-row">
-        <div className="flex flex-col md:grid md:w-full md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] md:items-center md:gap-12 md:px-6">
-          <section className="animate-rise px-4 pt-5 md:px-0 md:py-8">
+        <div className="flex flex-col md:grid md:w-full md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] md:items-start md:gap-8 md:px-6">
+          <section className="px-4 pt-4 md:px-0 md:py-6">
             <MemberCardPreview className="w-full md:mx-auto md:max-w-[400px]" />
           </section>
 
-          <section
-            className="animate-rise flex flex-col px-4 pb-6 pt-5 md:px-0 md:py-8"
-            style={{ animationDelay: "60ms" }}
-          >
+          <section className="flex flex-col px-4 pb-6 pt-4 md:px-0 md:py-6">
             <div className="grid grid-cols-3 gap-2">
               {benefits.map((benefit) => {
                 const Icon = benefit.icon;
                 return (
                   <div
                     key={benefit.label}
-                    className="flex flex-col items-center gap-2 rounded-[20px] border border-line/60 bg-surface px-2 py-4"
+                    className="flex flex-col items-center gap-2 rounded-[16px] bg-surface px-2 py-4"
                   >
-                    <span className="grid size-11 place-items-center rounded-full bg-accent-soft text-accent-ink">
-                      <Icon className="size-5" strokeWidth={1.9} aria-hidden />
+                    <span className="grid size-10 place-items-center rounded-full bg-accent-soft text-accent-ink">
+                      <Icon className="size-5" strokeWidth={1.8} aria-hidden />
                     </span>
-                    <span className="text-center text-[11px] font-medium leading-tight text-ink-soft">
+                    <span className="text-center text-[12px] font-medium leading-4 text-ink-soft">
                       {benefit.label}
                     </span>
                   </div>
@@ -84,8 +91,8 @@ export default async function HomePage() {
               })}
             </div>
 
-            <div className="mt-4 space-y-2.5">
-              <div className="overflow-hidden rounded-[22px] border border-line/60 bg-surface">
+            <div className="mt-3 space-y-2">
+              <div className="overflow-hidden rounded-[16px] bg-surface">
                 <div className="relative aspect-[16/9] w-full">
                   <Image
                     src={historyImageUrl}
@@ -99,42 +106,42 @@ export default async function HomePage() {
                 <div className="p-4">
                   <div className="flex items-center gap-2">
                     <History
-                      className="size-4 shrink-0 text-accent-ink"
-                      strokeWidth={1.9}
+                      className="size-[18px] shrink-0 text-accent-ink"
+                      strokeWidth={1.8}
                       aria-hidden
                     />
-                    <p className="text-[10px] font-medium uppercase tracking-[0.14em] text-muted">
+                    <p className="text-[12px] font-medium leading-4 text-muted">
                       Sejarah
                     </p>
-                    <span className="ml-auto rounded-full bg-surface-2 px-2 py-0.5 text-[10px] font-medium text-muted">
+                    <span className="ml-auto rounded-full bg-surface-2 px-2.5 py-1 text-[11px] font-medium text-muted">
                       Sejak 2019
                     </span>
                   </div>
-                  <p className="mt-2 text-[13px] leading-5 text-ink-soft">
+                  <p className="mt-2 text-[14px] leading-5 text-ink-soft">
                     Berawal dari satu kursi, Kembabershop tumbuh jadi tempat
                     cukur langganan warga.
                   </p>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-2.5">
-                <div className="rounded-[22px] border border-line/60 bg-surface p-4">
+              <div className="grid grid-cols-2 gap-2">
+                <div className="rounded-[16px] bg-surface p-4">
                   <span className="grid size-10 place-items-center rounded-full bg-accent-soft text-accent-ink">
-                    <MapPin className="size-5" strokeWidth={1.9} aria-hidden />
+                    <MapPin className="size-5" strokeWidth={1.8} aria-hidden />
                   </span>
-                  <p className="mt-3 text-[10px] font-medium uppercase tracking-[0.14em] text-muted">
+                  <p className="mt-3 text-[12px] font-medium leading-4 text-muted">
                     Lokasi
                   </p>
-                  <p className="mt-1 text-[13px] font-semibold leading-4 text-ink">
+                  <p className="mt-1 text-[14px] font-medium leading-5 text-ink">
                     {SHOP_ADDRESS}
                   </p>
-                  <p className="mt-2 flex items-center gap-1 text-[11px] text-muted">
-                    <Clock className="size-3 shrink-0" aria-hidden />
+                  <p className="mt-2 flex items-center gap-1.5 text-[12px] leading-4 text-muted">
+                    <Clock className="size-3.5 shrink-0" aria-hidden />
                     {SHOP_OPEN_HOUR}.00–{SHOP_CLOSE_HOUR}.00
                   </p>
                 </div>
 
-                <div className="rounded-[22px] border border-line/60 bg-surface p-4">
+                <div className="rounded-[16px] bg-surface p-4">
                   <div className="flex -space-x-2.5">
                     {Array.from({ length: CAPSTER_COUNT }, (_, index) => (
                       <span
@@ -143,19 +150,19 @@ export default async function HomePage() {
                       >
                         <UserRound
                           className="size-4"
-                          strokeWidth={1.9}
+                          strokeWidth={1.8}
                           aria-hidden
                         />
                       </span>
                     ))}
                   </div>
-                  <p className="mt-3 text-[10px] font-medium uppercase tracking-[0.14em] text-muted">
+                  <p className="mt-3 text-[12px] font-medium leading-4 text-muted">
                     Capster
                   </p>
-                  <p className="mt-1 text-[13px] font-semibold text-ink">
+                  <p className="mt-1 text-[14px] font-medium leading-5 text-ink">
                     {CAPSTER_COUNT} orang
                   </p>
-                  <p className="mt-2 flex items-center gap-1 text-[11px] text-muted">
+                  <p className="mt-2 flex items-center gap-1.5 text-[12px] leading-4 text-muted">
                     Siap melayani
                   </p>
                 </div>
@@ -169,10 +176,7 @@ export default async function HomePage() {
         </div>
       </div>
 
-      <div
-        className="animate-rise shrink-0 border-t border-line/70 bg-surface px-4 pb-[calc(env(safe-area-inset-bottom,0px)+0.75rem)] pt-3 md:hidden"
-        style={{ animationDelay: "120ms" }}
-      >
+      <div className="shrink-0 bg-surface px-4 pb-[calc(env(safe-area-inset-bottom,0px)+0.75rem)] pt-3 md:hidden">
         <WelcomeActions />
       </div>
     </main>

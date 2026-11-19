@@ -25,7 +25,7 @@ export function buttonClass(
   className?: string,
 ) {
   return cn(
-    "md-state inline-flex select-none items-center justify-center rounded-full font-medium tracking-[0.01em] transition-colors duration-150 touch-manipulation disabled:pointer-events-none disabled:opacity-40",
+    "md-state inline-flex select-none items-center justify-center rounded-full font-medium transition-colors duration-150 touch-manipulation disabled:pointer-events-none disabled:opacity-40",
     variants[variant],
     sizes[size],
     className,
