@@ -15,11 +15,12 @@ import {
 } from "@/lib/shop-settings-state";
 
 const MAX_UPLOAD_BYTES = 4 * 1024 * 1024;
-const MAX_DIMENSION = 1600;
+const MAX_DIMENSION = 1200;
+const SKIP_COMPRESSION_BYTES = 300_000;
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 async function prepareImage(file: File): Promise<File> {
-  if (file.size <= 1_200_000) return file;
+  if (file.size <= SKIP_COMPRESSION_BYTES) return file;
 
   try {
     const bitmap = await createImageBitmap(file);
@@ -41,7 +42,7 @@ async function prepareImage(file: File): Promise<File> {
     bitmap.close();
 
     const blob = await new Promise<Blob | null>((resolve) =>
-      canvas.toBlob(resolve, "image/jpeg", 0.85),
+      canvas.toBlob(resolve, "image/jpeg", 0.8),
     );
     if (!blob) return file;
 

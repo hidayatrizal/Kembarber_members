@@ -76,12 +76,17 @@ export async function saveShopHistoryImage(
   data: Uint8Array<ArrayBuffer>,
   mime: string,
 ) {
-  await getDb().shopSettings.upsert({
+  const row = await getDb().shopSettings.upsert({
     where: { id: SETTINGS_ID },
     create: { id: SETTINGS_ID, historyImage: data, historyImageMime: mime },
     update: { historyImage: data, historyImageMime: mime },
+    select: { updatedAt: true },
   });
-  historyImageCache = null;
+  historyImageCache = {
+    version: row.updatedAt.getTime(),
+    data,
+    mime,
+  };
 }
 
 export async function clearShopHistoryImage() {
