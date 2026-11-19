@@ -80,7 +80,7 @@ export function AppSplash() {
         <div className="relative grid size-28 place-items-center">
           <span
             aria-hidden
-            className="app-splash-ring absolute inset-0 rounded-full border-2 border-white/10 border-t-accent"
+            className="app-splash-ring absolute inset-0 rounded-full border-2 border-white/25 border-t-black"
           />
           <span className="grid size-[84px] place-items-center rounded-[24px] bg-white/10 ring-1 ring-white/10">
             <Image
@@ -109,9 +109,9 @@ export function AppSplash() {
           aria-label="Memuat aplikasi"
           className="mt-7 w-56"
         >
-          <div className="h-1.5 overflow-hidden rounded-full bg-white/15">
+          <div className="h-1.5 overflow-hidden rounded-full bg-white/30">
             <div
-              className="h-full rounded-full bg-accent"
+              className="h-full rounded-full bg-black"
               style={{ width: `${progress}%` }}
             />
           </div>
