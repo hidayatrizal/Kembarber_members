@@ -46,7 +46,7 @@ export default async function HomePage() {
     <main
       className={`${roboto.variable} font-android relative mx-auto flex h-dvh w-full flex-col overflow-hidden bg-paper md:max-w-5xl md:border-x md:border-line`}
     >
-      <header className="safe-top shrink-0 bg-surface">
+      <header className="safe-top bg-header-ocean shrink-0">
         <div className="flex h-16 items-center gap-2.5 pl-4 pr-2 md:px-6">
           <Image
             src="/logoapl.png"
@@ -54,9 +54,9 @@ export default async function HomePage() {
             width={467}
             height={400}
             priority
-            className="size-8 rounded-[10px] object-contain dark:invert"
+            className="size-8 rounded-[10px] object-contain brightness-0 invert"
           />
-          <span className="text-[20px] font-medium leading-6 text-ink">
+          <span className="text-[20px] font-medium leading-6 text-white">
             Kembabershop
           </span>
           <div className="ml-auto">
@@ -80,10 +80,10 @@ export default async function HomePage() {
                     key={benefit.label}
                     className="flex flex-col items-center gap-2 rounded-[16px] bg-surface px-2 py-4"
                   >
-                    <span className="grid size-10 place-items-center rounded-full bg-accent-soft text-accent-ink">
+                    <span className="grid size-10 place-items-center rounded-full bg-primary-soft text-primary">
                       <Icon className="size-5" strokeWidth={1.8} aria-hidden />
                     </span>
-                    <span className="text-center text-[12px] font-medium leading-4 text-ink-soft">
+                    <span className="text-center text-[12px] font-medium leading-4 text-ink">
                       {benefit.label}
                     </span>
                   </div>
@@ -106,18 +106,18 @@ export default async function HomePage() {
                 <div className="p-4">
                   <div className="flex items-center gap-2">
                     <History
-                      className="size-[18px] shrink-0 text-accent-ink"
+                      className="size-[18px] shrink-0 text-primary"
                       strokeWidth={1.8}
                       aria-hidden
                     />
-                    <p className="text-[12px] font-medium leading-4 text-muted">
+                    <p className="text-[12px] font-medium leading-4 text-primary">
                       Sejarah
                     </p>
-                    <span className="ml-auto rounded-full bg-surface-2 px-2.5 py-1 text-[11px] font-medium text-muted">
+                    <span className="ml-auto rounded-full bg-surface-2 px-2.5 py-1 text-[11px] font-medium text-primary">
                       Sejak 2019
                     </span>
                   </div>
-                  <p className="mt-2 text-[14px] leading-5 text-ink-soft">
+                  <p className="mt-2 text-[14px] leading-5 text-ink">
                     Berawal dari satu kursi, Kembabershop tumbuh jadi tempat
                     cukur langganan warga.
                   </p>
@@ -126,13 +126,13 @@ export default async function HomePage() {
 
               <div className="grid grid-cols-2 gap-2">
                 <div className="rounded-[16px] bg-surface p-4">
-                  <span className="grid size-10 place-items-center rounded-full bg-accent-soft text-accent-ink">
+                  <span className="grid size-10 place-items-center rounded-full bg-primary-soft text-primary">
                     <MapPin className="size-5" strokeWidth={1.8} aria-hidden />
                   </span>
                   <p className="mt-3 text-[12px] font-medium leading-4 text-muted">
                     Lokasi
                   </p>
-                  <p className="mt-1 text-[14px] font-medium leading-5 text-ink">
+                  <p className="mt-1 text-[14px] font-medium leading-5 text-primary">
                     {SHOP_ADDRESS}
                   </p>
                   <p className="mt-2 flex items-center gap-1.5 text-[12px] leading-4 text-muted">
@@ -146,7 +146,7 @@ export default async function HomePage() {
                     {Array.from({ length: CAPSTER_COUNT }, (_, index) => (
                       <span
                         key={index}
-                        className="grid size-10 place-items-center rounded-full border-2 border-surface bg-accent-soft text-accent-ink"
+                        className="grid size-10 place-items-center rounded-full border-2 border-surface bg-primary-soft text-primary"
                       >
                         <UserRound
                           className="size-4"
@@ -159,7 +159,7 @@ export default async function HomePage() {
                   <p className="mt-3 text-[12px] font-medium leading-4 text-muted">
                     Capster
                   </p>
-                  <p className="mt-1 text-[14px] font-medium leading-5 text-ink">
+                  <p className="mt-1 text-[14px] font-medium leading-5 text-primary">
                     {CAPSTER_COUNT} orang
                   </p>
                   <p className="mt-2 flex items-center gap-1.5 text-[12px] leading-4 text-muted">
@@ -176,7 +176,7 @@ export default async function HomePage() {
         </div>
       </div>
 
-      <div className="shrink-0 bg-surface px-4 pb-[calc(env(safe-area-inset-bottom,0px)+0.75rem)] pt-3 md:hidden">
+      <div className="shrink-0 border-t border-line bg-surface px-4 pb-[calc(env(safe-area-inset-bottom,0px)+0.75rem)] pt-3 md:hidden">
         <WelcomeActions />
       </div>
     </main>

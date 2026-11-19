@@ -34,7 +34,7 @@ export function ThemeToggle({ className }: { className?: string }) {
             className={cn(
               "flex h-10 select-none items-center justify-center gap-1.5 rounded-full px-2 text-[11px] font-semibold transition-colors touch-manipulation",
               active
-                ? "bg-accent text-on-accent shadow-[0_8px_20px_-14px_rgba(8,127,55,0.8)]"
+                ? "bg-primary text-on-primary shadow-[0_8px_20px_-14px_rgba(15,45,80,0.8)]"
                 : "text-muted active:bg-overlay",
             )}
           >

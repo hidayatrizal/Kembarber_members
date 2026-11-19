@@ -70,7 +70,7 @@ export default async function CheckinPage({
             className={cn(
               "grid size-14 shrink-0 place-items-center rounded-[20px]",
               canCheckin
-                ? "bg-accent text-on-accent shadow-[0_0_24px_rgba(30,215,96,0.25)]"
+                ? "bg-primary text-on-primary shadow-[0_0_24px_rgba(15,45,80,0.3)]"
                 : "bg-paper-deep text-muted",
             )}
           >

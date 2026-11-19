@@ -252,7 +252,7 @@ export function CheckinScanner({
                   <span className="absolute bottom-0 right-0 size-9 rounded-br-2xl border-b-2 border-r-2 border-accent" />
                   <span
                     aria-hidden
-                    className="absolute inset-x-3 top-1/2 h-0.5 -translate-y-1/2 bg-accent shadow-[0_0_18px_rgba(30,215,96,0.95)]"
+                    className="absolute inset-x-3 top-1/2 h-0.5 -translate-y-1/2 bg-accent shadow-[0_0_18px_rgba(30,158,74,0.9)]"
                   />
 
                   {!cameraReady ? (

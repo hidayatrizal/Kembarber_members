@@ -17,7 +17,7 @@ export default function GlobalError({
       className="mx-auto flex min-h-dvh w-full max-w-md flex-col items-center justify-center bg-paper px-5 text-center"
       style={{
         backgroundImage:
-          "radial-gradient(70% 45% at 50% -12%, rgba(30,215,96,0.10), transparent 65%)",
+          "radial-gradient(70% 45% at 50% -12%, rgba(15,45,80,0.10), transparent 65%)",
       }}
     >
       <span className="grid size-14 place-items-center rounded-2xl bg-bad-soft text-bad ring-1 ring-bad/20">

@@ -14,7 +14,7 @@ export default async function CustomerLayout({
     <div className="relative mx-auto min-h-dvh w-full max-w-md overflow-x-hidden bg-paper">
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-0 h-64 w-full -translate-x-1/2 rounded-full bg-accent/10 blur-[100px]"
+        className="pointer-events-none absolute left-1/2 top-0 h-64 w-full -translate-x-1/2 rounded-full bg-primary/10 blur-[100px]"
       />
       <main
         className="relative min-h-dvh px-5 pb-[calc(env(safe-area-inset-bottom,0px)+6.5rem)]"

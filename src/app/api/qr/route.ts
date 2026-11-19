@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
     width: 720,
     margin: 2,
     errorCorrectionLevel: "M",
-    color: { dark: "#0a0a0b", light: "#ffffff" },
+    color: { dark: "#0f2d50", light: "#ffffff" },
   });
 
   return new Response(new Uint8Array(png), {

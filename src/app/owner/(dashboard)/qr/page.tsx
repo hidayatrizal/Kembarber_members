@@ -31,7 +31,7 @@ export default async function QrPage() {
 
       <div className="grid gap-4 lg:grid-cols-2">
         <Card className="animate-rise flex flex-col items-center p-6">
-          <div className="rounded-[1.5rem] bg-white p-3 shadow-[0_24px_60px_-30px_rgba(30,215,96,0.5)]">
+          <div className="rounded-[1.5rem] bg-white p-3 shadow-[0_24px_60px_-30px_rgba(11,32,56,0.35)]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/api/qr"
@@ -55,7 +55,7 @@ export default async function QrPage() {
         <div className="space-y-4">
           <Card className="animate-rise overflow-hidden">
             <div className="flex items-center gap-2 border-b border-line px-5 py-4">
-              <ScanLine className="size-4 text-accent" />
+              <ScanLine className="size-4 text-primary" />
               <h2 className="text-[13px] font-bold text-ink">Cara pakai</h2>
             </div>
             <ol className="space-y-3 p-5">
@@ -69,7 +69,7 @@ export default async function QrPage() {
                   key={step}
                   className="flex items-start gap-2.5 text-[12px] leading-relaxed text-muted"
                 >
-                  <span className="grid size-6 shrink-0 place-items-center rounded-full bg-accent-soft text-[10px] font-bold text-accent">
+                  <span className="grid size-6 shrink-0 place-items-center rounded-full bg-primary-soft text-[10px] font-bold text-primary">
                     {index + 1}
                   </span>
                   {step}
@@ -80,23 +80,23 @@ export default async function QrPage() {
 
           <Card className="animate-rise overflow-hidden">
             <div className="flex items-center gap-2 border-b border-line px-5 py-4">
-              <Smartphone className="size-4 text-accent" />
+              <Smartphone className="size-4 text-primary" />
               <h2 className="text-[13px] font-bold text-ink">Tips</h2>
             </div>
             <ul className="space-y-2.5 p-5 text-[11px] leading-relaxed text-muted">
               <li className="flex gap-2">
-                <Info className="mt-0.5 size-3.5 shrink-0 text-accent" />
+                <Info className="mt-0.5 size-3.5 shrink-0 text-primary" />
                 {CHECKIN_COOLDOWN_HOURS > 0
                   ? `Check-in dibatasi 1 kali per ${CHECKIN_COOLDOWN_HOURS / 24} hari untuk mencegah pencatatan ganda.`
                   : "Setiap scan QR langsung mencatat 1 kunjungan. Pastikan hanya discan setelah cukur dan pembayaran diterima."}
               </li>
               <li className="flex gap-2">
-                <Info className="mt-0.5 size-3.5 shrink-0 text-accent" />
+                <Info className="mt-0.5 size-3.5 shrink-0 text-primary" />
                 Check-in hanya bisa dilakukan pada jam operasional 08.00–22.00
                 WIB.
               </li>
               <li className="flex gap-2">
-                <Info className="mt-0.5 size-3.5 shrink-0 text-accent" />
+                <Info className="mt-0.5 size-3.5 shrink-0 text-primary" />
                 Untuk produksi, atur{" "}
                 <span className="font-mono text-ink">NEXT_PUBLIC_APP_URL</span>{" "}
                 agar QR menunjuk domain yang benar.
@@ -111,7 +111,7 @@ export default async function QrPage() {
           </Card>
 
           <Card className="animate-rise flex items-center gap-3 p-4">
-            <span className="grid size-10 shrink-0 place-items-center rounded-full bg-accent-soft text-accent">
+            <span className="grid size-10 shrink-0 place-items-center rounded-full bg-primary-soft text-primary">
               <QrCode className="size-5" />
             </span>
             <p className="text-[11px] leading-relaxed text-muted">

@@ -286,7 +286,7 @@ function MiniStat({
 }) {
   return (
     <div className="px-3 text-center">
-      <span className="mx-auto grid size-7 place-items-center rounded-full bg-paper-deep text-accent">
+      <span className="mx-auto grid size-7 place-items-center rounded-full bg-primary-soft text-primary">
         {icon}
       </span>
       <p className="mt-2 font-display text-[1.5rem] leading-none tabular-nums text-ink">
@@ -316,7 +316,7 @@ function Panel({
     <section className="animate-rise overflow-hidden rounded-[26px] border border-line bg-surface shadow-[var(--shadow-card)]">
       <div className="flex items-start justify-between gap-3 border-b border-line px-5 py-4">
         <div className="flex items-start gap-2.5">
-          <span className="mt-0.5 grid size-8 shrink-0 place-items-center rounded-full bg-paper-deep text-accent">
+          <span className="mt-0.5 grid size-8 shrink-0 place-items-center rounded-full bg-primary-soft text-primary">
             {icon}
           </span>
           <div>
@@ -327,7 +327,7 @@ function Panel({
         {href ? (
           <Link
             href={href}
-            className="inline-flex items-center gap-0.5 text-[10px] font-bold uppercase tracking-[0.1em] text-accent"
+            className="inline-flex items-center gap-0.5 text-[10px] font-bold uppercase tracking-[0.1em] text-primary"
           >
             Semua <ChevronRight className="size-3" />
           </Link>

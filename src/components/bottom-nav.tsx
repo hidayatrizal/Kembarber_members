@@ -54,7 +54,7 @@ export function BottomNav({
                 className={cn(
                   "grid h-8 w-16 place-items-center rounded-full transition-colors",
                   active
-                    ? "bg-accent-soft text-accent"
+                    ? "bg-primary-soft text-primary"
                     : "text-muted group-active:text-ink-soft",
                 )}
               >
@@ -63,7 +63,7 @@ export function BottomNav({
               <span
                 className={cn(
                   "text-[11px] leading-none",
-                  active ? "font-bold text-accent" : "font-medium text-muted",
+                  active ? "font-bold text-primary" : "font-medium text-muted",
                 )}
               >
                 {item.label}

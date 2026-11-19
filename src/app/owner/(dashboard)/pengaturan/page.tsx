@@ -24,7 +24,7 @@ export default async function OwnerSettingsPage() {
 
       <section className="animate-rise rounded-[26px] border border-line bg-surface p-5 shadow-[var(--shadow-card)]">
         <div className="flex items-start gap-3">
-          <span className="grid size-9 shrink-0 place-items-center rounded-full bg-paper-deep text-accent">
+          <span className="grid size-9 shrink-0 place-items-center rounded-full bg-primary-soft text-primary">
             <Images className="size-4" strokeWidth={2} aria-hidden />
           </span>
           <div>

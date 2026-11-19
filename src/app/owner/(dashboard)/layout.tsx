@@ -29,7 +29,7 @@ export default async function OwnerDashboardLayout({
         </div>
         <div className="rounded-[22px] border border-line bg-surface p-3.5 shadow-[var(--shadow-card)]">
           <div className="mb-2.5 flex items-center gap-2.5">
-            <span className="grid size-9 place-items-center rounded-full bg-accent text-[10px] font-bold text-on-accent">
+            <span className="grid size-9 place-items-center rounded-full bg-primary text-[10px] font-bold text-on-primary">
               OW
             </span>
             <div className="min-w-0">

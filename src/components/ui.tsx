@@ -5,10 +5,10 @@ type Variant = "primary" | "secondary" | "ghost" | "accent" | "danger";
 type Size = "sm" | "md" | "lg";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-accent text-on-accent hover:bg-accent-strong",
+  primary: "bg-primary text-on-primary hover:bg-primary-strong",
   secondary:
-    "border border-line-strong bg-transparent text-accent-ink hover:bg-accent-soft/40",
-  ghost: "text-accent-ink hover:bg-accent-soft/40",
+    "border border-primary bg-transparent text-primary hover:bg-primary-soft/60",
+  ghost: "text-primary hover:bg-primary-soft/60",
   accent: "bg-accent text-on-accent hover:bg-accent-strong",
   danger: "border border-bad/30 bg-transparent text-bad hover:bg-bad-soft/60",
 };
@@ -65,7 +65,7 @@ export function Card({
   );
 }
 
-type Tone = "accent" | "gold" | "good" | "muted" | "bad";
+type Tone = "accent" | "good" | "muted" | "bad";
 
 export function Badge({
   children,
@@ -77,9 +77,8 @@ export function Badge({
   className?: string;
 }) {
   const tones: Record<Tone, string> = {
-    accent: "bg-accent-soft text-accent",
-    gold: "bg-gold-soft text-gold",
-    good: "bg-accent-soft text-accent",
+    accent: "bg-accent-soft text-accent-ink",
+    good: "bg-accent-soft text-accent-ink",
     muted: "bg-surface-2 text-muted",
     bad: "bg-bad-soft text-bad",
   };
@@ -136,7 +135,7 @@ export function Avatar({
   return (
     <div
       className={cn(
-        "grid size-11 shrink-0 place-items-center rounded-full bg-surface-3 text-[13px] font-bold text-ink ring-1 ring-line",
+        "grid size-11 shrink-0 place-items-center rounded-full bg-primary-soft text-[13px] font-bold text-primary ring-1 ring-line",
         className,
       )}
     >

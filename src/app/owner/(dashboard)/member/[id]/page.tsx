@@ -49,7 +49,7 @@ export default async function MemberDetailPage({
       </Link>
 
       {query.redeem === "sukses" ? (
-        <div className="rounded-2xl border border-accent/15 bg-accent-soft px-4 py-3 text-[12px] font-medium text-accent">
+        <div className="rounded-2xl border border-accent/15 bg-accent-soft px-4 py-3 text-[12px] font-medium text-accent-ink">
           Reward berhasil ditandai sudah dipakai.
         </div>
       ) : null}
@@ -71,7 +71,7 @@ export default async function MemberDetailPage({
                 {member.name}
               </h1>
               {stats.hasRewardReady ? (
-                <Badge tone="gold">
+                <Badge tone="good">
                   <Ticket className="size-2.5" /> Reward siap
                 </Badge>
               ) : (
@@ -83,7 +83,7 @@ export default async function MemberDetailPage({
             <p className="mt-1 text-[12px] text-muted">
               {formatPhone(member.phone)}
             </p>
-            <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.18em] text-accent">
+            <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.18em] text-primary">
               KB-{member.id.slice(0, 6)}
             </p>
           </div>
@@ -145,7 +145,7 @@ export default async function MemberDetailPage({
       <div className="grid gap-4 lg:grid-cols-3">
         <section className="animate-rise overflow-hidden rounded-[1.75rem] border border-line bg-surface shadow-[var(--shadow-card)] lg:col-span-2">
           <div className="flex items-center gap-2 border-b border-line px-5 py-4">
-            <CalendarDays className="size-4 text-accent" />
+            <CalendarDays className="size-4 text-primary" />
             <h2 className="text-[13px] font-bold text-ink">
               Riwayat kunjungan
             </h2>
@@ -167,7 +167,7 @@ export default async function MemberDetailPage({
                   <span
                     className={
                       visit.isFree
-                        ? "grid size-9 shrink-0 place-items-center rounded-full bg-gold-soft text-gold"
+                        ? "grid size-9 shrink-0 place-items-center rounded-full bg-accent-soft text-accent"
                         : "grid size-9 shrink-0 place-items-center rounded-full bg-surface-2 text-ink-soft"
                     }
                   >
@@ -185,7 +185,7 @@ export default async function MemberDetailPage({
                       {formatDateTime(visit.visitedAt)}
                     </p>
                   </div>
-                  <Badge tone={visit.isFree ? "gold" : "good"}>
+                  <Badge tone={visit.isFree ? "accent" : "good"}>
                     {visit.isFree ? "Reward" : "+1 poin"}
                   </Badge>
                 </div>

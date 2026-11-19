@@ -18,7 +18,7 @@ export default async function OwnerLoginPage() {
         paddingTop: "calc(env(safe-area-inset-top, 0px) + 0.75rem)",
         paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 1.25rem)",
         backgroundImage:
-          "radial-gradient(70% 45% at 50% -12%, rgba(30,215,96,0.12), transparent 65%)",
+          "radial-gradient(70% 45% at 50% -12%, rgba(15,45,80,0.12), transparent 65%)",
       }}
     >
       <header className="flex items-center justify-between">
@@ -34,7 +34,7 @@ export default async function OwnerLoginPage() {
       </header>
 
       <section className="animate-rise mt-8">
-        <span className="grid size-12 place-items-center rounded-[16px] bg-accent text-on-accent shadow-[0_12px_30px_-14px_rgba(30,215,96,0.8)]">
+        <span className="grid size-12 place-items-center rounded-[16px] bg-primary text-on-primary shadow-[0_12px_30px_-14px_rgba(15,45,80,0.8)]">
           <ShieldCheck className="size-6" />
         </span>
         <p className="mt-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">

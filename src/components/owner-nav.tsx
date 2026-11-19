@@ -41,7 +41,7 @@ export function OwnerNav({ variant = "side" }: { variant?: "side" | "bottom" }) 
             className={cn(
               "flex min-h-11 items-center gap-3 rounded-full px-4 py-2.5 text-[13px] font-semibold transition-colors",
               active
-                ? "bg-accent text-on-accent"
+                ? "bg-primary text-on-primary"
                 : "text-muted hover:bg-surface-2 hover:text-ink active:bg-surface-2",
             )}
           >

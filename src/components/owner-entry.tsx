@@ -65,7 +65,7 @@ export function OwnerEntry() {
         aria-label="Menu lainnya"
         aria-haspopup="dialog"
         aria-expanded={open}
-        className="md-state grid size-12 shrink-0 place-items-center rounded-full text-ink-soft transition-colors touch-manipulation"
+        className="md-state grid size-12 shrink-0 place-items-center rounded-full text-white/80 transition-colors touch-manipulation"
       >
         <MoreVertical className="size-5" strokeWidth={2} />
       </button>
@@ -121,7 +121,7 @@ export function OwnerEntry() {
                   onClick={() => setOpen(false)}
                   className="md-state mt-4 flex min-h-[68px] items-center gap-3 rounded-[18px] bg-surface-2 px-4 py-3 transition-colors touch-manipulation"
                 >
-                  <span className="grid size-10 shrink-0 place-items-center rounded-full bg-accent-soft text-accent-ink">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-full bg-primary-soft text-primary">
                     <Store className="size-5" strokeWidth={1.9} />
                   </span>
                   <span className="min-w-0 flex-1">
@@ -138,7 +138,7 @@ export function OwnerEntry() {
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
-                  className="md-state mt-3 h-12 w-full rounded-full text-[13px] font-medium text-accent-ink transition-colors touch-manipulation"
+                  className="md-state mt-3 h-12 w-full rounded-full text-[13px] font-medium text-primary transition-colors touch-manipulation"
                 >
                   Tutup
                 </button>

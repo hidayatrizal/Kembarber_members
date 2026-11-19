@@ -33,7 +33,7 @@ export default async function MemberListPage({
       </header>
 
       {params.hapus === "sukses" ? (
-        <div className="animate-rise rounded-2xl border border-accent/15 bg-accent-soft px-4 py-3 text-[12px] font-medium text-accent">
+        <div className="animate-rise rounded-2xl border border-accent/15 bg-accent-soft px-4 py-3 text-[12px] font-medium text-accent-ink">
           Akun member dan seluruh riwayat kunjungan serta reward berhasil
           dihapus.
         </div>

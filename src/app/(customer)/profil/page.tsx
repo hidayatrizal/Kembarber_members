@@ -75,13 +75,13 @@ export default async function ProfilePage({
         >
           <Bell className="size-5" strokeWidth={1.9} />
           {stats.hasRewardReady ? (
-            <span className="absolute right-2.5 top-2.5 size-2 rounded-full bg-accent ring-2 ring-surface" />
+            <span className="absolute right-2.5 top-2.5 size-2 rounded-full bg-alert ring-2 ring-surface" />
           ) : null}
         </Link>
       </header>
 
       {params.selamat || params.checkin === "sukses" ? (
-        <div className="animate-rise flex items-start gap-2.5 rounded-2xl bg-accent-soft px-4 py-3 text-[12px] font-medium leading-relaxed text-accent">
+        <div className="animate-rise flex items-start gap-2.5 rounded-2xl bg-accent-soft px-4 py-3 text-[12px] font-medium leading-relaxed text-accent-ink">
           <Check className="mt-0.5 size-4 shrink-0" />
           <p>
             {params.selamat
@@ -95,23 +95,29 @@ export default async function ProfilePage({
         </div>
       ) : null}
 
-      <section className="animate-rise relative overflow-hidden rounded-[28px] border border-line bg-gradient-to-br from-surface-3 via-surface-2 to-surface p-5 shadow-[var(--shadow-lift)]">
+      <section className="bg-card-blue animate-rise relative overflow-hidden rounded-[28px] p-5 text-white shadow-[0_22px_48px_-28px_rgba(11,32,56,0.8)]">
         <div
           aria-hidden
-          className="pointer-events-none absolute -right-10 -top-10 size-40 rounded-full bg-accent/20 blur-3xl"
+          className="pointer-events-none absolute -right-10 -top-10 size-40 rounded-full bg-white/10 blur-3xl"
         />
 
         <div className="relative flex items-start justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            <Brand showText={false} />
+            <Brand showText={false} onPrimary />
             <div className="leading-none">
-              <p className="text-[12px] font-bold text-ink">Kembabershop</p>
-              <p className="mt-1 text-[9px] font-semibold uppercase tracking-[0.18em] text-muted">
+              <p className="text-[12px] font-bold text-white">Kembabershop</p>
+              <p className="mt-1 text-[9px] font-semibold uppercase tracking-[0.18em] text-fog">
                 Member card
               </p>
             </div>
           </div>
-          <Badge tone={stats.hasRewardReady ? "gold" : "muted"}>
+          <Badge
+            className={cn(
+              stats.hasRewardReady
+                ? "bg-accent-soft text-accent-ink"
+                : "bg-white/15 text-white/80",
+            )}
+          >
             {stats.hasRewardReady
               ? `${stats.rewardsAvailable} reward`
               : "Aktif"}
@@ -119,27 +125,20 @@ export default async function ProfilePage({
         </div>
 
         <div className="relative mt-6">
-          <p className="text-[22px] font-bold leading-none tracking-[-0.01em] text-ink">
+          <p className="text-[22px] font-bold leading-none tracking-[-0.01em] text-white">
             {member.name}
           </p>
-          <p className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-accent">
+          <span className="mt-1.5 inline-flex rounded-full bg-white/15 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-white/90">
             {memberCode}
-          </p>
+          </span>
         </div>
 
         <div className="relative mt-6 flex items-end justify-between gap-3">
-          <p className="text-[13px] font-semibold text-ink">
+          <p className="text-[13px] font-semibold text-white">
             {stats.progress}
-            <span className="text-muted">/{target} cukur</span>
+            <span className="text-fog">/{target} cukur</span>
           </p>
-          <span
-            className={cn(
-              "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.08em]",
-              stats.hasRewardReady
-                ? "bg-gold-soft text-gold"
-                : "bg-accent-soft text-accent",
-            )}
-          >
+          <span className="inline-flex items-center gap-1 rounded-full bg-accent-soft px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.08em] text-accent-ink">
             {stats.hasRewardReady ? (
               <>
                 <Gift className="size-3" /> {stats.rewardsAvailable} gratis
@@ -153,12 +152,12 @@ export default async function ProfilePage({
         <ProgressBar
           value={stats.progress}
           max={target}
-          className="relative mt-2.5"
+          className="relative mt-2.5 bg-white/20"
         />
       </section>
 
       <section className="animate-rise flex items-center gap-3 rounded-[22px] border border-line bg-surface p-4">
-        <span className="grid size-11 shrink-0 place-items-center rounded-full bg-accent-soft text-accent">
+        <span className="grid size-11 shrink-0 place-items-center rounded-full bg-primary-soft text-primary">
           <MapPin className="size-5" strokeWidth={1.9} />
         </span>
         <div className="min-w-0 flex-1">
@@ -202,7 +201,7 @@ export default async function ProfilePage({
           <h2 className="text-[13px] font-bold text-ink">Progress reward</h2>
           <Link
             href="/riwayat?tab=reward"
-            className="inline-flex items-center gap-0.5 text-[11px] font-semibold text-accent active:opacity-60"
+            className="inline-flex items-center gap-0.5 text-[11px] font-semibold text-primary active:opacity-60"
           >
             Lihat <ChevronRight className="size-3.5" />
           </Link>
@@ -253,7 +252,7 @@ function Shortcut({
         className={cn(
           "grid size-14 place-items-center rounded-full transition-colors",
           primary
-            ? "bg-accent text-on-accent shadow-[0_8px_20px_-10px_rgba(30,215,96,0.7)]"
+            ? "bg-primary text-on-primary shadow-[0_8px_20px_-10px_rgba(15,45,80,0.8)]"
             : "bg-surface-2 text-ink-soft ring-1 ring-line group-active:bg-surface-3",
         )}
       >
@@ -283,13 +282,11 @@ function Stamp({
     <div
       className={cn(
         "flex min-w-[4.5rem] shrink-0 flex-col items-center justify-center rounded-[20px] border py-3.5",
-        active && reward
-          ? "border-amber-500 bg-gradient-to-br from-yellow-400 to-amber-600 text-black"
-          : active
-            ? "border-accent bg-accent text-on-accent shadow-[0_6px_18px_-8px_rgba(30,215,96,0.7)]"
-            : done
-              ? "border-accent/20 bg-accent-soft text-accent"
-              : "border-line bg-surface text-muted",
+        active
+          ? "border-accent bg-accent text-on-accent shadow-[0_6px_18px_-8px_rgba(30,158,74,0.7)]"
+          : done
+            ? "border-accent/20 bg-accent-soft text-accent-ink"
+            : "border-line bg-surface text-muted",
       )}
     >
       <span className="grid size-6 place-items-center">
@@ -306,7 +303,11 @@ function Stamp({
       <span
         className={cn(
           "mt-1 text-[10px] font-semibold",
-          active ? "text-on-accent/80" : done ? "text-accent" : "text-muted",
+          active
+            ? "text-on-accent/80"
+            : done
+              ? "text-accent-ink"
+              : "text-muted",
         )}
       >
         {label}

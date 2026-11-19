@@ -16,7 +16,7 @@ export default async function RegisterPage() {
         paddingTop: "calc(env(safe-area-inset-top, 0px) + 0.75rem)",
         paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 1.25rem)",
         backgroundImage:
-          "radial-gradient(70% 45% at 50% -12%, rgba(30,215,96,0.12), transparent 65%)",
+          "radial-gradient(70% 45% at 50% -12%, rgba(15,45,80,0.12), transparent 65%)",
       }}
     >
       <header className="flex items-center justify-between">
@@ -32,7 +32,7 @@ export default async function RegisterPage() {
       </header>
 
       <section className="animate-rise mt-6">
-        <span className="grid size-12 place-items-center rounded-[16px] bg-accent text-on-accent shadow-[0_12px_30px_-14px_rgba(30,215,96,0.8)]">
+        <span className="grid size-12 place-items-center rounded-[16px] bg-primary text-on-primary shadow-[0_12px_30px_-14px_rgba(15,45,80,0.8)]">
           <Sparkles className="size-6" />
         </span>
         <h1 className="mt-5 text-[26px] font-extrabold leading-tight tracking-[-0.02em] text-ink">
@@ -53,7 +53,7 @@ export default async function RegisterPage() {
           href="/masuk"
           className="flex h-12 w-full items-center justify-center gap-1 rounded-full border border-line bg-surface text-[13px] font-semibold text-ink transition-colors active:bg-surface-2"
         >
-          Sudah punya akun? <span className="text-accent">Masuk</span>
+          Sudah punya akun? <span className="text-primary">Masuk</span>
         </Link>
       </div>
     </main>

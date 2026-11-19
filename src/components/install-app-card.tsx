@@ -37,8 +37,8 @@ export function InstallAppCard() {
   if (installed || !promptEvent) return null;
 
   return (
-    <section className="animate-rise flex items-center gap-3 rounded-[22px] border border-accent/20 bg-surface p-4">
-      <span className="grid size-11 shrink-0 place-items-center rounded-full bg-accent-soft text-accent">
+    <section className="animate-rise flex items-center gap-3 rounded-[22px] border border-primary/15 bg-surface p-4">
+      <span className="grid size-11 shrink-0 place-items-center rounded-full bg-primary-soft text-primary">
         <Smartphone className="size-5" strokeWidth={1.9} />
       </span>
       <div className="min-w-0 flex-1">
